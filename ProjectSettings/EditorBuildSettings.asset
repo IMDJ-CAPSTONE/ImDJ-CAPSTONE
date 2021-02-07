@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Packages/SteamVR/Simple Sample.unity
     guid: f727b75a28e1c704dae456f0b50f9e2e
   m_configObjects:
-    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: dd0646756c8048443ae4d28122b3131b,
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: dcf6a3491784e274f8fea1b5bd3bc03e,
       type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 92c054121da2f51458f7b1b7f449ca94,
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e43c89d92462db64999bc55cd76a6c65,
       type: 2}

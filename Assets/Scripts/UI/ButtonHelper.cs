@@ -1,11 +1,11 @@
 ﻿/*
- *  FILE          :	ButtonHoverSound.cs
+ *  FILE          :	ButtonHelper.cs
  *  PROJECT       :	ImDJ Capstone Project 
  *  PROGRAMMER    :	Michael Hilts - 5377643
  *  FIRST VERSION :	Feb 6, 2021
- *  DESCRIPTION   : This file contains the ButtonHoverSound class which is responsible
- *                  for playing the audio from the gameobjects AudioSource whenever
- *                  the user mouses over the button it is attached to.
+ *  DESCRIPTION   : This file contains the ButtonHelper class which implements both
+ *                  IPointerEnterHandler and IPointerExitHandler to provide access to
+ *                  the pointer enter event for this button as well as the pointer exit event.
  */
 
 #region Resources

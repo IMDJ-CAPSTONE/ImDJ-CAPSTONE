@@ -12,6 +12,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Valve.VR;
 
 #endregion
 
@@ -20,12 +21,17 @@ public class UIController : MonoBehaviour
 {
     #region fields
 
-    [Tooltip("The build index for the VR test scene.")]
+    [Tooltip("The UI to use if the player is not using VR.")]
     [SerializeField]
-    private int VRTestSceneIndex = 1;
+    private GameObject DesktopMenu;
+
+    [Tooltip("The UI to use if the player is using VR.")]
+    [SerializeField]
+    private GameObject VRMenu;
 
     private AudioSource clickAudio;
     private TextMeshProUGUI debugText;  // the debug text to print messages to the screen
+    private bool usingVR = false;
 
     #endregion
 
@@ -36,7 +42,7 @@ public class UIController : MonoBehaviour
     {
         set
         {
-            debugText.text = value;
+            debugText.text = value;    
         }
     }
 
@@ -57,6 +63,10 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         clickAudio = GetComponent<AudioSource>();
+        usingVR = OpenVR.IsHmdPresent();
+        DesktopMenu.SetActive(!usingVR);
+        VRMenu.SetActive(usingVR);
+
         debugText = GameObject.FindGameObjectWithTag("Debug").GetComponent<TextMeshProUGUI>();
     }
 
@@ -76,6 +86,24 @@ public class UIController : MonoBehaviour
     public void PlayClickAudio()
     {
         clickAudio.Play();
+    }
+
+    /*
+     * METHOD     : Quit()
+     * DESCRIPTION: Public method to allow other classes to exit the application.
+     * PARAMETERS : 
+     *      VOID
+     * RETURNS    : 
+     *      VOID
+     */
+
+    public void Quit()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                    Application.Quit(0);
+        #endif
     }
 
     #endregion
@@ -111,7 +139,14 @@ public class UIController : MonoBehaviour
     public void VRTestClick()
     {
         PlayClickAudio();
-        SceneManager.LoadScene(VRTestSceneIndex);
+        if (usingVR)
+        {
+            DebugText = "Turns out you're already testing it. Otherwise you woudln't see this message.";
+        }
+        else
+        {
+            DebugText = "Cannot load VR scene. No HMD is connected.";
+        }
     }
 
     /*
@@ -126,12 +161,7 @@ public class UIController : MonoBehaviour
     public void ExitClick()
     {
         PlayClickAudio();
-
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit(0);
-        #endif
+        PhotonController.Instance.Disconnect();
     }
 
     #endregion
