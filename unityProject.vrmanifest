@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.imdjcapstonerepo.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\User\\Desktop\\CAPSTONE GIT\\ImDJ-CAPSTONE\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "ImDJ-CAPSTONE-REPO [Testing]"
+        }
+      }
+    }
+  ]
+}
