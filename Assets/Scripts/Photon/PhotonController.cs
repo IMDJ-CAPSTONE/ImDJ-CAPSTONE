@@ -12,6 +12,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 #endregion
 
@@ -49,6 +50,7 @@ public class PhotonController : MonoBehaviourPunCallbacks
         Instance = this;
 
         ui = GameObject.FindGameObjectWithTag("UI").GetComponent<UIController>();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     /*
@@ -81,7 +83,8 @@ public class PhotonController : MonoBehaviourPunCallbacks
     public override void  OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        ui.DebugText = "Connected to Photon Server.";
+        ui.DebugText = "Connected to Photon Server. Joining a random room.";
+        PhotonNetwork.JoinRandomRoom();
     }
 
     /*
@@ -98,6 +101,53 @@ public class PhotonController : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
         ui.DebugText = "Disconnected from Photon Servers.";
         ui.Quit();
+    }
+
+    /*
+     * METHOD     : OnJoinedRoom()
+     * DESCRIPTION: Called once user has joined a room on the Photon Server.
+     * PARAMETERS : 
+     *      VOID
+     * RETURNS    : 
+     *      VOID
+     */
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        ui.DebugText = "Joined room " + PhotonNetwork.CurrentRoom.Name + ".";
+        PhotonNetwork.LoadLevel("VoiceTestScene");
+    }
+
+    /*
+     * METHOD     : OnJoinedRandomFailedRoom()
+     * DESCRIPTION: Called once user failed to join a random room.
+     * PARAMETERS : 
+     *      VOID
+     * RETURNS    : 
+     *      VOID
+     */
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        base.OnJoinRandomFailed(returnCode, message);
+        ui.DebugText = "Failed to join a random room. Creating a room.";
+        PhotonNetwork.CreateRoom("VoiceTestRoom");
+    }
+
+    /*
+     * METHOD     : OnCreatedRoom()
+     * DESCRIPTION: Called once user has created a room on the photon server.
+     * PARAMETERS : 
+     *      VOID
+     * RETURNS    : 
+     *      VOID
+     */
+
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        ui.DebugText = "Created room " + PhotonNetwork.CurrentRoom.Name + ".";
     }
 
     #endregion

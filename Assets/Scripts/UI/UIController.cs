@@ -63,9 +63,10 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         clickAudio = GetComponent<AudioSource>();
-        usingVR = OpenVR.IsHmdPresent();
-        DesktopMenu.SetActive(!usingVR);
-        VRMenu.SetActive(usingVR);
+        //usingVR = OpenVR.IsHmdPresent();
+        //DesktopMenu.SetActive(!usingVR);
+        //VRMenu.SetActive(usingVR);
+        VRMenu.SetActive(false);
 
         debugText = GameObject.FindGameObjectWithTag("Debug").GetComponent<TextMeshProUGUI>();
     }
