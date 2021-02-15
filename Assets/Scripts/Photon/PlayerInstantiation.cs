@@ -10,6 +10,9 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
 {
     private const int instantiationEventCode = 0;
 
+    public Color playerOneColor;
+    public Color playerTwoColor;
+
     public GameObject localPrefab;
     public GameObject remotePrefab;
 
@@ -27,11 +30,13 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
 
     private void OnEnable()
     {
+        PhotonNetwork.AddCallbackTarget(this);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
+        PhotonNetwork.RemoveCallbackTarget(this);
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -52,6 +57,15 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
                 CachingOption = EventCaching.AddToRoomCache
             };
 
+            if (PhotonNetwork.IsMasterClient)
+            {
+                player.gameObject.GetComponent<MeshRenderer>().material.color = playerOneColor;
+            }
+            else
+            {
+                player.gameObject.GetComponent<MeshRenderer>().material.color = playerTwoColor;
+            }
+
             PhotonNetwork.RaiseEvent(instantiationEventCode, data, raiseEventOptions, SendOptions.SendReliable);
         }
         else
@@ -63,6 +77,7 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
+        Debug.Log("Event fired.");
         if (photonEvent.Code == instantiationEventCode)
         {
             object[] data = photonEvent.CustomData as object[];
@@ -74,6 +89,15 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
             GameObject player = Instantiate(remotePrefab, pos, rot);
             PhotonView photonView = player.GetComponent<PhotonView>();
             photonView.ViewID = viewID;
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                player.gameObject.GetComponent<MeshRenderer>().material.color = playerTwoColor;
+            }
+            else
+            {
+                player.gameObject.GetComponent<MeshRenderer>().material.color = playerOneColor;
+            }
         }
     }
 }

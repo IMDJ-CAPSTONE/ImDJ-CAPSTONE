@@ -282,6 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9851aa984c231743879c043a7d15d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOneColor: {r: 0, g: 0, b: 1, a: 1}
+  playerTwoColor: {r: 1, g: 0, b: 0, a: 1}
   localPrefab: {fileID: 4553710920324278288, guid: 385f4f534a586db45b1b83c5a9e377b3,
     type: 3}
   remotePrefab: {fileID: 4553710920324278288, guid: 02ad4faf013458d4f821699136af1731,
