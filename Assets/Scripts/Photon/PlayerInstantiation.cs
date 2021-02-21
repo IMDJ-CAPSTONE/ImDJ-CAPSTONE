@@ -1,6 +1,8 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.PUN;
+using Photon.Voice.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,9 +48,14 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
 
         player = Instantiate(localPrefab, new Vector3(Random.Range(1f, 5f), 1.5f, Random.Range(1f, 5f)), localPrefab.transform.rotation);
         PhotonView photonView = player.GetComponent<PhotonView>();
+        GameObject.FindGameObjectWithTag("Voice").GetComponent<PhotonVoiceNetwork>().PrimaryRecorder = player.GetComponent<Recorder>();
+        player.GetComponent<PhotonVoiceView>().RecorderInUse = player.GetComponent<Recorder>();
 
         if (PhotonNetwork.AllocateViewID(photonView))
         {
+            photonView.OwnershipTransfer = OwnershipOption.Takeover;
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+
             object[] data = { player.transform.position, player.transform.rotation, photonView.ViewID };
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions
@@ -77,7 +84,6 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
-        Debug.Log("Event fired.");
         if (photonEvent.Code == instantiationEventCode)
         {
             object[] data = photonEvent.CustomData as object[];
@@ -89,6 +95,7 @@ public class PlayerInstantiation : MonoBehaviour, IOnEventCallback
             GameObject player = Instantiate(remotePrefab, pos, rot);
             PhotonView photonView = player.GetComponent<PhotonView>();
             photonView.ViewID = viewID;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PhotonVoiceView>().SpeakerInUse = player.GetComponent<Speaker>();
 
             if (PhotonNetwork.IsMasterClient)
             {
