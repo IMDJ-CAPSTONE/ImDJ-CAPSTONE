@@ -251,6 +251,8 @@ MonoBehaviour:
     type: 3}
   audience: {fileID: 4553710920324278288, guid: 385f4f534a586db45b1b83c5a9e377b3,
     type: 3}
+  icoPrefab: {fileID: 449224782579145449, guid: cd28e60653db56e4a9f5c53a9e5b835a,
+    type: 3}
   playerOneColor: {r: 1, g: 0, b: 0, a: 1}
   playerTwoColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1 &824272302
