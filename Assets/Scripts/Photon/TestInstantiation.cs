@@ -14,10 +14,13 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
     public GameObject listener;
 
     public GameObject audience;
+    public GameObject icoPrefab;
 
     public Color playerOneColor = Color.red;
     public Color playerTwoColor = Color.blue;
 
+
+    private GameObject ico;
     private Dictionary<int, GameObject> players;
 
     void Awake()
@@ -55,11 +58,14 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject player;
+        int icoViewID = -1;
 
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
             player = Instantiate(speaker, Vector3.zero, Quaternion.identity);
             player.GetComponent<MeshRenderer>().material.color = playerOneColor;
+            ico = PhotonNetwork.Instantiate(icoPrefab.name, Vector3.zero, Quaternion.identity);
+            icoViewID = ico.GetComponent<PhotonView>().ViewID;
         }
         else
         {
@@ -76,7 +82,7 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
             photonView.OwnershipTransfer = OwnershipOption.Takeover;
             photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
 
-            object[] data = { PhotonNetwork.LocalPlayer.ActorNumber, photonView.ViewID };
+            object[] data = { PhotonNetwork.LocalPlayer.ActorNumber, photonView.ViewID, icoViewID };
 
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions
             {
@@ -101,6 +107,7 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
 
             int actorNum = (int)data[0];
             int viewID = (int)data[1];
+            int icoViewID = (int)data[2];
 
             GameObject player;
 
@@ -114,6 +121,15 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
             {
                 player = Instantiate(audience, new Vector3(2f, 0f, 2f), Quaternion.identity);
                 player.GetComponent<MeshRenderer>().material.color = playerTwoColor;
+
+                if (icoViewID != -1)
+                {
+                    ico = PhotonView.Find(icoViewID).gameObject;
+                    if (ico)
+                    {
+                        Destroy(ico.GetComponent<AbletonLinkTest2>());
+                    }
+                }
             }
 
             players.Add(actorNum, player);
