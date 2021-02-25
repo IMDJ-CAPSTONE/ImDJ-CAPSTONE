@@ -213,6 +213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 775965732}
   - component: {fileID: 775965731}
+  - component: {fileID: 775965733}
   m_Layer: 0
   m_Name: PlayerInstantiation
   m_TagString: Untagged
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775965730}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9851aa984c231743879c043a7d15d63, type: 3}
   m_Name: 
@@ -252,6 +253,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &775965733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775965730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82235ccc9222e5c4f9b235e64a2231b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speaker: {fileID: 4553710920324278288, guid: 169b05faf8dd6da4c81d81129215d46e, type: 3}
+  listener: {fileID: 4553710920324278288, guid: f26eff91b40fe96438274d5fddf209f9,
+    type: 3}
+  audience: {fileID: 4553710920324278288, guid: 385f4f534a586db45b1b83c5a9e377b3,
+    type: 3}
+  playerOneColor: {r: 1, g: 0, b: 0, a: 1}
+  playerTwoColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1 &824272302
 GameObject:
   m_ObjectHideFlags: 0
