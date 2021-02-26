@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5540106248085413533}
   - component: {fileID: 8848056418592606917}
   m_Layer: 0
-  m_Name: ico
+  m_Name: ico-sender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,5 +131,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
