@@ -37,7 +37,7 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public enum UserType : int
     {
-        Desk = 1,
+        Desktop = 1,
         VR = 2,
         Performer = 3
     }
@@ -45,7 +45,7 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
     // Start is called before the first frame update
     void Start()
     {
-        
+         
     }
 
     void Awake()
@@ -73,13 +73,53 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
-        GameObject player;
-        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        GameObject player = null;
+        if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
         {
             // instantiate the player as a speaker, and set the color appropriately
             player = Instantiate(speaker, Vector3.zero, Quaternion.identity);
             player.GetComponent<MeshRenderer>().material.color = playerOneColor;
         }
+        else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
+        {
+            player = Instantiate(audience, new Vector3(2f, 0, 2f), Quaternion.identity);
+            player.GetComponent<MeshRenderer>().material.color = playerTwoColor;
+        }
+        //add else for VR for instantiation
+        //else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.VR)
+        //{
+        //    player = Instantiate(audience, new Vector3(2f, 0, 2f), Quaternion.identity);
+        //    player.GetComponent<MeshRenderer>().material.color = playerTwoColor;
+        //}
+        if(player != null){
+            players.Add(PhotonNetwork.LocalPlayer.ActorNumber, player);
+        }
+
+        PhotonView photonView = player.GetComponent<PhotonView>();
+        if (PhotonNetwork.AllocateViewID(photonView))
+        {
+            // transfer ownership of this photon view to this player
+            photonView.OwnershipTransfer = OwnershipOption.Takeover;
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+
+            // set up data to send and event options
+            object[] data = { PhotonNetwork.LocalPlayer.CustomProperties["Type"], photonView.ViewID , PhotonNetwork.LocalPlayer.ActorNumber };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+            {
+                Receivers = ReceiverGroup.Others,               // send to all but this client
+                CachingOption = EventCaching.AddToRoomCache     // cache so players entering room later will still get the event
+            };
+
+            // rais the photon network event
+            PhotonNetwork.RaiseEvent(instantiationEventCode, data, raiseEventOptions, SendOptions.SendReliable);
+        }
+        else
+        {
+            Debug.LogError("Failed to allocate a ViewID.");
+            Destroy(player);
+        }
+
+
     }
 
     public void OnEvent(EventData photonEvent)
@@ -89,14 +129,15 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             // get the data sent with the event and parse it
             object[] data = photonEvent.CustomData as object[];
-            int actorNum = (int)data[0];
+            
+            var thisUserType = (UserType)data[0];
             int viewID = (int)data[1];
-            int icoViewID = (int)data[2];
+            int actorNum = (int)data[2];
 
             GameObject player;  // the player that will be instantiated
 
             // if the actor who is sending audio raised the event
-            if (actorNum == 1)
+            if (thisUserType == UserType.Performer)
             {
                 // instantiate their player as the listener who receives audio
                 player = Instantiate(listener, Vector3.zero, Quaternion.identity);

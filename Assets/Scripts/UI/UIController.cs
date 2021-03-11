@@ -147,7 +147,7 @@ public class UIController : MonoBehaviour
         PlayClickAudio();
         PhotonController.Instance.Connect();
         Hashtable hash = new Hashtable();
-        hash.Add("Type", UserInstantiation.UserType.Desk);
+        hash.Add("Type", UserInstantiation.UserType.Desktop);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
