@@ -24,8 +24,8 @@ class Poll
         string[] question = input.Split('?');
         string[] option = question[1].Split(',');
 
-        topic = question[0].Substring(9) + "?";
-
+        topic = question[0].Substring(8) + "?";
+        
         if (option[0] != null)
         {
             option1 = option[0];
@@ -49,22 +49,22 @@ class Poll
         active = true;
     }
 
-    private void vote1()
+    public void vote1()
     {
         votes1++;
     }
 
-    private void vote2()
+    public void vote2()
     {
         votes2++;
     }
 
-    private void vote3()
+    public void vote3()
     {
         votes3++;
     }
 
-    private void vote4()
+    public void vote4()
     {
         votes4++;
     }
