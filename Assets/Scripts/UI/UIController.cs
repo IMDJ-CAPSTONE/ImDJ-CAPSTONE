@@ -9,6 +9,8 @@
 
 #region Resources
 
+using ExitGames.Client.Photon;
+using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -112,8 +114,8 @@ public class UIController : MonoBehaviour
     #region Button Click Handlers
 
     /*
-     * METHOD     : PhotonTestClick()
-     * DESCRIPTION: Called when the photon test button is clicked. Will run the photon test
+     * METHOD     : PeformerUserStart()
+     * DESCRIPTION: Called when the PeformerUserStart buttton is clicked. Will run the photon test
      *              to attempt to connect to the photon servers.
      * PARAMETERS : 
      *      VOID
@@ -121,10 +123,32 @@ public class UIController : MonoBehaviour
      *      VOID
      */
 
-    public void PhotonTestClick()
+    public void PeformerUserStart()
     {
         PlayClickAudio();
         PhotonController.Instance.Connect();
+        Hashtable hash = new Hashtable();
+        hash.Add("Type", UserInstantiation.UserType.Performer);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    }
+
+    /*
+     * METHOD     : PeformerUserStart()
+     * DESCRIPTION: Called when the PeformerUserStart buttton is clicked. Will run the photon test
+     *              to attempt to connect to the photon servers.
+     * PARAMETERS : 
+     *      VOID
+     * RETURNS    : 
+     *      VOID
+     */
+
+    public void DesktopUserStart()
+    {
+        PlayClickAudio();
+        PhotonController.Instance.Connect();
+        Hashtable hash = new Hashtable();
+        hash.Add("Type", UserInstantiation.UserType.Desk);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
     /*
