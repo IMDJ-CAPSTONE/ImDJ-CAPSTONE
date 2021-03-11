@@ -27,13 +27,13 @@ public class UITest : MonoBehaviourPunCallbacks
         view = gameObject.GetComponent<PhotonView>();
     }
 
-    private void ButtonClick()
+    public void ButtonClick()
     {
         view.RPC("DisplayPanel", RpcTarget.Others);
     }
 
     [PunRPC]
-    public void DisplayPanel()
+    private void DisplayPanel()
     {
         panel.SetActive(true);
     }
