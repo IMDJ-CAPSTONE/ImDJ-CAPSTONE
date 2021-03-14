@@ -10,7 +10,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
 {
     private PhotonView view;
 
-    public GameObject DesktopUIResource;
+    public GameObject DesktopVotingUIResource;
     
     public GameObject PerformerUIResource;
 
@@ -28,11 +28,11 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers.Add("PerformerUI", Instantiate(PerformerUIResource));
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
             button = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().button;
-            button.GetComponent<Button>().onClick.AddListener(ButtonClick);
+            button.GetComponent<Button>().onClick.AddListener(VotingShownForDesktop);
         }
         else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
-            UIContainers.Add("DesktopUI", Instantiate(DesktopUIResource));
+            UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
             twitchPanel = UIContainers["DesktopUI"];
             twitchPanel.SetActive(false);
@@ -40,8 +40,9 @@ public class UIManagement : MonoBehaviourPunCallbacks
 
         view = gameObject.GetComponent<PhotonView>();
     }
+    
 
-    public void ButtonClick()
+    public void VotingShownForDesktop()
     {
         view.RPC("DisplayPanel", RpcTarget.Others);
     }
