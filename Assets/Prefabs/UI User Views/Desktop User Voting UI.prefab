@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7139603933258132830}
-  - component: {fileID: 3322281478654814355}
+  - component: {fileID: 2211049258418251149}
   m_Layer: 0
   m_Name: Desktop User Voting UI
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3322281478654814355
+--- !u!114 &2211049258418251149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 280ff482bb18cda458be03d03a137898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  voteButtons:
+  - {fileID: 2452683046229721024}
+  - {fileID: 3208138259469275624}
+  - {fileID: 8244141886631849242}
+  - {fileID: 3000452406779654505}
 --- !u!1 &7139603933483920482
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,10 +266,16 @@ PrefabInstance:
     - target: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
         type: 3}
       propertyPath: m_Name
-      value: Tap Button (LeanButton) (1)
+      value: Vote 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83711675def8024ca42dc3ad938dda2, type: 3}
+--- !u!1 &3208138259469275624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
+    type: 3}
+  m_PrefabInstance: {fileID: 231743700908080695}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3208138259469275631 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3437030557292097496, guid: b83711675def8024ca42dc3ad938dda2,
@@ -386,10 +397,16 @@ PrefabInstance:
     - target: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
         type: 3}
       propertyPath: m_Name
-      value: Tap Button (LeanButton) (3)
+      value: Vote 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83711675def8024ca42dc3ad938dda2, type: 3}
+--- !u!1 &3000452406779654505 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
+    type: 3}
+  m_PrefabInstance: {fileID: 437260956563660470}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3000452406779654510 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3437030557292097496, guid: b83711675def8024ca42dc3ad938dda2,
@@ -511,10 +528,16 @@ PrefabInstance:
     - target: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
         type: 3}
       propertyPath: m_Name
-      value: Tap Button (LeanButton)
+      value: Vote 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83711675def8024ca42dc3ad938dda2, type: 3}
+--- !u!1 &2452683046229721024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
+    type: 3}
+  m_PrefabInstance: {fileID: 989497967799685151}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2452683046229721031 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3437030557292097496, guid: b83711675def8024ca42dc3ad938dda2,
@@ -636,10 +659,16 @@ PrefabInstance:
     - target: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
         type: 3}
       propertyPath: m_Name
-      value: Tap Button (LeanButton) (2)
+      value: Vote 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83711675def8024ca42dc3ad938dda2, type: 3}
+--- !u!1 &8244141886631849242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6763239273552593605}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8244141886631849245 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3437030557292097496, guid: b83711675def8024ca42dc3ad938dda2,
