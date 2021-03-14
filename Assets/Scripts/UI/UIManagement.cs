@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UserInstantiation;
 
 public class UIManagement : MonoBehaviourPunCallbacks
@@ -27,6 +28,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers.Add("PerformerUI", Instantiate(PerformerUIResource));
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
             button = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().button;
+            button.GetComponent<Button>().onClick.AddListener(ButtonClick);
         }
         else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
