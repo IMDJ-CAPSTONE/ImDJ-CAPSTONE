@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class VotingSystem : MonoBehaviour
+public class VotingSystemController : MonoBehaviour
 {
 
 	public string Question;
