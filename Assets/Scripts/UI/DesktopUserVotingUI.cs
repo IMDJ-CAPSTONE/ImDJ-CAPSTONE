@@ -12,7 +12,7 @@ public class DesktopUserVotingUI : MonoBehaviour
     {
         for(int i = 0; i < voteButtons.Length; i++)
         {
-            g.GetComponent<LeanButton>().OnClick.AddListener(sendVote(i));
+            voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(sendVote);
         }
     }
 
@@ -22,7 +22,7 @@ public class DesktopUserVotingUI : MonoBehaviour
         
     }
 
-    public void sendVote(int num)
+    public void sendVote()
     {
 
     }
