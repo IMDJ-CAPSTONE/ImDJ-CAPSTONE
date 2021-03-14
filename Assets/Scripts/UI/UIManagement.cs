@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using Lean.Gui;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers.Add("PerformerUI", Instantiate(PerformerPollingUIResource));
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
             PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().button;
-            PerformerPollingUIResourceButton.GetComponent<Button>().onClick.AddListener(VotingShownForDesktop);
+            PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktop);
         }
         view = gameObject.GetComponent<PhotonView>();
     }
@@ -44,6 +45,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
+            
             UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
         }
