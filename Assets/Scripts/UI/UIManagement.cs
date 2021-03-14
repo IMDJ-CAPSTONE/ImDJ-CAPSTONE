@@ -10,16 +10,19 @@ public class UIManagement : MonoBehaviourPunCallbacks
 {
     private PhotonView view;
 
+    public GameObject AllUsersMenuResource;
     public GameObject DesktopVotingUIResource;
     
     public GameObject PerformerPollingUIResource;
-    public GameObject PerformerPollingUIResourceButton;
+    private GameObject PerformerPollingUIResourceButton;
 
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
+        UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
+        UIContainers["UserMenu"].transform.SetParent(gameObject.transform);
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
         {
             UIContainers.Add("PerformerUI", Instantiate(PerformerPollingUIResource));
