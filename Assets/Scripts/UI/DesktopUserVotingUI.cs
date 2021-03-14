@@ -21,9 +21,12 @@ public class DesktopUserVotingUI : MonoBehaviour
     {
         
     }
-
+    public void ExitVoteMenu()
+    {
+        Destroy(gameObject);
+    }
     public void sendVote()
     {
-
+        ExitVoteMenu();
     }
 }
