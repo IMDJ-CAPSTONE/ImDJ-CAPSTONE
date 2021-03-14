@@ -33,7 +33,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers.Add("DesktopUI", Instantiate(DesktopUIResource));
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
             twitchPanel = UIContainers["DesktopUI"];
-            DisplayPanel();
+            twitchPanel.SetActive(false);
         }
 
         view = gameObject.GetComponent<PhotonView>();
