@@ -9,7 +9,7 @@ using UnityEngine;
 public class TwitchTest : MonoBehaviour
 {
 	[SerializeField] //[SerializeField] Allows the private field to show up in Unity's inspector. Way better than just making it public
-	private string _channelToConnectTo = Secrets.USERNAME_FROM_OAUTH_TOKEN;
+	private string _channelToConnectTo = "";
 
 	private Client _client;
 	private Poll poll;
@@ -22,7 +22,7 @@ public class TwitchTest : MonoBehaviour
 		Application.runInBackground = true;
 
 		//Create Credentials instance
-		ConnectionCredentials credentials = new ConnectionCredentials(Secrets.USERNAME_FROM_OAUTH_TOKEN, Secrets.OAUTH_TOKEN);
+		ConnectionCredentials credentials = new ConnectionCredentials("", "");
 
 		// Create new instance of Chat Client
 		_client = new Client();

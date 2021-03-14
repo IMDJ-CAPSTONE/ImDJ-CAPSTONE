@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using Lean.Gui;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,46 +11,43 @@ public class UIManagement : MonoBehaviourPunCallbacks
 {
     private PhotonView view;
 
+    public GameObject AllUsersMenuResource;
     public GameObject DesktopVotingUIResource;
     
-    public GameObject PerformerUIResource;
+    public GameObject PerformerPollingUIResource;
+    private GameObject PerformerPollingUIResourceButton;
 
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
-
-
-    public GameObject button;
-    public GameObject twitchPanel;
 
     // Start is called before the first frame update
     void Start()
     {
+        UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
+        UIContainers["UserMenu"].transform.SetParent(gameObject.transform);
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
         {
-            UIContainers.Add("PerformerUI", Instantiate(PerformerUIResource));
+            UIContainers.Add("PerformerUI", Instantiate(PerformerPollingUIResource));
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
-            button = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().button;
-            button.GetComponent<Button>().onClick.AddListener(VotingShownForDesktop);
+            PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().button;
+            PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktop);
         }
-        else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
-        {
-            UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
-            UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
-            twitchPanel = UIContainers["DesktopUI"];
-            twitchPanel.SetActive(false);
-        }
-
         view = gameObject.GetComponent<PhotonView>();
     }
     
 
     public void VotingShownForDesktop()
     {
-        view.RPC("DisplayPanel", RpcTarget.Others);
+        view.RPC("DisplayVotingPanel", RpcTarget.Others);
     }
 
     [PunRPC]
-    private void DisplayPanel()
+    private void DisplayVotingPanel()
     {
-        twitchPanel.SetActive(true);
+        if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
+        {
+            
+            UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
+        }
     }
 }
