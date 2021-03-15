@@ -39,7 +39,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().VotingSystem = this.votingSystem;
             PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktopRPC);
             perfActorNum = PhotonNetwork.LocalPlayer.ActorNumber;
-            view.RPC("SendActorNum", RpcTarget.Others, perfActorNum);
+            view.RPC("SendActorNum", RpcTarget.OthersBuffered, perfActorNum);
         }
         
     }
@@ -53,7 +53,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
 
     public void VotingShownForDesktopRPC()
     {
-        view.RPC("DisplayVotingPanelRPC", RpcTarget.Others);
+        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered);
     }
 
     [PunRPC]
