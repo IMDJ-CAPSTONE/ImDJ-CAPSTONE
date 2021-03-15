@@ -23,17 +23,17 @@ public class VotingSystemController : MonoBehaviour
 		Application.runInBackground = true;
 
 		//Create Credentials instance
-		ConnectionCredentials credentials = new ConnectionCredentials(TwitchChannelName, "AuthToken");
+		ConnectionCredentials credentials = new ConnectionCredentials(Secrets.USERNAME_FROM_OAUTH_TOKEN, Secrets.OAUTH_TOKEN);
 
 		// Create new instance of Chat Client
 		_client = new Client();
 
 		// Initialize the client with the credentials instance, and setting a default channel to connect to.
-		_client.Initialize(credentials, TwitchChannelName);
+		_client.Initialize(credentials, Secrets.USERNAME_FROM_OAUTH_TOKEN);
 
 		// Bind callbacks to events
 		//_client.OnConnected += OnConnected;
-		//_client.OnJoinedChannel += OnJoinedChannel;
+		_client.OnJoinedChannel += OnJoinedChannel;
 		//_client.OnMessageReceived += OnMessageReceived;
 		_client.OnChatCommandReceived += OnChatCommandReceived;     //research this
 																	//_client.OnWhisperReceived += OnWhisperReceived;
@@ -80,6 +80,12 @@ public class VotingSystemController : MonoBehaviour
 		Question = "";
     }
 
+	private void OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
+	{
+		//Debug.Log($"The bot {e.BotUsername} just joined the channel: {e.Channel}");
+		_client.SendMessage(e.Channel, "I just joined the channel! PogChamp");
+	}
+
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
 	{
 		Debug.Log($"Command received from {e.Command.ChatMessage.DisplayName}: {e.Command.ChatMessage.Message}");
@@ -102,6 +108,9 @@ public class VotingSystemController : MonoBehaviour
 
 			case "vote4":
 				selectedOption = 4;
+				break;
+			case "display":
+				//display the poll question and options with how many votes registered
 				break;
 			default:
 				selectedOption = 0;
