@@ -110,11 +110,11 @@ public class VotingSystemController : MonoBehaviour
 				selectedOption = 4;
 				break;
 			case "display":
-				//display the poll question and options with how many votes registered
+				
 				break;
-			case "newpoll":
-				Debug.Log("reciveved new poll from twitch chat");
 
+			case "result":
+				SentResultToChat();
 				break;
 			default:
 				selectedOption = 0;
@@ -147,14 +147,14 @@ public class VotingSystemController : MonoBehaviour
     {
 		string message = "Result";
 
-		message = $"{message} \n\n--Question: {Question} --\n\n";
+		message = $"{message} \n\n-- Question: {Question} --\n\n";
 
 		if (options != null)
 		{
 			foreach (KeyValuePair<int, OptionData> entry in options)
 			{
 				message += "\n\n";
-				message = $"{message} Vote{entry.Key} : {entry.Value.OptionName} Votes: {entry.Value.VoteCount}";
+				message = $"{message} {entry.Value.OptionName} : {entry.Value.VoteCount}";
 			}
 		}
 		Debug.Log(message);
