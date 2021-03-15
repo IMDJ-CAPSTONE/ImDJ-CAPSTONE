@@ -112,6 +112,9 @@ public class VotingSystemController : MonoBehaviour
 			case "display":
 				//display the poll question and options with how many votes registered
 				break;
+			case "newpoll":
+				SendPollToChat();
+				break;
 			default:
 				selectedOption = 0;
 				break;
@@ -121,16 +124,19 @@ public class VotingSystemController : MonoBehaviour
 		Voting(selectedOption);
 	}
 
-	private void SendPollToChat()
+	public void SendPollToChat()
     {
 		string message = "New Poll";
 
-		foreach (KeyValuePair<int, OptionData> entry in options)
+		if(options != null)
 		{
-			message += '\n';
-			message = $"{message} {entry.Key} : {entry.Value}";
+			foreach (KeyValuePair<int, OptionData> entry in options)
+			{
+				message += '\n';
+				message = $"{message} {entry.Key} : {entry.Value}";
+			}
 		}
-
+		
 		_client.SendMessage(TwitchChannelName, message);
 	}
 
