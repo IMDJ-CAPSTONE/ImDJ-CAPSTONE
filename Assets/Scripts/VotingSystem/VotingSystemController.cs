@@ -23,13 +23,13 @@ public class VotingSystemController : MonoBehaviour
 		Application.runInBackground = true;
 
 		//Create Credentials instance
-		ConnectionCredentials credentials = new ConnectionCredentials(Secrets.USERNAME_FROM_OAUTH_TOKEN, Secrets.OAUTH_TOKEN);
+		ConnectionCredentials credentials = new ConnectionCredentials(Secrets.UserName, Secrets.OAUTH_TOKEN);
 
 		// Create new instance of Chat Client
 		_client = new Client();
 
 		// Initialize the client with the credentials instance, and setting a default channel to connect to.
-		_client.Initialize(credentials, Secrets.USERNAME_FROM_OAUTH_TOKEN);
+		_client.Initialize(credentials, Secrets.UserName);
 
 		// Bind callbacks to events
 		//_client.OnConnected += OnConnected;
@@ -141,7 +141,7 @@ public class VotingSystemController : MonoBehaviour
 			}
 		}
 		Debug.Log(message);
-		_client.SendMessage("jdog0616", message);
+		_client.SendMessage(Secrets.UserName, message);
 
 		InvokeRepeating("SentResultToChat", 10f, 10f);
 	}
@@ -163,7 +163,7 @@ public class VotingSystemController : MonoBehaviour
 			}
 		}
 		Debug.Log(message);
-		_client.SendMessage("jdog0616", message);
+		_client.SendMessage(Secrets.UserName, message);
 	}
 
 }
