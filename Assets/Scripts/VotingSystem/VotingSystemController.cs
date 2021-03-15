@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TwitchLib.Client.Models;
 using TwitchLib.Unity;
 using UnityEngine;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 
 public class VotingSystemController : MonoBehaviour
@@ -16,33 +18,47 @@ public class VotingSystemController : MonoBehaviour
     #region Private Members
     private Client _client;
 	private Dictionary<int, OptionData> options = new Dictionary<int, OptionData>();
+	private string Username;
+	private string OAuth;
     #endregion
 
     private void Start() 
 	{
+		//pull JSON secrets
+		using (StreamReader r = new StreamReader("./Secrets.json"))
+        {
+            string json = r.ReadToEnd();
+            JObject jobj = JObject.Parse(json);
+			//pull the property from JSONObject then parse the value out
+			JProperty jOAuth = jobj.Property("OAUTH_TOKEN");
+			OAuth = jOAuth.Value.ToString();
+			JProperty jUsername = jobj.Property("USERNAME");
+			Username = jUsername.Value.ToString();
+        }
+		
 		Application.runInBackground = true;
 
 		//Create Credentials instance
-		ConnectionCredentials credentials = new ConnectionCredentials(Secrets.UserName, Secrets.OAUTH_TOKEN);
+		ConnectionCredentials credentials = new ConnectionCredentials(Username, OAuth);
 
 		// Create new instance of Chat Client
 		_client = new Client();
 
 		// Initialize the client with the credentials instance, and setting a default channel to connect to.
-		_client.Initialize(credentials, Secrets.UserName);
+		_client.Initialize(credentials, Username);
 
 		// Bind callbacks to events
 		//_client.OnConnected += OnConnected;
 		_client.OnJoinedChannel += OnJoinedChannel;
 		//_client.OnMessageReceived += OnMessageReceived;
 		_client.OnChatCommandReceived += OnChatCommandReceived;     //research this
-																	//_client.OnWhisperReceived += OnWhisperReceived;
-																	//_client.OnNewSubscriber += OnNewSubscriber;
-																	//_client.OnBeingHosted += OnBeingHosted;
-																	//_client.OnGiftedSubscription += OnGiftedSub;
-																	//_client.OnModeratorJoined += OnModJoin;
-																	//_client.OnReSubscriber += OnReSub;
-																	//_client.OnUserBanned += UserBanned;
+		//_client.OnWhisperReceived += OnWhisperReceived;
+		//_client.OnNewSubscriber += OnNewSubscriber;
+		//_client.OnBeingHosted += OnBeingHosted;
+		//_client.OnGiftedSubscription += OnGiftedSub;
+		//_client.OnModeratorJoined += OnModJoin;
+		//_client.OnReSubscriber += OnReSub;
+		//_client.OnUserBanned += UserBanned;
 
 
 		// Connect
@@ -141,7 +157,11 @@ public class VotingSystemController : MonoBehaviour
 			}
 		}
 		Debug.Log(message);
+<<<<<<< Updated upstream
 		_client.SendMessage(Secrets.UserName, message);
+=======
+		_client.SendMessage(Username, message);
+>>>>>>> Stashed changes
 
 		InvokeRepeating("SentResultToChat", 10f, 10f);
 	}
@@ -163,7 +183,11 @@ public class VotingSystemController : MonoBehaviour
 			}
 		}
 		Debug.Log(message);
+<<<<<<< Updated upstream
 		_client.SendMessage(Secrets.UserName, message);
+=======
+		_client.SendMessage(Username, message);
+>>>>>>> Stashed changes
 	}
 
 }
