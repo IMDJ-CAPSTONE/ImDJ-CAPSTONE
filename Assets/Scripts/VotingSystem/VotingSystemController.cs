@@ -125,6 +125,7 @@ public class VotingSystemController : MonoBehaviour
 		Voting(selectedOption);
 	}
 
+
 	public void SendPollToChat()
     {
 		string message = "New Poll";
@@ -141,7 +142,11 @@ public class VotingSystemController : MonoBehaviour
 		}
 		Debug.Log(message);
 		_client.SendMessage("jdog0616", message);
+
+		InvokeRepeating("SentResultToChat", 10f, 10f);
 	}
+
+
 
 	public void SentResultToChat()
     {
