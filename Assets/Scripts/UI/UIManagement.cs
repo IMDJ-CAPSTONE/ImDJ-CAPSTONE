@@ -21,6 +21,8 @@ public class UIManagement : MonoBehaviourPunCallbacks
     public GameObject PerformerPollingUIResource;
     private GameObject PerformerPollingUIResourceButton;
 
+    public int perfActorNum;
+
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
     // Start is called before the first frame update
@@ -28,6 +30,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
     {
         UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
         UIContainers["UserMenu"].transform.SetParent(gameObject.transform);
+        view = gameObject.GetComponent<PhotonView>();
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
         {
             UIContainers.Add("PerformerUI", Instantiate(PerformerPollingUIResource));
@@ -35,8 +38,16 @@ public class UIManagement : MonoBehaviourPunCallbacks
             PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().NewPollButton;
             UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().VotingSystem = this.votingSystem;
             PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktopRPC);
+            perfActorNum = PhotonNetwork.LocalPlayer.ActorNumber;
+            view.RPC("SendActorNum", RpcTarget.Others, perfActorNum);
         }
-        view = gameObject.GetComponent<PhotonView>();
+        
+    }
+
+    [PunRPC]
+    public void SendActorNum(int _perfActorNum)
+    {
+        perfActorNum = _perfActorNum;
     }
     
 
@@ -52,7 +63,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
         {
             UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
-            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC",PhotonNetwork.CurrentRoom.GetPlayer(userInst.perfActNum),voteOption); };
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum),voteOption); };
         }
     }
 
