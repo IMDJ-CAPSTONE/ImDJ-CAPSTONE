@@ -53,7 +53,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
 
     public void VotingShownForDesktopRPC()
     {
-        view.RPC("DisplayVotingPanel", RpcTarget.Others);
+        view.RPC("DisplayVotingPanelRPC", RpcTarget.Others);
     }
 
     [PunRPC]
