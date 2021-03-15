@@ -11,6 +11,8 @@ public class UIManagement : MonoBehaviourPunCallbacks
 {
     private PhotonView view;
 
+    public UserInstantiation userInst;
+
     public GameObject votingSystem;
 
     public GameObject AllUsersMenuResource;
@@ -32,25 +34,34 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
             PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().NewPollButton;
             UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().VotingSystem = this.votingSystem;
-            PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktop);
+            PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktopRPC);
         }
         view = gameObject.GetComponent<PhotonView>();
     }
     
 
-    public void VotingShownForDesktop()
+    public void VotingShownForDesktopRPC()
     {
         view.RPC("DisplayVotingPanel", RpcTarget.Others);
     }
 
     [PunRPC]
-    private void DisplayVotingPanel()
+    private void DisplayVotingPanelRPC()
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
-            
             UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC",PhotonNetwork.CurrentRoom.GetPlayer(userInst.perfActNum),voteOption); };
+        }
+    }
+
+    [PunRPC]
+    private void VoteRPC(int voteOption)
+    {
+        if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
+        {
+            votingSystem.GetComponent<VotingSystemController>().Voting(voteOption);
         }
     }
 }

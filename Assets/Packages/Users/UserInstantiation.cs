@@ -27,6 +27,8 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
     [Tooltip("The list of audience members.")]
     private Dictionary<int, GameObject> players;
 
+    public int perfActNum;
+
     [SerializeField]
     [Tooltip("The color of the player that is transmitting audio.")]
     private Color playerOneColor = Color.red;
@@ -79,6 +81,7 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
             // instantiate the player as a speaker, and set the color appropriately
             player = Instantiate(speaker, Vector3.zero, Quaternion.identity);
             player.GetComponent<MeshRenderer>().material.color = playerOneColor;
+            
         }
         else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
