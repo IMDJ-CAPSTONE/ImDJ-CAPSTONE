@@ -52,7 +52,7 @@ public class VotingSystemController : MonoBehaviour
 	public void AddOption(string optionName) 
 	{
 		//adding option to options list to keep track of voting count
-		
+		Debug.Log(optionName);
 		var option = new OptionData(optionName);
 		options.Add(options.Count + 1, option);	
 	}
@@ -113,7 +113,8 @@ public class VotingSystemController : MonoBehaviour
 				//display the poll question and options with how many votes registered
 				break;
 			case "newpoll":
-				SendPollToChat();
+				Debug.Log("reciveved new poll from twitch chat");
+
 				break;
 			default:
 				selectedOption = 0;
@@ -128,16 +129,36 @@ public class VotingSystemController : MonoBehaviour
     {
 		string message = "New Poll";
 
+		message = $"{message} \n\n--Question: {Question} --\n\n";
+
 		if(options != null)
 		{
 			foreach (KeyValuePair<int, OptionData> entry in options)
 			{
-				message += '\n';
-				message = $"{message} {entry.Key} : {entry.Value}";
+				message += "\n\n";
+				message = $"{message} Vote{entry.Key} : {entry.Value.OptionName}";
 			}
 		}
-		
-		_client.SendMessage(TwitchChannelName, message);
+		Debug.Log(message);
+		_client.SendMessage("jdog0616", message);
+	}
+
+	public void SentResultToChat()
+    {
+		string message = "Result";
+
+		message = $"{message} \n\n--Question: {Question} --\n\n";
+
+		if (options != null)
+		{
+			foreach (KeyValuePair<int, OptionData> entry in options)
+			{
+				message += "\n\n";
+				message = $"{message} Vote{entry.Key} : {entry.Value.OptionName} Votes: {entry.Value.VoteCount}";
+			}
+		}
+		Debug.Log(message);
+		_client.SendMessage("jdog0616", message);
 	}
 
 }
