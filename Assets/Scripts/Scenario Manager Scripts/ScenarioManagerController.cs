@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class ScenarioManagerController : MonoBehaviour
 {
-    public GameObject UIManagementResource;
+    public GameObject UIManagement;
     public GameObject VotingSystemResource;
 
     public GameObject VotingSystem;
@@ -17,7 +17,9 @@ public class ScenarioManagerController : MonoBehaviour
         {
             VotingSystem = Instantiate(VotingSystemResource);
             VotingSystem.transform.SetParent(gameObject.transform);
+            UIManagement.GetComponent<UIManagement>().votingSystem = this.VotingSystem;
         }
+        UIManagement.GetComponent<UIManagement>().StartFromScenarioManager();
     }
 
     // Update is called once per frame

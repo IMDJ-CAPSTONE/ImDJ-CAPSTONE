@@ -3434,7 +3434,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 517277736cca3964c84217d5c4121379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 2077878363666970234}
+  OptionSets:
+  - {fileID: 2733464679381788571}
+  - {fileID: 947333562200096104}
+  - {fileID: 6230322729317002886}
+  - {fileID: 7274189502612541330}
+  PollQuestion: {fileID: 2162521005900905865}
+  VotingSystem: {fileID: 0}
+  NewPollButton: {fileID: 2077878363666970234}
 --- !u!1 &6230322729317002886
 GameObject:
   m_ObjectHideFlags: 0
@@ -5582,7 +5589,7 @@ PrefabInstance:
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
@@ -5592,6 +5599,11 @@ PrefabInstance:
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
@@ -5606,12 +5618,22 @@ PrefabInstance:
       objectReference: {fileID: 297825882471391160}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 3398155017088467018}
+    - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
+        type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
@@ -5626,12 +5648,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: CreateNewPoll
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
+        type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
         type: 3}
       propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3135014259940117202, guid: 6efbd7747f0b5ea49b65e64056d5027b,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3135014259940117212, guid: 6efbd7747f0b5ea49b65e64056d5027b,

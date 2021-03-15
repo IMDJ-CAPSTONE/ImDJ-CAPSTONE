@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbdfe311d94ac164a8f07cca187817fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManagementResource: {fileID: 15251184}
+  UIManagement: {fileID: 15251184}
   VotingSystemResource: {fileID: 352026973429864892, guid: daad12e88a73dc64c97909c0b40525a1,
     type: 3}
   VotingSystem: {fileID: 0}

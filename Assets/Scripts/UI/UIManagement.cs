@@ -11,6 +11,8 @@ public class UIManagement : MonoBehaviourPunCallbacks
 {
     private PhotonView view;
 
+    public GameObject votingSystem;
+
     public GameObject AllUsersMenuResource;
     public GameObject DesktopVotingUIResource;
     
@@ -20,7 +22,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    public void StartFromScenarioManager()
     {
         UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
         UIContainers["UserMenu"].transform.SetParent(gameObject.transform);
@@ -28,7 +30,8 @@ public class UIManagement : MonoBehaviourPunCallbacks
         {
             UIContainers.Add("PerformerUI", Instantiate(PerformerPollingUIResource));
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
-            PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().button;
+            PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().NewPollButton;
+            UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().VotingSystem = this.votingSystem;
             PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktop);
         }
         view = gameObject.GetComponent<PhotonView>();
