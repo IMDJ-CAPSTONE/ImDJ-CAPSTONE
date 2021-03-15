@@ -157,11 +157,7 @@ public class VotingSystemController : MonoBehaviour
 			}
 		}
 		Debug.Log(message);
-<<<<<<< Updated upstream
-		_client.SendMessage(Secrets.UserName, message);
-=======
 		_client.SendMessage(Username, message);
->>>>>>> Stashed changes
 
 		InvokeRepeating("SentResultToChat", 10f, 10f);
 	}
@@ -183,11 +179,7 @@ public class VotingSystemController : MonoBehaviour
 			}
 		}
 		Debug.Log(message);
-<<<<<<< Updated upstream
-		_client.SendMessage(Secrets.UserName, message);
-=======
 		_client.SendMessage(Username, message);
->>>>>>> Stashed changes
 	}
 
 }
