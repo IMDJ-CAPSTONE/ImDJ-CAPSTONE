@@ -1,18 +1,31 @@
 ﻿using Lean.Gui;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DesktopUserVotingUI : MonoBehaviour
 {
-    public GameObject[] voteButtons;
+    public GameObject voteButtonPrefab;
+    private GameObject[] voteButtons;
+    public GameObject votingMenu;
+
+    public Action<int> voteOption;
+
+    public int optionCount;
 
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < voteButtons.Length; i++)
+        voteButtons = new GameObject[optionCount];
+
+        for (int i = 0; i < optionCount; i++)
         {
-            voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(sendVote);
+            int copy = i + 1;
+            voteButtons[i] = Instantiate(voteButtonPrefab);
+            voteButtons[i].name = "Vote Option: " + i.ToString(); 
+            voteButtons[i].transform.SetParent(votingMenu.transform);//need to change parent
+            voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(() => { sendVote(copy); });
         }
     }
 
@@ -25,8 +38,10 @@ public class DesktopUserVotingUI : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    public void sendVote()
+    public void sendVote(int i)
     {
+        this.voteOption?.Invoke(i);
+        Debug.Log(i.ToString());
         ExitVoteMenu();
     }
 }

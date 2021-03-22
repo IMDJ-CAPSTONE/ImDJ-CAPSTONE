@@ -195,6 +195,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faee2e40c81dfff429bd01bb897cf832, type: 3}
+--- !u!1 &15251184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7640100962179163483, guid: faee2e40c81dfff429bd01bb897cf832,
+    type: 3}
+  m_PrefabInstance: {fileID: 15251183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &132246002
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,7 +661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1966241163
 Transform:
   m_ObjectHideFlags: 0
@@ -682,8 +688,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbdfe311d94ac164a8f07cca187817fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManagementResource: {fileID: 7640100962179163483, guid: faee2e40c81dfff429bd01bb897cf832,
+  UIManagement: {fileID: 15251184}
+  VotingSystemResource: {fileID: 352026973429864892, guid: daad12e88a73dc64c97909c0b40525a1,
     type: 3}
+  VotingSystem: {fileID: 0}
 --- !u!1 &1985955331
 GameObject:
   m_ObjectHideFlags: 0
