@@ -73,6 +73,7 @@ public class VotingSystemController : MonoBehaviour
 		Debug.Log("Adding Option \""+optionName + "\" ");
 		var option = new OptionData(optionName);
 		options.Add(options.Count + 1, option);
+		totalOptions = options.Count;
 	}
 
 	public void NewQuestion(string question) 
@@ -117,7 +118,6 @@ public class VotingSystemController : MonoBehaviour
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
 	{
 		Debug.Log($"Command received from {e.Command.ChatMessage.DisplayName}: {e.Command.ChatMessage.Message}");
-
 		int selectedOption = 0;
 
 		switch (e.Command.CommandText)
@@ -153,34 +153,39 @@ public class VotingSystemController : MonoBehaviour
 				break;
 		};
 		
-
 		Voting(selectedOption);
 	}
 
 
 	public void SendPollToChat()
     {
-		string message = "New Poll";
+		if(Question != "")	//prevents blank questions
+        {
+			string message = "New Poll";
 
-		message = $"{message} \n\n--Question: {Question} --\n\n";
+			message = $"{message} \n\n--Question: {Question} --\n\n";
 
-		if(options != null)
-		{
-			foreach (KeyValuePair<int, OptionData> entry in options)
+			if (options != null)
 			{
-				message += "\n\n";
-				message = $"{message} Vote{entry.Key} : {entry.Value.OptionName}";
+				foreach (KeyValuePair<int, OptionData> entry in options)
+				{
+					message += "\n\n";
+					message = $"{message} Vote{entry.Key} : {entry.Value.OptionName}";
+				}
 			}
+			_client.SendMessage(Username, message);
+
+			//cancel old invoke to prevent multiples
+			CancelInvoke();
+			InvokeRepeating("SentResultToChat", 10f, 10f);
+			Debug.Log(message);
 		}
-		Debug.Log(message);
-		_client.SendMessage(Username, message);
-
-		//cancel old invoke to prevent multiples
-		CancelInvoke();
-		InvokeRepeating("SentResultToChat", 10f, 10f);
+        else
+        {
+			Debug.Log("Blank question, poll discarded");
+        }
+		
 	}
-
-
 
 	public void SentResultToChat()
     {

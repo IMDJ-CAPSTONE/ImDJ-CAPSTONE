@@ -9,16 +9,12 @@ public class PerformerUserUIController : MonoBehaviour
     public GameObject NewPollButton;
     public GameObject optionPrefab;
     public GameObject twitchDashboard;
+    public GameObject AddOptions;
     
     // Start is called before the first frame update
     void Start()
     {
         OptionSets = new GameObject[4];
-        
-        //these 2 line are supposed to to move the button to the bottom of the screen
-        ///RectTransform rectTransform = NewPollButton.GetComponent<RectTransform>();
-        ///rectTransform.anchoredPosition = new Vector2(0,400);
-
 
         for (int i = 0; i < 4; i++)
         {
@@ -28,7 +24,21 @@ public class PerformerUserUIController : MonoBehaviour
             OptionSets[i].transform.SetParent(twitchDashboard.transform); //need to change parent
             OptionSets[i].transform.SetSiblingIndex(copy);
             OptionSets[i].GetComponentInChildren<TMP_Text>().text = "Option: " + copy.ToString();
-            //OptionSets[i].GetComponent<TMP_Text>().text = "Option "+ copy;    //this should set the lable to increment but instead it crashes
+        }
+        OptionSets[2].SetActive(false);
+        OptionSets[3].SetActive(false);
+    }
+
+    public void AddOption()
+    {
+        if(OptionSets[2].activeSelf == false)
+        {
+            OptionSets[2].SetActive(true);
+        }
+        else if(OptionSets[3].activeSelf == false)
+        {
+            OptionSets[3].SetActive(true);
+            AddOptions.SetActive(false);
         }
     }
 
@@ -57,11 +67,15 @@ public class PerformerUserUIController : MonoBehaviour
         }
         VotingSystem.GetComponent<VotingSystemController>().SendPollToChat();
 
-        //reset option text boxes
-        foreach (GameObject gO in OptionSets)
-        {
-            gO.GetComponentInChildren<TMP_InputField>().text = "";
-        }
+        //reset Poll textboxes
+        OptionSets[0].GetComponentInChildren<TMP_InputField>().text = "";
+        OptionSets[1].GetComponentInChildren<TMP_InputField>().text = "";
+        OptionSets[2].GetComponentInChildren<TMP_InputField>().text = "";
+        OptionSets[2].SetActive(false);
+        OptionSets[3].GetComponentInChildren<TMP_InputField>().text = "";
+        OptionSets[3].SetActive(false);
+        AddOptions.SetActive(true);
+
     }
 
 }
