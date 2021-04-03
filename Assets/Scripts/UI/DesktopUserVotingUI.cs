@@ -20,22 +20,22 @@ public class DesktopUserVotingUI : MonoBehaviour
     }
 
 
-    public void setupUI(string question)   //int optionCount, Dictionary<int, OptionData> options,
+    public void setupUI(int optionCount, List<string> options, string question)
     {
-        //voteButtons = new GameObject[optionCount];
+        voteButtons = new GameObject[optionCount];
         questionText.GetComponentInChildren<TMP_Text>().text = question;
 
-        //for (int i = 0; i < optionCount; i++)
-        //{
-        //    int copy = i + 1;
-        //voteButtons[i] = Instantiate(voteButtonPrefab);
-        //voteButtons[i].name = "Vote Option: " + i.ToString();
-        //voteButtons[i].GetComponentInChildren<Text>().text = options[i+1].OptionName;
-        //voteButtons[i].transform.SetParent(votingMenu.transform);
-        //voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(() => { sendVote(copy); });
+        for (int i = 0; i < optionCount; i++)
+        {
+            int copy = i + 1;
+            voteButtons[i] = Instantiate(voteButtonPrefab);
+            voteButtons[i].name = "Vote Option: " + i.ToString();
+            voteButtons[i].GetComponentInChildren<Text>().text = options[i];
+            voteButtons[i].transform.SetParent(votingMenu.transform);
+            voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(() => { sendVote(copy); });
 
 
-        //}
+        }
 
     }
 

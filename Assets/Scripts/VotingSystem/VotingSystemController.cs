@@ -74,6 +74,7 @@ public class VotingSystemController : MonoBehaviour
 		var option = new OptionData(optionName);
 		options.Add(options.Count + 1, option);
 		totalOptions = options.Count;
+		
 	}
 
 	public void NewQuestion(string question) 
