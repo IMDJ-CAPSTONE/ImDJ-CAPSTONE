@@ -55,15 +55,15 @@ public class UIManagement : MonoBehaviourPunCallbacks
         {
             theOptions.Add(votingSystem.GetComponent<VotingSystemController>().options[i + 1].OptionName);
         }
-        object[] obj = new object[3];
-        obj[0] = theOptions;
-        obj[1] = votingSystem.GetComponent<VotingSystemController>().Question;
-        obj[2] = votingSystem.GetComponent<VotingSystemController>().totalOptions;
-        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered, obj);
+        string[] arrTheOption = theOptions.ToArray();
+        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered,
+            arrTheOption, 
+            votingSystem.GetComponent<VotingSystemController>().Question, 
+            votingSystem.GetComponent<VotingSystemController>().totalOptions);
     }
 
     [PunRPC]
-    private void DisplayVotingPanelRPC(object[] obj) // List<string> theOptions, string question, int totalOptions)
+    private void DisplayVotingPanelRPC(string[] theOptions, string question, int totalOptions)
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
@@ -78,7 +78,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
                 UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
             }
 
-            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().setupUI((int)obj[2], (List<string>)obj[0], (string)obj[1]);
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().setupUI(totalOptions, theOptions, question);
 
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
             UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => 

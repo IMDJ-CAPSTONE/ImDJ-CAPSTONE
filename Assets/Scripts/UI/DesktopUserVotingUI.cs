@@ -19,8 +19,7 @@ public class DesktopUserVotingUI : MonoBehaviour
         
     }
 
-
-    public void setupUI(int optionCount, List<string> options, string question)
+    public void setupUI(int optionCount, string[] options, string question)
     {
         voteButtons = new GameObject[optionCount];
         questionText.GetComponentInChildren<TMP_Text>().text = question;
@@ -33,9 +32,7 @@ public class DesktopUserVotingUI : MonoBehaviour
             voteButtons[i].GetComponentInChildren<Text>().text = options[i];
             voteButtons[i].transform.SetParent(votingMenu.transform);
             voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(() => { sendVote(copy); });
-
         }
-
     }
 
     // Update is called once per frame
