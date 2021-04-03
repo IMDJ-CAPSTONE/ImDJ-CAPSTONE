@@ -5,13 +5,15 @@ using TwitchLib.Unity;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.IO;
-
+using System;
+using TwitchLib.Client.Extensions;
 
 public class VotingSystemController : MonoBehaviour
 {
     #region Public Members
     public string Question = "";
 	public string TwitchChannelName = "";
+	public int totalOptions = 0;
     #endregion
 
 
@@ -35,7 +37,7 @@ public class VotingSystemController : MonoBehaviour
 			JProperty jUsername = jobj.Property("USERNAME");
 			Username = jUsername.Value.ToString();
         }
-		
+		Debug.Log("Parsed JSON secrets successfully");
 		Application.runInBackground = true;
 
 		//Create Credentials instance
@@ -51,7 +53,7 @@ public class VotingSystemController : MonoBehaviour
 		//_client.OnConnected += OnConnected;
 		_client.OnJoinedChannel += OnJoinedChannel;
 		//_client.OnMessageReceived += OnMessageReceived;
-		_client.OnChatCommandReceived += OnChatCommandReceived;     //research this
+		_client.OnChatCommandReceived += OnChatCommandReceived;
 		//_client.OnWhisperReceived += OnWhisperReceived;
 		//_client.OnNewSubscriber += OnNewSubscriber;
 		//_client.OnBeingHosted += OnBeingHosted;
@@ -60,7 +62,7 @@ public class VotingSystemController : MonoBehaviour
 		//_client.OnReSubscriber += OnReSub;
 		//_client.OnUserBanned += UserBanned;
 
-
+		Debug.Log("Attempting to connect");
 		// Connect
 		_client.Connect();
 	}
@@ -68,9 +70,9 @@ public class VotingSystemController : MonoBehaviour
 	public void AddOption(string optionName) 
 	{
 		//adding option to options list to keep track of voting count
-		Debug.Log(optionName);
+		Debug.Log("Adding Option \""+optionName + "\" ");
 		var option = new OptionData(optionName);
-		options.Add(options.Count + 1, option);	
+		options.Add(options.Count + 1, option);
 	}
 
 	public void NewQuestion(string question) 
@@ -80,7 +82,7 @@ public class VotingSystemController : MonoBehaviour
 
 	public void Voting(int optionNumber) 
 	{
-		if(optionNumber != 0 && options != null)
+		if(optionNumber > 0 && optionNumber <= 4 && options != null)
         {
 			options[optionNumber].VoteCount += 1;
         }
@@ -92,14 +94,24 @@ public class VotingSystemController : MonoBehaviour
     }
 
 	public void ClearVoting() {
+		Debug.Log("Resetting the Poll");
 		options.Clear();
 		Question = "";
     }
 
 	private void OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
 	{
-		//Debug.Log($"The bot {e.BotUsername} just joined the channel: {e.Channel}");
+		Debug.Log($"The bot {e.BotUsername} just joined the channel: {e.Channel}");
 		_client.SendMessage(e.Channel, "I just joined the channel! PogChamp");
+	}
+
+	//tbh idk if this even works but imma leave it here just incase it does
+	private void Client_OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+	{
+		if (e.ChatMessage.Message.Contains("fuck"))
+		{
+			_client.TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromSeconds(10), "Bad word! 10 minutes timeout!");
+		}
 	}
 
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
@@ -110,22 +122,26 @@ public class VotingSystemController : MonoBehaviour
 
 		switch (e.Command.CommandText)
         {
-			case "vote1":
+			case "help":
+				_client.SendMessage(Username, "I was created to help immerse twitch viewer into the show! " +
+					"If you need help just type in the chat, one of the members of IMDJ will respond to you");
+				break;
+			case "Vote1":
 				selectedOption = 1;
 				break;
 
-			case "vote2":
+			case "Vote2":
 				selectedOption = 2;
 				break;
 
-			case "vote3":
+			case "Vote3":
 				selectedOption = 3;
 				break;
 
-			case "vote4":
+			case "Vote4":
 				selectedOption = 4;
 				break;
-			case "display":
+			case "Display":
 				
 				break;
 
@@ -159,6 +175,8 @@ public class VotingSystemController : MonoBehaviour
 		Debug.Log(message);
 		_client.SendMessage(Username, message);
 
+		//cancel old invoke to prevent multiples
+		CancelInvoke();
 		InvokeRepeating("SentResultToChat", 10f, 10f);
 	}
 

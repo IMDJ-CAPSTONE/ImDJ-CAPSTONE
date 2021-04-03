@@ -1,7 +1,5 @@
 ﻿using Lean.Gui;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DesktopUserVotingUI : MonoBehaviour
@@ -17,6 +15,8 @@ public class DesktopUserVotingUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //
+
         voteButtons = new GameObject[optionCount];
 
         for (int i = 0; i < optionCount; i++)
