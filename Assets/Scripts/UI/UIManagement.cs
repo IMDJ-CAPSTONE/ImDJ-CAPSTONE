@@ -58,9 +58,20 @@ public class UIManagement : MonoBehaviourPunCallbacks
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
-            UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            if (UIContainers.ContainsKey("DesktopUI") == true)
+            {
+                Destroy(UIContainers["DesktopUI"]);
+                UIContainers.Remove("DesktopUI");
+                UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            }
+            else //if (UIContainers.ContainsKey("DesktopUI") == false)
+            {
+                UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            }
+            
+
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
-            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum),voteOption); };
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum), voteOption); };
         }
     }
 
