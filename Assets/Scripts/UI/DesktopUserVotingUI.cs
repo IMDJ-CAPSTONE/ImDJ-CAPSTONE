@@ -34,7 +34,6 @@ public class DesktopUserVotingUI : MonoBehaviour
             voteButtons[i].transform.SetParent(votingMenu.transform);
             voteButtons[i].GetComponent<LeanButton>().OnClick.AddListener(() => { sendVote(copy); });
 
-
         }
 
     }
