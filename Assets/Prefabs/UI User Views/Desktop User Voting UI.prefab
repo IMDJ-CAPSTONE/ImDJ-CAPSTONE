@@ -739,7 +739,7 @@ MonoBehaviour:
   voteButtonPrefab: {fileID: 3529502814961470655, guid: 50e1c6f35cb217b4e90f06d1f9130f33,
     type: 3}
   votingMenu: {fileID: 754483993657126153}
-  optionCount: 4
+  questionText: {fileID: 3278073715349938171}
 --- !u!1 &7139603933483920482
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,11 +50,11 @@ public class UIManagement : MonoBehaviourPunCallbacks
 
     public void VotingShownForDesktopRPC()
     {
-        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered);
+        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered, "heelo");
     }
 
     [PunRPC]
-    private void DisplayVotingPanelRPC()
+    private void DisplayVotingPanelRPC(string input)
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
@@ -68,7 +68,8 @@ public class UIManagement : MonoBehaviourPunCallbacks
             {
                 UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
             }
-            
+
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().setupUI(input);
 
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
             UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum), voteOption); };

@@ -14,12 +14,12 @@ public class VotingSystemController : MonoBehaviour
     public string Question = "";
 	public string TwitchChannelName = "";
 	public int totalOptions = 0;
-    #endregion
+	public Dictionary<int, OptionData> options = new Dictionary<int, OptionData>();
+	#endregion
 
 
-    #region Private Members
-    private Client _client;
-	private Dictionary<int, OptionData> options = new Dictionary<int, OptionData>();
+	#region Private Members
+	private Client _client;
 	private string Username;
 	private string OAuth;
     #endregion
