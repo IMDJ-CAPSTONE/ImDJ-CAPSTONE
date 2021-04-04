@@ -20,13 +20,6 @@ public class LoginScript : MonoBehaviour
     private string claims = "claims={\"id_token\":{\"email\":null,\"email_verified\":null},\"userinfo\":{\"picture\":null,\"preferred_username\": null}}";
 
     private string scope = "user:read:email";
-
-    
-
-    url = url.Replace("&", "^&");
-
-        Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
-    // Start is called before the first frame update
     void Start()
     {
         string url = $"https://id.twitch.tv/oauth2/authorize?client_id={clientId}&redirect_uri={redirectUrl}&response_type=code&scope={scope}+openid&claims={claims}";
