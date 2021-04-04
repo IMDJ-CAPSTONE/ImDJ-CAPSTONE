@@ -34,7 +34,7 @@ public class WebcamServer : MonoBehaviour
 
 	[Tooltip("The port to listen on.")]
 	[SerializeField]
-	private int port = 7766;
+	private int port = 2626;
 
 	private string address;							// the address the server can be reached 
 	private TcpListener server;						// the server which will listen for clients
