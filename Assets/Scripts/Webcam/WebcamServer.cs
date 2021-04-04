@@ -41,7 +41,9 @@ public class WebcamServer : MonoBehaviour
 	private Thread connectionThread;				// the thread running the connection loop
 
 	private List<Thread> threadList;				// a list of threads, one per client
-	private List<TcpClient> clientList;				// a list of the connected clients
+	private List<TcpClient> clientList;             // a list of the connected clients
+
+	private Thread updateCamThread;
 
 	private WebCamTexture camTexture;				// the webcam texture used to capture webcam
 	private Texture2D snapshot;						// the texture used to capture snapshots of webcam and convert to png
@@ -77,12 +79,14 @@ public class WebcamServer : MonoBehaviour
 		// initialize lists and get ip address
 		threadList = new List<Thread>();
 		clientList = new List<TcpClient>();
-		address = "64.229.67.202";
+		address = "192.168.2.10";
 
 		// start webcam and server to send to clients
 		StartWebcam();
 		RaiseWebcamEvent();
 		StartServer();
+		updateCamThread = new Thread(camUpdate);
+		updateCamThread.Start();
 	}
 
 	/*
@@ -95,13 +99,16 @@ public class WebcamServer : MonoBehaviour
 	 *      VOID
 	 */
 
-	private void Update()
+	private void camUpdate()
 	{
-		CamUpdated = camTexture.didUpdateThisFrame;
-		if (CamUpdated)
-		{
-			snapshot.SetPixels(camTexture.GetPixels());
-			data = snapshot.EncodeToPNG();
+        while (true)
+        {
+			CamUpdated = camTexture.didUpdateThisFrame;
+			if (CamUpdated)
+			{
+				snapshot.SetPixels(camTexture.GetPixels());
+				data = snapshot.EncodeToPNG();
+			}
 		}
 	}
 
@@ -204,6 +211,7 @@ public class WebcamServer : MonoBehaviour
 				".\n[+] Waiting for a connection...");
 
 		connectionThread = new Thread(ConnectionLoop);
+		connectionThread.Priority = System.Threading.ThreadPriority.Highest;
 		connectionThread.Start();
 	}
 
@@ -227,6 +235,7 @@ public class WebcamServer : MonoBehaviour
 			Thread thread = new Thread(ClientThread);
 			threadList.Add(thread);
 			Debug.Log("[+] A client has connected.");
+			thread.Priority = System.Threading.ThreadPriority.Highest;
 			thread.Start(client);
 		}
 	}
@@ -320,6 +329,9 @@ public class WebcamServer : MonoBehaviour
 			server.Stop();
 			server = null;
 		}
+
+		updateCamThread.Abort();
+		updateCamThread = null;
 	}
 
 	#endregion
