@@ -77,7 +77,7 @@ public class WebcamServer : MonoBehaviour
 		// initialize lists and get ip address
 		threadList = new List<Thread>();
 		clientList = new List<TcpClient>();
-		address = IPHelper.GetExternalIPAddress().ToString();
+		address = "64.229.67.202";
 
 		// start webcam and server to send to clients
 		StartWebcam();
