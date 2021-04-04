@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: move
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -29,10 +32,10 @@ GameObject:
   - component: {fileID: 3969351286471885251}
   - component: {fileID: 3969351286470594963}
   - component: {fileID: 3969351286469871829}
-  - component: {fileID: 3969351285463960588}
+  - component: {fileID: 7830148173548307154}
   m_Layer: 0
   m_Name: TopRing
-  m_TagString: Untagged
+  m_TagString: StageLights
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -99,7 +102,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &3969351285463960588
+--- !u!114 &7830148173548307154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

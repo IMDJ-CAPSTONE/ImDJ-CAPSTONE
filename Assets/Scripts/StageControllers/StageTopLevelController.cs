@@ -18,7 +18,7 @@ public class StageTopLevelController : MonoBehaviour
         PV = GetComponent<PhotonView>();
         if (PV.IsMine)
         {
-            LargeTruss();
+            TopRing();
         }
     }
 
@@ -28,11 +28,20 @@ public class StageTopLevelController : MonoBehaviour
         
     }
 
-    private void LargeTruss()
+    private void TopRing()
     {
         topRing = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "TopRing"), transform.position, transform.rotation);
-        topRing.transform.localPosition = new Vector3(0f, 7.5f, 0f);
-        topRing.transform.parent = LightsGO.transform;
+        PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
         //anim = topRing.GetComponent<Animator>();
+    }
+
+
+    [PunRPC]
+    private void setLightParentAndPos()
+    {
+        topRing = GameObject.FindGameObjectWithTag("StageLights");
+        print("rpc called");
+        topRing.transform.parent = LightsGO.transform;
+        topRing.transform.localPosition = new Vector3(0f, 7.5f, 0f);
     }
 }
