@@ -14,6 +14,7 @@ public class PerformerUserUIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         OptionSets = new GameObject[4];
 
         for (int i = 0; i < 4; i++)
