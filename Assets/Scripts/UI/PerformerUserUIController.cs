@@ -50,20 +50,31 @@ public class PerformerUserUIController : MonoBehaviour
 
     public void CreateNewPoll()
     {
+        Debug.Log("CreateNewPoll()");
         //first clear out old options
         VotingSystem.GetComponent<VotingSystemController>().ClearVoting();
+        
+        //check question length
+        string ques = PollQuestion.GetComponent<TMP_InputField>().text;
+        if (ques.Length > 70)
+        {
+            ques = Truncate(PollQuestion.GetComponent<TMP_InputField>().text, 70);
+        }
+        //pass the question
+        VotingSystem.GetComponent<VotingSystemController>().NewQuestion(ques);
 
-        Debug.Log("CreateNewPoll()");
-        VotingSystem.GetComponent<VotingSystemController>().NewQuestion(PollQuestion.GetComponent<TMP_InputField>().text);
         foreach (GameObject gO in OptionSets)
         {
-            ///VotingSystem.GetComponent<VotingSystemController>().AddOption(gO.GetComponent<TMP_InputField>().text);
             //check if the text box is filled in
             if(gO.GetComponentInChildren<TMP_InputField>().text != "")
             {
-                VotingSystem.GetComponent<VotingSystemController>().AddOption(gO.GetComponentInChildren<TMP_InputField>().text);
+                string tmp = gO.GetComponentInChildren<TMP_InputField>().text;
+                if(tmp.Length > 70)
+                {
+                    tmp = Truncate(tmp, 70);
+                }
+                VotingSystem.GetComponent<VotingSystemController>().AddOption(tmp);
             }
-            
         }
         VotingSystem.GetComponent<VotingSystemController>().SendPollToChat();
 
@@ -76,6 +87,12 @@ public class PerformerUserUIController : MonoBehaviour
         OptionSets[3].SetActive(false);
         AddOptions.SetActive(true);
 
+    }
+
+    public static string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+        return value.Length <= maxLength ? value : value.Substring(0, maxLength);
     }
 
 }
