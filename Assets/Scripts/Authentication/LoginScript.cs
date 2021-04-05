@@ -39,13 +39,6 @@ public class LoginScript : MonoBehaviour
         Debug.Log("Server Starting");
         listenerThread.Start();
         Debug.Log("Server Started");
-
-
-
-        string openUrl = $"https://id.twitch.tv/oauth2/authorize?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&scope={scope}+openid&claims={claims}";
-
-        Application.OpenURL(openUrl);
-
     }
 
     // Update is called once per frame
@@ -59,14 +52,8 @@ public class LoginScript : MonoBehaviour
 
             Debug.Log("making Post CAll");
             GetToken();
-            GetUserInfo();
             calledAPI = false;
         }
-    }
-
-    private void GetUserInfo()
-    {
-         
     }
 
     void GetToken()
@@ -130,6 +117,14 @@ public class LoginScript : MonoBehaviour
 
         context.Response.Close();
     }
+
+    public void SignInWithTwitch()
+    {
+        string openUrl = $"https://id.twitch.tv/oauth2/authorize?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&scope={scope}+openid&claims={claims}";
+
+        Application.OpenURL(openUrl);
+    }
+
 
 }
 
