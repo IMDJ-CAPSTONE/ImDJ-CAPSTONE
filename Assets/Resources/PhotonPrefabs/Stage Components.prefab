@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightsGO: {fileID: 6799267234898066663}
-  topRing: {fileID: 0}
+  Lights: {fileID: 0}
   anim: {fileID: 0}
 --- !u!114 &6799267235234679584
 MonoBehaviour:
