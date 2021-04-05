@@ -12,6 +12,8 @@ using UnityEngine.Networking;
 public class LoginScript : MonoBehaviour
 {
 
+    public GameObject appMenu;
+
     private HttpListener listener;
     private Thread listenerThread;
 
@@ -24,6 +26,7 @@ public class LoginScript : MonoBehaviour
     private static string tokenUrl = null;
     private static bool runServer = true;
     private static bool calledAPI = true;
+    private static bool authenticated = false;
 
     private static AccessToken accessToken = null;
 
@@ -54,6 +57,12 @@ public class LoginScript : MonoBehaviour
             GetToken();
             calledAPI = false;
         }
+
+        if (authenticated)
+        {
+            appMenu.SetActive(true);
+            gameObject.SetActive(false);
+        }
     }
 
     void GetToken()
@@ -64,7 +73,11 @@ public class LoginScript : MonoBehaviour
             if(response.StatusCode == 200)
             {
                 EditorUtility.DisplayDialog("Authetication", "You have succsfully Logedin Using Twitch", "Ok");
-                
+                authenticated = true;
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("Authetication", "There is an Error Please try again", "Error");
             }
             accessToken = StringSerializationAPI.Deserialize(typeof(AccessToken),response.Text) as AccessToken;
             Debug.Log(accessToken.id_token);
