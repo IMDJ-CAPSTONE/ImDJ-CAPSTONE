@@ -77,7 +77,7 @@ public class WebcamServer : MonoBehaviour
 		// initialize lists and get ip address
 		threadList = new List<Thread>();
 		clientList = new List<TcpClient>();
-		address = "64.229.67.202";
+		address = "127.0.0.1";
 
 		// start webcam and server to send to clients
 		StartWebcam();
@@ -101,7 +101,7 @@ public class WebcamServer : MonoBehaviour
 		if (CamUpdated)
 		{
 			snapshot.SetPixels(camTexture.GetPixels());
-			data = snapshot.EncodeToPNG();
+			data = snapshot.GetRawTextureData();
 		}
 	}
 

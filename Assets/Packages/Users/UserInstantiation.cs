@@ -21,9 +21,13 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
 
     [SerializeField]
     [Tooltip("The prefab for players that are just listening.")]
-    private GameObject audience;
+    private GameObject audienceLocal;
 
-    [SerializeField]
+	[SerializeField]
+	[Tooltip("The prefab for players that are just listening.")]
+	private GameObject audienceRemote;
+
+	[SerializeField]
     [Tooltip("The list of audience members.")]
     private Dictionary<int, GameObject> players;
 
@@ -79,13 +83,13 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
         {
             // instantiate the player as a speaker, and set the color appropriately
-            player = Instantiate(speaker, Vector3.zero, Quaternion.identity);
+            player = Instantiate(speaker, speaker.transform.position, Quaternion.identity);
             player.GetComponent<MeshRenderer>().material.color = playerOneColor;
             
         }
         else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
-            player = Instantiate(audience, new Vector3(2f, 0, 2f), Quaternion.identity);
+            player = Instantiate(audienceLocal, audienceLocal.transform.position, Quaternion.identity);
             player.GetComponent<MeshRenderer>().material.color = playerTwoColor;
         }
         //add else for VR for instantiation
@@ -143,7 +147,7 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
             if (thisUserType == UserType.Performer)
             {
                 // instantiate their player as the listener who receives audio
-                player = Instantiate(listener, Vector3.zero, Quaternion.identity);
+                player = Instantiate(listener, listener.transform.position, Quaternion.identity);
 
                 // set color and view id
                 player.GetComponent<MeshRenderer>().material.color = playerOneColor;
@@ -153,9 +157,10 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
             // if the actor who raised the event is just listening instantiate as audience and set color
             else
             {
-                player = Instantiate(audience, new Vector3(2f, 0f, 2f), Quaternion.identity);
+                player = Instantiate(audienceRemote, audienceRemote.transform.position, Quaternion.identity);
                 player.GetComponent<MeshRenderer>().material.color = playerTwoColor;
-            }
+				player.GetComponent<PhotonView>().ViewID = viewID;
+			}
 
             // add this player to the dictionary
             players.Add(actorNum, player);
