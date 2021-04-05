@@ -1,12 +1,12 @@
-﻿using System.Collections;
+﻿
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Models;
 using TwitchLib.Unity;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using System;
-using TwitchLib.Client.Extensions;
 
 public class VotingSystemController : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class VotingSystemController : MonoBehaviour
 	public string TwitchChannelName = "";
 	public int totalOptions = 0;
 	public Dictionary<int, OptionData> options = new Dictionary<int, OptionData>();
+	public double hype;
 	#endregion
 
 
@@ -22,8 +23,9 @@ public class VotingSystemController : MonoBehaviour
 	private Client _client;
 	private string Username;
 	private string OAuth;
-	private List<string> chatHistory;
+	private List<DateTime> chatHistory;
     #endregion
+
 
     private void Start() 
 	{
@@ -53,7 +55,7 @@ public class VotingSystemController : MonoBehaviour
 		// Bind callbacks to events
 		//_client.OnConnected += OnConnected;
 		_client.OnJoinedChannel += OnJoinedChannel;
-		//_client.OnMessageReceived += OnMessageReceived;
+		_client.OnMessageReceived += OnMessageReceived;
 		_client.OnChatCommandReceived += OnChatCommandReceived;
 		//_client.OnWhisperReceived += OnWhisperReceived;
 		//_client.OnNewSubscriber += OnNewSubscriber;
@@ -66,7 +68,14 @@ public class VotingSystemController : MonoBehaviour
 		Debug.Log("Attempting to connect");
 		// Connect
 		_client.Connect();
+
+
+		chatHistory = new List<DateTime>();
+
+		//updates hype rating every 10 sec
+		InvokeRepeating("updateHype", 10f, 10f);
 	}
+
 
 	public void AddOption(string optionName) 
 	{
@@ -77,10 +86,12 @@ public class VotingSystemController : MonoBehaviour
 		totalOptions = options.Count;
 	}
 
+
 	public void NewQuestion(string question) 
 	{
 		this.Question = question;
     }
+
 
 	public void Voting(int optionNumber) 
 	{
@@ -90,10 +101,12 @@ public class VotingSystemController : MonoBehaviour
         }
     }
 
+
 	public int GetVoteCount(int optionNumber) 
 	{ 
 		return options[optionNumber].VoteCount;
     }
+
 
 	public void ClearVoting() {
 		Debug.Log("Resetting the Poll");
@@ -101,97 +114,78 @@ public class VotingSystemController : MonoBehaviour
 		Question = "";
     }
 
+
 	private void OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
 	{
 		Debug.Log($"The bot {e.BotUsername} just joined the channel: {e.Channel}");
 		_client.SendMessage(e.Channel, "I just joined the channel! PogChamp");
 	}
 
-	//tbh idk if this even works but imma leave it here just incase it does
-	private void Client_OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+	
+	private void OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
 	{
+		//tbh idk if this even works but imma leave it here just incase it does
 		if (e.ChatMessage.Message.Contains("fuck"))
 		{
-			_client.TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromSeconds(10), "Bad word! 10 minutes timeout!");
+			_client.TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromMinutes(10), "Bad word! 10 minutes timeout!");
 		}
 
+		//check if message has desired emote if so add timestamp to list
+		if (e.ChatMessage.Message.Contains("PogChamp")	||
+			e.ChatMessage.Message.Contains("Mau5")		||
+			e.ChatMessage.Message.Contains("Hype")		||
+			e.ChatMessage.Message.Contains("Kreygasm")	||
+			e.ChatMessage.Message.Contains("Kappa")		||
+			e.ChatMessage.Message.Contains("CurseLit"))
+		{
+			chatHistory.Add(DateTime.Now);
+		}
+		hype = chatHistory.Count;
+		
+    }
 
-		//the line in the IF will search through the List chatHistory and find all items that match the string "Kappa"
-		List<string> emoteCount;
-		double percent;
-		//parse out the emote
-		//if (e.Command.ChatMessage.Message.Contains("LUL"))
-		//{
-		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "LUL"; });
-		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
-		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"LUL % = {percent:F2}");
-		//}
-		//else if (e.Command.ChatMessage.Message.Contains("<3"))
-		//{
-		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "<3"; });
-		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
-		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"<3 % = {percent:F2}");
-		//}
-		//else if (e.Command.ChatMessage.Message.Contains("Kappa"))
-		//{
-		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "Kappa"; });
-		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
-		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"Kappa % = {percent:F2}");
-		//}
-		//else if (e.Command.ChatMessage.Message.Contains("PogChamp"))
-		//{
-		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "PogChamp"; });
-		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
-		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"PogChamp % = {percent:F2}");
-		//}
-		//else
-
-
-
-
-
-
-	}
 
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
 	{
 		Debug.Log($"Command received from {e.Command.ChatMessage.DisplayName}: {e.Command.ChatMessage.Message}");
-		int selectedOption = 0;
-
+		
 		switch (e.Command.CommandText)
         {
 			case "help":
-				_client.SendMessage(Username, "I was created to help immerse twitch viewer into the show! " +
-					"If you need help just type in the chat, one of the members of IMDJ will respond to you");
+				_client.SendMessage(Username, "!about will tell you a little bit about myself.		" +
+					"!Vote# will cast a vote if there is a poll running (change # to the number of the option you wish to vote for.		" +
+					"!Results will show you the current poll and how many votes each option has.		" +
+					"!Hype will show you the current hype rating.		" +
+					"If you have any other questions just type them into chat and one of the members of IMDJ will respond to you");
+				break;
+			case "about":
+				_client.SendMessage(Username, "I am a bot created with TwitchLib! I am here to help immerse twitch " +
+					"viewer into the show! If you need help just type in the chat, one of the members of IMDJ will respond to you");
 				break;
 			case "Vote1":
-				selectedOption = 1;
+				Voting(1);
 				break;
-
 			case "Vote2":
-				selectedOption = 2;
+				Voting(2);
 				break;
-
 			case "Vote3":
-				selectedOption = 3;
+				Voting(3);
 				break;
-
 			case "Vote4":
-				selectedOption = 4;
+				Voting(4);
 				break;
-			case "Display":
-				
-				break;
-
-			case "result":
+			case "Results":
 				SentResultToChat();
 				break;
+			case "HYPE":
+				_client.SendMessage(Username, "CURRENT HYPE "+hype.ToString() + "!!  CurseLit PogChamp CurseLit");
+				break;
 			default:
-				selectedOption = 0;
+				_client.SendMessage(Username, "Sorry, I dont know that command, try !help for a list of commands");
 				break;
 		};
 		
-		Voting(selectedOption);
+		
 	}
 
 
@@ -208,13 +202,13 @@ public class VotingSystemController : MonoBehaviour
 				foreach (KeyValuePair<int, OptionData> entry in options)
 				{
 					message += "\n\n";
-					message = $"{message} Vote{entry.Key} : {entry.Value.OptionName}";
+					message = $"{message} Vote{entry.Key} : {entry.Value.OptionName} \n\n";
 				}
 			}
 			_client.SendMessage(Username, message);
 
 			//cancel old invoke to prevent multiples
-			CancelInvoke();
+			CancelInvoke("SentResultToChat");
 			InvokeRepeating("SentResultToChat", 10f, 10f);
 			Debug.Log(message);
 		}
@@ -225,22 +219,36 @@ public class VotingSystemController : MonoBehaviour
 		
 	}
 
+
 	public void SentResultToChat()
     {
-		string message = "Result";
-
-		message = $"{message} \n\n-- Question: {Question} --\n\n";
-
-		if (options != null)
+		if (Question != "") //prevents printing results when empty
 		{
-			foreach (KeyValuePair<int, OptionData> entry in options)
+			string message = "Result --> ";
+
+			message = $"{message} \n\n-- Question: {Question} --\n\n";
+
+			if (options != null)
 			{
-				message += "\n\n";
-				message = $"{message} {entry.Value.OptionName} : {entry.Value.VoteCount}";
+				foreach (KeyValuePair<int, OptionData> entry in options)
+				{
+					message += "\n\n";
+					message = $"{message} {entry.Value.OptionName} : {entry.Value.VoteCount}";
+				}
 			}
+			Debug.Log(message);
+			_client.SendMessage(Username, message);
 		}
-		Debug.Log(message);
-		_client.SendMessage(Username, message);
+		
 	}
 
+
+	//this function checks each item in the list, if the item is 60 seconds old it get removed
+	//this gives us a list where the length is emotes/min
+	public void updateHype()
+    {
+		DateTime rn = DateTime.Now;
+		chatHistory.RemoveAll(DT => (rn - DT).TotalSeconds > 60);
+		hype = chatHistory.Count;
+	}
 }
