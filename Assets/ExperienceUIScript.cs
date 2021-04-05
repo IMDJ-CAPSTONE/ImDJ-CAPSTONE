@@ -30,6 +30,9 @@ public class ExperienceUIScript : MonoBehaviour
             dropdownMenu.options.Add(new Dropdown.OptionData(dropdownMenu.options[i].text));
 
         }
+
+        //check if the payler has old volume setting and set it
+        mixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVol"));
     }
 
     string ResToString(Resolution res)
@@ -56,6 +59,7 @@ public class ExperienceUIScript : MonoBehaviour
     {
         //the Mathf.Log10 is to convert the float from a linear value to logarithmic which makes it easier to control
         mixer.SetFloat("MasterVol", Mathf.Log10(sliderVal) * 20);
+        PlayerPrefs.SetFloat("MasterVol", Mathf.Log10(sliderVal) * 20);
     }
 
 }
