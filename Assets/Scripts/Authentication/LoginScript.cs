@@ -72,12 +72,12 @@ public class LoginScript : MonoBehaviour
             
             if(response.StatusCode == 200)
             {
-                EditorUtility.DisplayDialog("Authetication", "You have succsfully Logedin Using Twitch", "Ok");
+                //EditorUtility.DisplayDialog("Authetication", "You have succsfully Logedin Using Twitch", "Ok");
                 authenticated = true;
             }
             else
             {
-                EditorUtility.DisplayDialog("Authetication", "There is an Error Please try again", "Error");
+                //EditorUtility.DisplayDialog("Authetication", "There is an Error Please try again", "Error");
             }
             accessToken = StringSerializationAPI.Deserialize(typeof(AccessToken),response.Text) as AccessToken;
             Debug.Log(accessToken.id_token);
