@@ -1,12 +1,17 @@
-﻿using System.Collections;
+﻿/*  FILE          : 	VotingSystemController.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	Contains the logic for the Twitch Bot
+*/
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using TwitchLib.Client.Extensions;
 using TwitchLib.Client.Models;
 using TwitchLib.Unity;
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using System;
-using TwitchLib.Client.Extensions;
 
 public class VotingSystemController : MonoBehaviour
 {
@@ -15,6 +20,7 @@ public class VotingSystemController : MonoBehaviour
 	public string TwitchChannelName = "";
 	public int totalOptions = 0;
 	public Dictionary<int, OptionData> options = new Dictionary<int, OptionData>();
+	public double hype;
 	#endregion
 
 
@@ -22,9 +28,18 @@ public class VotingSystemController : MonoBehaviour
 	private Client _client;
 	private string Username;
 	private string OAuth;
-    #endregion
+	private List<DateTime> chatHistory;
+	#endregion
 
-    private void Start() 
+	/*  Function	:	Start()
+    *
+    *	Description	:	this function get called before anything else happens
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+	private void Start() 
 	{
 		//pull JSON secrets
 		using (StreamReader r = new StreamReader("./Secrets.json"))
@@ -52,7 +67,7 @@ public class VotingSystemController : MonoBehaviour
 		// Bind callbacks to events
 		//_client.OnConnected += OnConnected;
 		_client.OnJoinedChannel += OnJoinedChannel;
-		//_client.OnMessageReceived += OnMessageReceived;
+		_client.OnMessageReceived += OnMessageReceived;
 		_client.OnChatCommandReceived += OnChatCommandReceived;
 		//_client.OnWhisperReceived += OnWhisperReceived;
 		//_client.OnNewSubscriber += OnNewSubscriber;
@@ -65,8 +80,23 @@ public class VotingSystemController : MonoBehaviour
 		Debug.Log("Attempting to connect");
 		// Connect
 		_client.Connect();
+
+
+		chatHistory = new List<DateTime>();
+
+		//updates hype rating every 10 sec
+		InvokeRepeating("updateHype", 10f, 10f);
 	}
 
+	/*  Function	:	AddOptions()
+    *
+    *	Description	:	this function add a voting option to a dictionary
+    *					it gets called from PerformerUserUIController.cs
+    *					
+    *	Parameters	:	String OptionName : a string containing the text of the option to vote for
+    *
+    *	Returns		:	Void
+    */
 	public void AddOption(string optionName) 
 	{
 		//adding option to options list to keep track of voting count
@@ -76,11 +106,29 @@ public class VotingSystemController : MonoBehaviour
 		totalOptions = options.Count;
 	}
 
+	/*  Function	:	NewQuestion()
+    *
+    *	Description	:	this function updates the question for the poll
+    *					it gets called from PerformerUserUIController.cs
+    *
+    *	Parameters	:	String question : a string containng the text for the new poll question
+    *
+    *	Returns		:	Void
+    */
 	public void NewQuestion(string question) 
 	{
 		this.Question = question;
     }
 
+	/*  Function	:	Voting()
+    *
+    *	Description	:	this function actually casts the vote for the poll
+    *					this gets called from this file as well as UIManagement.cs when a desktop user casts a vote
+    *
+    *	Parameters	:	int optionNumber : an int that hold the option that was voted
+    *
+    *	Returns		:	Void
+    */
 	public void Voting(int optionNumber) 
 	{
 		if(optionNumber > 0 && optionNumber <= 4 && options != null)
@@ -89,74 +137,138 @@ public class VotingSystemController : MonoBehaviour
         }
     }
 
+	/*  Function	:	GetVoteCount()
+    *
+    *	Description	:	returns the number of votes counter for the specified option number
+    *
+    *	Parameters	:	int optionNumber : the index of the option asked for
+    *
+    *	Returns		:	integer holding the number of votes cast for specified option
+    */
 	public int GetVoteCount(int optionNumber) 
 	{ 
 		return options[optionNumber].VoteCount;
     }
 
+	/*  Function	:	ClearVoting()
+    *
+    *	Description	:	resets the poll question and clears the option data
+    *					gets called from PerformerUserUIController.cs
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
 	public void ClearVoting() {
 		Debug.Log("Resetting the Poll");
 		options.Clear();
 		Question = "";
     }
 
+	/*  Function	:	OnJoinedChannel
+    *
+    *	Description	:	event callback function that gets called when the bot joins a channel
+    *
+    *	Parameters	:	OnJoinedChannelArgs e : holds relevent information of the channel
+    *
+    *	Returns		:	Void
+    */
 	private void OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
 	{
 		Debug.Log($"The bot {e.BotUsername} just joined the channel: {e.Channel}");
 		_client.SendMessage(e.Channel, "I just joined the channel! PogChamp");
 	}
 
-	//tbh idk if this even works but imma leave it here just incase it does
-	private void Client_OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
+	/*  Function	:	OnMessageReceived()
+    *
+    *	Description	:	event callback function that gets called every time any message gets entered in Twitch chat, not including messages sent by the bot
+    *
+    *	Parameters	:	OnMessageReceivedArgs e : holds relevent information about the message
+    *
+    *	Returns		:	Void
+    */
+	private void OnMessageReceived(object sender, TwitchLib.Client.Events.OnMessageReceivedArgs e)
 	{
+		//tbh idk if this even works but imma leave it here just incase it does
 		if (e.ChatMessage.Message.Contains("fuck"))
 		{
-			_client.TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromSeconds(10), "Bad word! 10 minutes timeout!");
+			_client.TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromMinutes(10), "Bad word! 10 minutes timeout!");
 		}
-	}
 
+		//check if message has desired emote if so add timestamp to list
+		if (e.ChatMessage.Message.Contains("PogChamp")	||
+			e.ChatMessage.Message.Contains("Mau5")		||
+			e.ChatMessage.Message.Contains("Hype")		||
+			e.ChatMessage.Message.Contains("Kreygasm")	||
+			e.ChatMessage.Message.Contains("Kappa")		||
+			e.ChatMessage.Message.Contains("CurseLit"))
+		{
+			chatHistory.Add(DateTime.Now);
+		}
+		hype = chatHistory.Count;
+		
+    }
+
+	/*  Function	:	OnChatCommandReceived()
+    *
+    *	Description	:	event callback function that gets called when a command is entered into Twitch chat, commands are messages where the first character is an "!"
+    *
+    *	Parameters	:	OnChatCommandReceivedArgs e : holds relevent information about the command
+    *
+    *	Returns		:	Void
+    */
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
 	{
 		Debug.Log($"Command received from {e.Command.ChatMessage.DisplayName}: {e.Command.ChatMessage.Message}");
-		int selectedOption = 0;
-
+		
 		switch (e.Command.CommandText)
         {
 			case "help":
-				_client.SendMessage(Username, "I was created to help immerse twitch viewer into the show! " +
-					"If you need help just type in the chat, one of the members of IMDJ will respond to you");
+				_client.SendMessage(Username, "!about will tell you a little bit about myself.		" +
+					"!Vote# will cast a vote if there is a poll running (change # to the number of the option you wish to vote for.		" +
+					"!Results will show you the current poll and how many votes each option has.		" +
+					"!Hype will show you the current hype rating.		" +
+					"If you have any other questions just type them into chat and one of the members of IMDJ will respond to you");
+				break;
+			case "about":
+				_client.SendMessage(Username, "I am a bot created with TwitchLib! I am here to help immerse twitch " +
+					"viewer into the show! If you need help just type in the chat, one of the members of IMDJ will respond to you");
 				break;
 			case "Vote1":
-				selectedOption = 1;
+				Voting(1);
 				break;
-
 			case "Vote2":
-				selectedOption = 2;
+				Voting(2);
 				break;
-
 			case "Vote3":
-				selectedOption = 3;
+				Voting(3);
 				break;
-
 			case "Vote4":
-				selectedOption = 4;
+				Voting(4);
 				break;
-			case "Display":
-				
-				break;
-
-			case "result":
+			case "Results":
 				SentResultToChat();
 				break;
+			case "HYPE":
+				_client.SendMessage(Username, "CURRENT HYPE "+hype.ToString() + "!!  CurseLit PogChamp CurseLit");
+				break;
 			default:
-				selectedOption = 0;
+				_client.SendMessage(Username, "Sorry, I dont know that command, try !help for a list of commands");
 				break;
 		};
 		
-		Voting(selectedOption);
+		
 	}
 
-
+	/*  Function	:	SendPollToChat()
+    *
+    *	Description	:	this function converts the poll into a string and sends it to Twitch chat when the poll is first created
+    *					it gets called from PerformerUserUIController.cs
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
 	public void SendPollToChat()
     {
 		if(Question != "")	//prevents blank questions
@@ -170,13 +282,13 @@ public class VotingSystemController : MonoBehaviour
 				foreach (KeyValuePair<int, OptionData> entry in options)
 				{
 					message += "\n\n";
-					message = $"{message} Vote{entry.Key} : {entry.Value.OptionName}";
+					message = $"{message} Vote{entry.Key} : {entry.Value.OptionName} \n\n";
 				}
 			}
 			_client.SendMessage(Username, message);
 
 			//cancel old invoke to prevent multiples
-			CancelInvoke();
+			CancelInvoke("SentResultToChat");
 			InvokeRepeating("SentResultToChat", 10f, 10f);
 			Debug.Log(message);
 		}
@@ -187,22 +299,49 @@ public class VotingSystemController : MonoBehaviour
 		
 	}
 
+	/*  Function	:	SentResultsToChat()
+    *
+    *	Description	:	this function converts the poll question and options as well as how many votes each has to Twitch chat
+    *					this gets called when the command is entered into Twitch chat as well as being called recursivly every 10 seconds after a poll is created
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
 	public void SentResultToChat()
     {
-		string message = "Result";
-
-		message = $"{message} \n\n-- Question: {Question} --\n\n";
-
-		if (options != null)
+		if (Question != "") //prevents printing results when empty
 		{
-			foreach (KeyValuePair<int, OptionData> entry in options)
+			string message = "Result --> ";
+
+			message = $"{message} \n\n-- Question: {Question} --\n\n";
+
+			if (options != null)
 			{
-				message += "\n\n";
-				message = $"{message} {entry.Value.OptionName} : {entry.Value.VoteCount}";
+				foreach (KeyValuePair<int, OptionData> entry in options)
+				{
+					message += "\n\n";
+					message = $"{message} {entry.Value.OptionName} : {entry.Value.VoteCount}";
+				}
 			}
+			Debug.Log(message);
+			_client.SendMessage(Username, message);
 		}
-		Debug.Log(message);
-		_client.SendMessage(Username, message);
+		
 	}
 
+	/*  Function	:	updateHype()
+    *
+    *	Description	:	this function checks each item in the list chatHistory, if the item is 60 seconds old it get removed, it then updates the hype value
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+	public void updateHype()
+    {
+		DateTime rn = DateTime.Now;
+		chatHistory.RemoveAll(DT => (rn - DT).TotalSeconds > 60);
+		hype = chatHistory.Count;
+	}
 }
