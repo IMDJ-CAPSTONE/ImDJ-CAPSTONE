@@ -30,7 +30,7 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 
 	private Texture2D camTexture;		// the texture to display images on
 	private RawImage image;				// the image of the in scene canvas
-	private volatile byte[] data;		// the data from the server 
+	private byte[] data;		// the data from the server 
 	
 	private volatile bool loadImage;    // flag whether or not to apply data to the texture
 
@@ -71,9 +71,13 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 
     private void Update()
     {
-        ImageConversion.LoadImage(camTexture, data);
-        camTexture.Apply();
-    }
+		if (loadImage)
+		{
+			camTexture.LoadRawTextureData(data);
+			camTexture.Apply();
+			loadImage = false;
+		}
+	}
 
 	/*
 	 * METHOD     : OnEnable()

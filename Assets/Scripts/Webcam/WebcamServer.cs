@@ -85,8 +85,8 @@ public class WebcamServer : MonoBehaviour
 		StartWebcam();
 		RaiseWebcamEvent();
 		StartServer();
-		updateCamThread = new Thread(camUpdate);
-		updateCamThread.Start();
+		//updateCamThread = new Thread(camUpdate);
+		//updateCamThread.Start();
 	}
 
 	/*
@@ -99,16 +99,13 @@ public class WebcamServer : MonoBehaviour
 	 *      VOID
 	 */
 
-	private void camUpdate()
+	private void Update()
 	{
-        while (true)
-        {
-			CamUpdated = camTexture.didUpdateThisFrame;
-			if (CamUpdated)
-			{
-				snapshot.SetPixels(camTexture.GetPixels());
-				data = snapshot.EncodeToPNG();
-			}
+		CamUpdated = camTexture.didUpdateThisFrame;
+		if (CamUpdated)
+		{
+			snapshot.SetPixels(camTexture.GetPixels());
+			data = snapshot.GetRawTextureData();
 		}
 	}
 
@@ -330,8 +327,8 @@ public class WebcamServer : MonoBehaviour
 			server = null;
 		}
 
-		updateCamThread.Abort();
-		updateCamThread = null;
+		//updateCamThread.Abort();
+		//updateCamThread = null;
 	}
 
 	#endregion
