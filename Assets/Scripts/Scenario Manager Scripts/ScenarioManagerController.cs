@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 using static UserInstantiation;
 using Photon.Pun;
@@ -10,8 +9,8 @@ public class ScenarioManagerController : MonoBehaviour
     public GameObject UIManagement;
     public GameObject VotingSystemResource;
     public GameObject StageControllerResource;
-
     public GameObject VotingSystem;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -1,10 +1,7 @@
 ﻿using Lean.Gui;
 using Photon.Pun;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using static UserInstantiation;
 
 public class UIManagement : MonoBehaviourPunCallbacks
@@ -53,17 +50,39 @@ public class UIManagement : MonoBehaviourPunCallbacks
 
     public void VotingShownForDesktopRPC()
     {
-        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered);
+        List<string> theOptions = new List<string>();
+        for(int i =0; i<votingSystem.GetComponent<VotingSystemController>().options.Count; i++)
+        {
+            theOptions.Add(votingSystem.GetComponent<VotingSystemController>().options[i + 1].OptionName);
+        }
+        string[] arrTheOption = theOptions.ToArray();
+        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered,
+            arrTheOption, 
+            votingSystem.GetComponent<VotingSystemController>().Question, 
+            votingSystem.GetComponent<VotingSystemController>().totalOptions);
     }
 
     [PunRPC]
-    private void DisplayVotingPanelRPC()
+    private void DisplayVotingPanelRPC(string[] theOptions, string question, int totalOptions)
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
         {
-            UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            if (UIContainers.ContainsKey("DesktopUI") == true)
+            {
+                Destroy(UIContainers["DesktopUI"]);
+                UIContainers.Remove("DesktopUI");
+                UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            }
+            else //if (UIContainers.ContainsKey("DesktopUI") == false)
+            {
+                UIContainers.Add("DesktopUI", Instantiate(DesktopVotingUIResource));
+            }
+
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().setupUI(totalOptions, theOptions, question);
+
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
-            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum),voteOption); };
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => 
+                { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum), voteOption); };
         }
     }
 

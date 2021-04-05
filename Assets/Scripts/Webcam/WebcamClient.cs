@@ -236,7 +236,7 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 
 			// set up the texture to display the images received
 			image = GameObject.FindGameObjectWithTag("Webcam").GetComponent<RawImage>();
-			camTexture = new Texture2D(width, height);
+			camTexture = new Texture2D(width, height, TextureFormat.ARGB32, false);
 			image.texture = camTexture;
 			image.material.mainTexture = camTexture;
 

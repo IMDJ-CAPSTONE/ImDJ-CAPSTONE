@@ -79,7 +79,7 @@ public class WebcamServer : MonoBehaviour
 		// initialize lists and get ip address
 		threadList = new List<Thread>();
 		clientList = new List<TcpClient>();
-		address = "192.168.2.10";
+		address = "127.0.0.1";
 
 		// start webcam and server to send to clients
 		StartWebcam();
