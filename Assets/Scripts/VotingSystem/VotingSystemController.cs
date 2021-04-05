@@ -22,6 +22,7 @@ public class VotingSystemController : MonoBehaviour
 	private Client _client;
 	private string Username;
 	private string OAuth;
+	private List<string> chatHistory;
     #endregion
 
     private void Start() 
@@ -113,6 +114,43 @@ public class VotingSystemController : MonoBehaviour
 		{
 			_client.TimeoutUser(e.ChatMessage.Channel, e.ChatMessage.Username, TimeSpan.FromSeconds(10), "Bad word! 10 minutes timeout!");
 		}
+
+
+		//the line in the IF will search through the List chatHistory and find all items that match the string "Kappa"
+		List<string> emoteCount;
+		double percent;
+		//parse out the emote
+		//if (e.Command.ChatMessage.Message.Contains("LUL"))
+		//{
+		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "LUL"; });
+		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
+		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"LUL % = {percent:F2}");
+		//}
+		//else if (e.Command.ChatMessage.Message.Contains("<3"))
+		//{
+		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "<3"; });
+		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
+		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"<3 % = {percent:F2}");
+		//}
+		//else if (e.Command.ChatMessage.Message.Contains("Kappa"))
+		//{
+		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "Kappa"; });
+		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
+		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"Kappa % = {percent:F2}");
+		//}
+		//else if (e.Command.ChatMessage.Message.Contains("PogChamp"))
+		//{
+		//	emoteCount = chatHistory.FindAll(delegate (string s) { return s == "PogChamp"; });
+		//	percent = (double)emoteCount.Count / (double)chatHistory.Count;
+		//	_client.SendMessage(e.Command.ChatMessage.Channel, $"PogChamp % = {percent:F2}");
+		//}
+		//else
+
+
+
+
+
+
 	}
 
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
