@@ -7,6 +7,7 @@ TagManager:
   - Debug
   - UI
   - Voice
+  - StageLights
   layers:
   - Default
   - TransparentFX
