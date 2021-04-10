@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMenu: {fileID: 3889920435408064829}
   dropdownMenu: {fileID: 1494400730808290405}
-  mixer: {fileID: 24100000, guid: 87ec69fa639d9e946bb2cf8f1af93e53, type: 2}
+  mixer: {fileID: 24100000, guid: ec12f7772c03e4c4c9e4c2f1643595ad, type: 2}
 --- !u!1 &6673714587313309008
 GameObject:
   m_ObjectHideFlags: 0
