@@ -206,7 +206,6 @@ public class VotingSystemController : MonoBehaviour
 			chatHistory.Add(DateTime.Now);
 		}
 		hype = chatHistory.Count;
-		
     }
 
 	/*  Function	:	OnChatCommandReceived()
@@ -227,7 +226,7 @@ public class VotingSystemController : MonoBehaviour
 				_client.SendMessage(Username, "!about will tell you a little bit about myself.		" +
 					"!Vote# will cast a vote if there is a poll running (change # to the number of the option you wish to vote for.		" +
 					"!Results will show you the current poll and how many votes each option has.		" +
-					"!Hype will show you the current hype rating.		" +
+					"!HYPE will show you the current hype rating.		" +
 					"If you have any other questions just type them into chat and one of the members of IMDJ will respond to you");
 				break;
 			case "about":
@@ -250,7 +249,7 @@ public class VotingSystemController : MonoBehaviour
 				SentResultToChat();
 				break;
 			case "HYPE":
-				_client.SendMessage(Username, "CURRENT HYPE "+hype.ToString() + "!!  CurseLit PogChamp CurseLit");
+				_client.SendMessage(Username, "CURRENT HYPE " + hype.ToString() + "!!  CurseLit PogChamp CurseLit");
 				break;
 			default:
 				_client.SendMessage(Username, "Sorry, I dont know that command, try !help for a list of commands");

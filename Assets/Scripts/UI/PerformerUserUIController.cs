@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Lean.Gui;
+using TMPro;
 using UnityEngine;
 
 public class PerformerUserUIController : MonoBehaviour
@@ -9,12 +10,15 @@ public class PerformerUserUIController : MonoBehaviour
     public GameObject NewPollButton;
     public GameObject optionPrefab;
     public GameObject twitchDashboard;
+    public GameObject mainDashboard;
     public GameObject AddOptions;
     
     // Start is called before the first frame update
     void Start()
     {
         
+
+
         OptionSets = new GameObject[4];
 
         for (int i = 0; i < 4; i++)
@@ -28,6 +32,7 @@ public class PerformerUserUIController : MonoBehaviour
         }
         OptionSets[2].SetActive(false);
         OptionSets[3].SetActive(false);
+        twitchDashboard.GetComponent<LeanToggle>().TurnOff();
     }
 
     public void AddOption()
@@ -95,5 +100,12 @@ public class PerformerUserUIController : MonoBehaviour
         if (string.IsNullOrEmpty(value)) return value;
         return value.Length <= maxLength ? value : value.Substring(0, maxLength);
     }
+
+
+
+
+
+
+
 
 }
