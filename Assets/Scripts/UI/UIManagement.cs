@@ -7,22 +7,19 @@ using static UserInstantiation;
 public class UIManagement : MonoBehaviourPunCallbacks
 {
     private PhotonView view;
-
     public UserInstantiation userInst;
-
     public GameObject votingSystem;
-
     public GameObject AllUsersMenuResource;
     public GameObject DesktopVotingUIResource;
-    
     public GameObject PerformerPollingUIResource;
-    private GameObject PerformerPollingUIResourceButton;
-
     public int perfActorNum;
 
+    private GameObject PerformerPollingUIResourceButton;
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
-    // Start is called before the first frame update
+    //menu stuff here
+
+    
     public void StartFromScenarioManager()
     {
         UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
@@ -47,7 +44,6 @@ public class UIManagement : MonoBehaviourPunCallbacks
         perfActorNum = _perfActorNum;
     }
     
-
     public void VotingShownForDesktopRPC()
     {
         List<string> theOptions = new List<string>();
