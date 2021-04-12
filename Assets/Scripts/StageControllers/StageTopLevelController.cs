@@ -1,7 +1,4 @@
 ﻿using Photon.Pun;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -27,8 +24,6 @@ public class StageTopLevelController : MonoBehaviour
         {
             lastbeatnum = 0;
             beatnum = 0;
-            LITE1();
-            BG1();
         }
     }
 
@@ -60,25 +55,25 @@ public class StageTopLevelController : MonoBehaviour
             }
         }
     }
-    #region Lights
-    private void LITE1()
-    {
-        Lights = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE1"), transform.position, transform.rotation);
-        PV.RPC("delLight", RpcTarget.AllBuffered);
-        PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
-    }
-    private void LITE2()
-    {
-        Lights = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE2"), transform.position, transform.rotation);
-        PV.RPC("delLight", RpcTarget.AllBuffered);
-        PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
-    }
 
-    [PunRPC]
-    private void delLight()
+    #region Lights
+    public void LITE1()
     {
-        Lights = GameObject.FindGameObjectWithTag("StageLights");
-        Destroy(Lights);
+        if(GameObject.FindGameObjectWithTag("StageLights"))
+        {
+            PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag("StageLights"));
+        }
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE1"), transform.position, transform.rotation);
+        PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
+    }
+    public void LITE2()
+    {
+        if (GameObject.FindGameObjectWithTag("StageLights"))
+        {
+            PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag("StageLights"));
+        }
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE2"), transform.position, transform.rotation);
+        PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
@@ -90,24 +85,23 @@ public class StageTopLevelController : MonoBehaviour
     #endregion
 
     #region Backgrounds
-    private void BG1()
+    public void BG1()
     {
-        Background = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG1"), transform.position, transform.rotation);
-        PV.RPC("delBackground", RpcTarget.AllBuffered);
+        if (GameObject.FindGameObjectWithTag("BackGround"))
+        {
+            PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag("BackGround"));
+        }
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG1"), transform.position, transform.rotation);
         PV.RPC("setBackgroundParentAndPos", RpcTarget.AllBuffered);
     }
-    private void BG2()
+    public void BG2()
     {
-        Background = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG2"), transform.position, transform.rotation);
-        PV.RPC("delBackground", RpcTarget.AllBuffered);
+        if (GameObject.FindGameObjectWithTag("BackGround"))
+        {
+            PhotonNetwork.Destroy(GameObject.FindGameObjectWithTag("BackGround"));
+        }
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG2"), transform.position, transform.rotation);
         PV.RPC("setBackgroundParentAndPos", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    private void delBackground()
-    {
-        Background = GameObject.FindGameObjectWithTag("BackGround");
-        Destroy(Background);
     }
 
     [PunRPC]
@@ -118,6 +112,5 @@ public class StageTopLevelController : MonoBehaviour
     }
 
     #endregion
-
 
 }

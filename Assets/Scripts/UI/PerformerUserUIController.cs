@@ -10,10 +10,13 @@ public class PerformerUserUIController : MonoBehaviour
     public GameObject optionPrefab;
     public GameObject twitchDashboard;
     public GameObject AddOptions;
+    public GameObject stagecontrol;
+
     
     // Start is called before the first frame update
     void Start()
     {
+        
         OptionSets = new GameObject[4];
 
         for (int i = 0; i < 4; i++)
@@ -93,6 +96,26 @@ public class PerformerUserUIController : MonoBehaviour
     {
         if (string.IsNullOrEmpty(value)) return value;
         return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+    }
+
+    public void lightSet1()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().LITE1();
+    }
+
+    public void lightSet2()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().LITE2();
+    }
+
+    public void backgroundSet1()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().BG1();
+    }
+
+    public void backgroundSet2()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().BG2();
     }
 
 }

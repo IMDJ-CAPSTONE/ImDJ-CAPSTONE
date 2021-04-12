@@ -19,10 +19,13 @@ public class ScenarioManagerController : MonoBehaviour
             VotingSystem = Instantiate(VotingSystemResource);
             VotingSystem.transform.SetParent(gameObject.transform);
             UIManagement.GetComponent<UIManagement>().votingSystem = this.VotingSystem;
-
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Stage Components"), transform.position, transform.rotation);
+            UIManagement.GetComponent<UIManagement>().stage = 
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Stage Components"), transform.position, transform.rotation);
+            Debug.Log("");
         }
         UIManagement.GetComponent<UIManagement>().StartFromScenarioManager();
+
+
     }
 
     // Update is called once per frame
