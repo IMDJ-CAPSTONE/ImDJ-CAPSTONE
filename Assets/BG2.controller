@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-3298825139992253281
+--- !u!1102 &-8306816354059599573
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Deeznutz
+  m_Name: deezcubes
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3cd74a2fa267c504daab9a77ca90753b, type: 2}
+  m_Motion: {fileID: 7400000, guid: d45eaf9c72e16cc46bba910992864ef6, type: 2}
   m_Tag: 
   m_SpeedParameter: BeatSpeed
   m_MirrorParameter: 
@@ -78,11 +78,11 @@ AnimatorStateMachine:
     m_State: {fileID: -1690081937620401368}
     m_Position: {x: 420, y: 120, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -3298825139992253281}
-    m_Position: {x: 420, y: 30, z: 0}
+    m_State: {fileID: -8306816354059599573}
+    m_Position: {x: 420, y: 20, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
-  - {fileID: 8531180651271782499}
+  - {fileID: 6698045275315507397}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
@@ -97,7 +97,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BG1
+  m_Name: BG2
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: BeatSpeed
@@ -125,7 +125,7 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1101 &8531180651271782499
+--- !u!1101 &6698045275315507397
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,7 +137,7 @@ AnimatorStateTransition:
     m_ConditionEvent: BeatEvent
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -3298825139992253281}
+  m_DstState: {fileID: -8306816354059599573}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
