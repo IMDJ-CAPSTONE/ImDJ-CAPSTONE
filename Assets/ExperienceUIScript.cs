@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using System.Linq;
 
 public class ExperienceUIScript : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class ExperienceUIScript : MonoBehaviour
 
     void Start()
     {
+        //this line gets all possible resolutions supported by their machine and filters out all options where refresh != 60
+        //resolutions = (Resolution[])Screen.resolutions.Where(resolution => resolution.refreshRate == 60);
         resolutions = Screen.resolutions;
         dropdownMenu.onValueChanged.AddListener(delegate 
             { Screen.SetResolution(resolutions[dropdownMenu.value].width, 
@@ -27,12 +30,12 @@ public class ExperienceUIScript : MonoBehaviour
         {
             //there was an issue with this creating multiples of some resolutions but the bug dissapeared
             //either way this should prevent it, if it crops up again
-            if (!dropdownMenu.options.Contains(new Dropdown.OptionData(dropdownMenu.options[i].text)))
-            {
-                dropdownMenu.options[i].text = resolutions[i].width + " x " + resolutions[i].height;
+            //if (!dropdownMenu.options.Contains(new Dropdown.OptionData(dropdownMenu.options[i].text)))
+            //{
+                dropdownMenu.options[i].text = resolutions[i].width + " x " + resolutions[i].height + "  " + resolutions[i].refreshRate;
                 dropdownMenu.value = i;
                 dropdownMenu.options.Add(new Dropdown.OptionData(dropdownMenu.options[i].text));
-            }
+            //}
             
         }
 
