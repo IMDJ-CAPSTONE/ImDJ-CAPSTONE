@@ -5,10 +5,12 @@ using UnityEngine;
 public class PerformerUserUIController : MonoBehaviour
 {
     public GameObject[] OptionSets;
+    public GameObject[] DisplayOptionSets;
     public GameObject PollQuestion;
     public GameObject VotingSystem;
     public GameObject NewPollButton;
     public GameObject optionPrefab;
+    public GameObject displayOptionPrefab;
     public GameObject twitchDashboard;
     public GameObject mainDashboard;
     public GameObject AddOptions;
@@ -16,9 +18,7 @@ public class PerformerUserUIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
-
+        //setup twitchDashboard
         OptionSets = new GameObject[4];
 
         for (int i = 0; i < 4; i++)
@@ -26,13 +26,29 @@ public class PerformerUserUIController : MonoBehaviour
             int copy = i+1;
             OptionSets[i] = Instantiate(optionPrefab);
             OptionSets[i].name = "Option: " + copy.ToString();
-            OptionSets[i].transform.SetParent(twitchDashboard.transform); //need to change parent
+            OptionSets[i].transform.SetParent(twitchDashboard.transform);
             OptionSets[i].transform.SetSiblingIndex(copy);
             OptionSets[i].GetComponentInChildren<TMP_Text>().text = "Option: " + copy.ToString();
         }
         OptionSets[2].SetActive(false);
         OptionSets[3].SetActive(false);
         twitchDashboard.GetComponent<LeanToggle>().TurnOff();
+
+
+        //setup mainDashboard
+        DisplayOptionSets = new GameObject[4];
+
+        for (int i = 0; i < 4; i++)
+        {
+            int copy = i + 1;
+            DisplayOptionSets[i] = Instantiate(displayOptionPrefab);
+            DisplayOptionSets[i].name = "Option: " + copy.ToString();
+            DisplayOptionSets[i].transform.SetParent(mainDashboard.transform);
+            DisplayOptionSets[i].transform.SetSiblingIndex(copy);
+            DisplayOptionSets[i].GetComponentInChildren<TMP_Text>().text = "Option: " + copy.ToString();
+        }
+        DisplayOptionSets[2].SetActive(false);
+        DisplayOptionSets[3].SetActive(false);
     }
 
     public void AddOption()
