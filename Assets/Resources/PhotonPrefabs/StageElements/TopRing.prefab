@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4474614499773699480}
   - component: {fileID: 7385814580651199864}
-  - component: {fileID: 8802670116913736698}
   - component: {fileID: 2056889716188506536}
   m_Layer: 0
   m_Name: TopRing
@@ -73,25 +72,6 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!95 &8802670116913736698
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4474614499773699481}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 97bb0fd8b6163ba4093728715f99c3b4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2056889716188506536
 MonoBehaviour:
   m_ObjectHideFlags: 0

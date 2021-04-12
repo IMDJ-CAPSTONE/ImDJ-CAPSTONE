@@ -68,6 +68,6 @@ public class StageTopLevelController : MonoBehaviour
     {
         Lights = GameObject.FindGameObjectWithTag("StageLights");
         Lights.transform.parent = LightsGO.transform;
-        Lights.transform.localPosition = new Vector3(0f, 7.5f, 0f);
+        //Lights.transform.localPosition = new Vector3(0f, 7.5f, 0f);
     }
 }
