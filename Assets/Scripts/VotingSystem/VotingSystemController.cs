@@ -29,6 +29,7 @@ public class VotingSystemController : MonoBehaviour
 	private string Username;
 	private string OAuth;
 	private List<DateTime> chatHistory;
+	private bool active;
 	#endregion
 
 	/*  Function	:	Start()
@@ -101,7 +102,7 @@ public class VotingSystemController : MonoBehaviour
 	{
 		//adding option to options list to keep track of voting count
 		Debug.Log("Adding Option \""+optionName + "\" ");
-		var option = new OptionData(optionName);
+		OptionData option = new OptionData(optionName);
 		options.Add(options.Count + 1, option);
 		totalOptions = options.Count;
 	}
@@ -131,10 +132,13 @@ public class VotingSystemController : MonoBehaviour
     */
 	public void Voting(int optionNumber) 
 	{
-		if(optionNumber > 0 && optionNumber <= 4 && options != null)
+		if(active)
         {
-			options[optionNumber].VoteCount += 1;
-        }
+			if (optionNumber > 0 && optionNumber <= 4 && options != null)
+			{
+				options[optionNumber].VoteCount += 1;
+			}
+		}
     }
 
 	/*  Function	:	GetVoteCount()
@@ -149,6 +153,24 @@ public class VotingSystemController : MonoBehaviour
 	{ 
 		return options[optionNumber].VoteCount;
     }
+
+	/*  Function	:	GetOptionText()
+    *
+    *	Description	:	returns a string of the option for the specified option number
+    *
+    *	Parameters	:	int optionNumber : the index of the option asked for
+    *
+    *	Returns		:	string holding the text for the specified option
+    */
+	public string GetOptionText(int optionNumber)
+	{
+		//OptionData od = null;
+		//if (options.ContainsKey(optionNumber))
+		//{
+		//	od = options[optionNumber];
+		//}
+		return options[optionNumber].OptionName;
+	}
 
 	/*  Function	:	ClearVoting()
     *
@@ -342,5 +364,15 @@ public class VotingSystemController : MonoBehaviour
 		DateTime rn = DateTime.Now;
 		chatHistory.RemoveAll(DT => (rn - DT).TotalSeconds > 60);
 		hype = chatHistory.Count;
+	}
+
+	public void setActive(bool input)
+    {
+		active = input;
+    }
+
+	public void cancelInvoke()
+    {
+		CancelInvoke("SentResultToChat");
 	}
 }

@@ -1334,7 +1334,8 @@ MonoBehaviour:
   - {fileID: 0}
   DisplayOptionSets: []
   PollQuestion: {fileID: 2162521005900905865}
-  VotingSystem: {fileID: 6928367649582439815}
+  VotingSystem: {fileID: 352026973429864892, guid: daad12e88a73dc64c97909c0b40525a1,
+    type: 3}
   NewPollButton: {fileID: 2077878363666970234}
   optionPrefab: {fileID: 301097949822486313, guid: c4e096f9cc9a67549b7bb4be1a7c76ae,
     type: 3}
@@ -3744,6 +3745,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437030557292097497, guid: b83711675def8024ca42dc3ad938dda2,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437030557292097497, guid: b83711675def8024ca42dc3ad938dda2,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437030557292097497, guid: b83711675def8024ca42dc3ad938dda2,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3398155017088467018}
+    - target: {fileID: 3437030557292097497, guid: b83711675def8024ca42dc3ad938dda2,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437030557292097497, guid: b83711675def8024ca42dc3ad938dda2,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: finalizePoll
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437030557292097497, guid: b83711675def8024ca42dc3ad938dda2,
+        type: 3}
+      propertyPath: onClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3437030557292097503, guid: b83711675def8024ca42dc3ad938dda2,
         type: 3}
