@@ -6,14 +6,14 @@ using static UserInstantiation;
 
 public class UIManagement : MonoBehaviourPunCallbacks
 {
-    private PhotonView view;
     public UserInstantiation userInst;
     public GameObject votingSystem;
+    public GameObject stage;
     public GameObject AllUsersMenuResource;
     public GameObject DesktopVotingUIResource;
     public GameObject PerformerPollingUIResource;
     public int perfActorNum;
-
+    private PhotonView view;
     private GameObject PerformerPollingUIResourceButton;
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
@@ -29,13 +29,13 @@ public class UIManagement : MonoBehaviourPunCallbacks
         {
             UIContainers.Add("PerformerUI", Instantiate(PerformerPollingUIResource));
             UIContainers["PerformerUI"].transform.SetParent(gameObject.transform);
+            UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().stagecontrol = stage;
             PerformerPollingUIResourceButton = UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().NewPollButton;
             UIContainers["PerformerUI"].GetComponent<PerformerUserUIController>().VotingSystem = this.votingSystem;
             PerformerPollingUIResourceButton.GetComponent<LeanButton>().OnClick.AddListener(VotingShownForDesktopRPC);
             perfActorNum = PhotonNetwork.LocalPlayer.ActorNumber;
             view.RPC("SendActorNum", RpcTarget.OthersBuffered, perfActorNum);
         }
-        
     }
 
     [PunRPC]

@@ -14,6 +14,8 @@ public class PerformerUserUIController : MonoBehaviour
     public GameObject twitchDashboard;
     public GameObject mainDashboard;
     public GameObject AddOptions;
+    public GameObject stagecontrol;
+
     
     // Start is called before the first frame update
     void Start()
@@ -112,6 +114,26 @@ public class PerformerUserUIController : MonoBehaviour
     {
         if (string.IsNullOrEmpty(value)) return value;
         return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+    }
+
+    public void lightSet1()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().LITE1();
+    }
+
+    public void lightSet2()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().LITE2();
+    }
+
+    public void backgroundSet1()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().BG1();
+    }
+
+    public void backgroundSet2()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().BG2();
     }
 
     public void finalizePoll()

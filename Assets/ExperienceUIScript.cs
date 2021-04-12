@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using System.Linq;
 
 public class ExperienceUIScript : MonoBehaviour
 {
@@ -20,18 +21,19 @@ public class ExperienceUIScript : MonoBehaviour
         resolutions = Screen.resolutions;
         dropdownMenu.onValueChanged.AddListener(delegate 
             { Screen.SetResolution(resolutions[dropdownMenu.value].width, 
-                                   resolutions[dropdownMenu.value].height, false); });
+                                   resolutions[dropdownMenu.value].height, false, 50); });
         
         
         for (int i = 0; i < resolutions.Length; i++)
         {
-            //there was an issue with this creating multiples of some resolutions but the bug dissapeared
-            //either way this should prevent it, if it crops up again
-            ///if(!dropdownMenu.options.Contains(new Dropdown.OptionData(dropdownMenu.options[i].text)))
-            dropdownMenu.options[i].text = resolutions[i].width + " x " + resolutions[i].height;
-            dropdownMenu.value = i;
-            dropdownMenu.options.Add(new Dropdown.OptionData(dropdownMenu.options[i].text));
-            
+            string tmpres = resolutions[i].width + " x " + resolutions[i].height;
+
+            if (dropdownMenu.options.Contains(new Dropdown.OptionData(tmpres)) == false)
+            {
+                dropdownMenu.options[i].text = tmpres;
+                dropdownMenu.value = i;
+                dropdownMenu.options.Add(new Dropdown.OptionData(dropdownMenu.options[i].text));
+            }
         }
 
         //check if the payler has old volume setting and set it

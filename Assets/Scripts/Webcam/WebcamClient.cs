@@ -25,11 +25,12 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	#region Fields
 
 	private TcpClient client;			// the client which will connect to the server
-	private Thread readThread;			// the thread for reading from the server
+	private Thread readThread;          // the thread for reading from the server
+
 
 	private Texture2D camTexture;		// the texture to display images on
 	private RawImage image;				// the image of the in scene canvas
-	private volatile byte[] data;		// the data from the server 
+	private byte[] data;		// the data from the server 
 	
 	private volatile bool loadImage;    // flag whether or not to apply data to the texture
 
@@ -56,10 +57,10 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 		}
 
 		client = new TcpClient();
-		loadImage = false;		
+		loadImage = false;
 	}
 
-	/*
+    /*
 	 * METHOD     : Update()
 	 * DESCRIPTION: Called once per frame. If there is data to load, then apply it to the texture.
 	 * PARAMETERS : 
@@ -68,8 +69,8 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	 *      VOID
 	 */
 
-	private void Update()
-	{
+    private void Update()
+    {
 		if (loadImage)
 		{
 			camTexture.LoadRawTextureData(data);
@@ -242,6 +243,7 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 			// connect to the server and start the client thread
 			client.Connect(hostName, port);
 			readThread = new Thread(ClientThread);
+			readThread.Priority = System.Threading.ThreadPriority.Highest;
 			readThread.Start();
 		}
 	}

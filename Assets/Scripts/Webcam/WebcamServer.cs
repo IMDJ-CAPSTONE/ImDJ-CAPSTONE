@@ -41,7 +41,9 @@ public class WebcamServer : MonoBehaviour
 	private Thread connectionThread;				// the thread running the connection loop
 
 	private List<Thread> threadList;				// a list of threads, one per client
-	private List<TcpClient> clientList;				// a list of the connected clients
+	private List<TcpClient> clientList;             // a list of the connected clients
+
+	private Thread updateCamThread;
 
 	private WebCamTexture camTexture;				// the webcam texture used to capture webcam
 	private Texture2D snapshot;						// the texture used to capture snapshots of webcam and convert to png
@@ -83,6 +85,8 @@ public class WebcamServer : MonoBehaviour
 		StartWebcam();
 		RaiseWebcamEvent();
 		StartServer();
+		//updateCamThread = new Thread(camUpdate);
+		//updateCamThread.Start();
 	}
 
 	/*
@@ -204,6 +208,7 @@ public class WebcamServer : MonoBehaviour
 				".\n[+] Waiting for a connection...");
 
 		connectionThread = new Thread(ConnectionLoop);
+		connectionThread.Priority = System.Threading.ThreadPriority.Highest;
 		connectionThread.Start();
 	}
 
@@ -227,6 +232,7 @@ public class WebcamServer : MonoBehaviour
 			Thread thread = new Thread(ClientThread);
 			threadList.Add(thread);
 			Debug.Log("[+] A client has connected.");
+			thread.Priority = System.Threading.ThreadPriority.Highest;
 			thread.Start(client);
 		}
 	}
@@ -320,6 +326,9 @@ public class WebcamServer : MonoBehaviour
 			server.Stop();
 			server = null;
 		}
+
+		//updateCamThread.Abort();
+		//updateCamThread = null;
 	}
 
 	#endregion
