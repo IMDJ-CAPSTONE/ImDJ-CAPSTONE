@@ -11,9 +11,9 @@ public class OptionData : MonoBehaviour
 		VoteCount = 0;
 	}
 
-	public OptionData(string optionName, int voteCount = 0)
+	public OptionData(string optionName)
 	{
 		this.OptionName = optionName;
-		this.VoteCount = voteCount;
+		this.VoteCount = 0;
 	}
 }

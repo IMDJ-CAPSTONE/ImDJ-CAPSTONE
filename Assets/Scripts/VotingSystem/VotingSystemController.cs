@@ -29,6 +29,7 @@ public class VotingSystemController : MonoBehaviour
 	private string Username;
 	private string OAuth;
 	private List<DateTime> chatHistory;
+	private bool active;
 	#endregion
 
 	/*  Function	:	Start()
@@ -101,7 +102,7 @@ public class VotingSystemController : MonoBehaviour
 	{
 		//adding option to options list to keep track of voting count
 		Debug.Log("Adding Option \""+optionName + "\" ");
-		var option = new OptionData(optionName);
+		OptionData option = new OptionData(optionName);
 		options.Add(options.Count + 1, option);
 		totalOptions = options.Count;
 	}
@@ -131,10 +132,13 @@ public class VotingSystemController : MonoBehaviour
     */
 	public void Voting(int optionNumber) 
 	{
-		if(optionNumber > 0 && optionNumber <= 4 && options != null)
+		if(active)
         {
-			options[optionNumber].VoteCount += 1;
-        }
+			if (optionNumber > 0 && optionNumber <= 4 && options != null)
+			{
+				options[optionNumber].VoteCount += 1;
+			}
+		}
     }
 
 	/*  Function	:	GetVoteCount()
@@ -149,6 +153,24 @@ public class VotingSystemController : MonoBehaviour
 	{ 
 		return options[optionNumber].VoteCount;
     }
+
+	/*  Function	:	GetOptionText()
+    *
+    *	Description	:	returns a string of the option for the specified option number
+    *
+    *	Parameters	:	int optionNumber : the index of the option asked for
+    *
+    *	Returns		:	string holding the text for the specified option
+    */
+	public string GetOptionText(int optionNumber)
+	{
+		//OptionData od = null;
+		//if (options.ContainsKey(optionNumber))
+		//{
+		//	od = options[optionNumber];
+		//}
+		return options[optionNumber].OptionName;
+	}
 
 	/*  Function	:	ClearVoting()
     *
@@ -206,7 +228,6 @@ public class VotingSystemController : MonoBehaviour
 			chatHistory.Add(DateTime.Now);
 		}
 		hype = chatHistory.Count;
-		
     }
 
 	/*  Function	:	OnChatCommandReceived()
@@ -227,7 +248,7 @@ public class VotingSystemController : MonoBehaviour
 				_client.SendMessage(Username, "!about will tell you a little bit about myself.		" +
 					"!Vote# will cast a vote if there is a poll running (change # to the number of the option you wish to vote for.		" +
 					"!Results will show you the current poll and how many votes each option has.		" +
-					"!Hype will show you the current hype rating.		" +
+					"!HYPE will show you the current hype rating.		" +
 					"If you have any other questions just type them into chat and one of the members of IMDJ will respond to you");
 				break;
 			case "about":
@@ -250,7 +271,7 @@ public class VotingSystemController : MonoBehaviour
 				SentResultToChat();
 				break;
 			case "HYPE":
-				_client.SendMessage(Username, "CURRENT HYPE "+hype.ToString() + "!!  CurseLit PogChamp CurseLit");
+				_client.SendMessage(Username, "CURRENT HYPE " + hype.ToString() + "!!  CurseLit PogChamp CurseLit");
 				break;
 			default:
 				_client.SendMessage(Username, "Sorry, I dont know that command, try !help for a list of commands");
@@ -343,5 +364,15 @@ public class VotingSystemController : MonoBehaviour
 		DateTime rn = DateTime.Now;
 		chatHistory.RemoveAll(DT => (rn - DT).TotalSeconds > 60);
 		hype = chatHistory.Count;
+	}
+
+	public void setActive(bool input)
+    {
+		active = input;
+    }
+
+	public void cancelInvoke()
+    {
+		CancelInvoke("SentResultToChat");
 	}
 }

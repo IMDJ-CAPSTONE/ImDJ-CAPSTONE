@@ -242,9 +242,7 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
                     }
                 }
             }
-
-            // if the actor who raised the event is just listening instantiate as audience and set color
-            else
+            else  // if the actor who raised the event is just listening instantiate as audience and set color
             {
                 player = Instantiate(audience, new Vector3(2f, 0f, 2f), Quaternion.identity);
                 player.GetComponent<MeshRenderer>().material.color = playerTwoColor;

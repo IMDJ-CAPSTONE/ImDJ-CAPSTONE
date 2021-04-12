@@ -17,7 +17,9 @@ public class UIManagement : MonoBehaviourPunCallbacks
     private GameObject PerformerPollingUIResourceButton;
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
-    // Start is called before the first frame update
+    //menu stuff here
+
+    
     public void StartFromScenarioManager()
     {
         UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
@@ -42,7 +44,6 @@ public class UIManagement : MonoBehaviourPunCallbacks
         perfActorNum = _perfActorNum;
     }
     
-
     public void VotingShownForDesktopRPC()
     {
         List<string> theOptions = new List<string>();
