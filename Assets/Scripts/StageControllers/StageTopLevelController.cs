@@ -11,7 +11,8 @@ public class StageTopLevelController : MonoBehaviour
     private PhotonView PV;
     public GameObject LightsGO;
     public GameObject Lights;
-    public Animator anim;
+    public GameObject BackgroundGO;
+    public GameObject Background;
 
     long lastbeatnum;
     long beatnum;
@@ -26,7 +27,8 @@ public class StageTopLevelController : MonoBehaviour
         {
             lastbeatnum = 0;
             beatnum = 0;
-            TopRing();
+            LITE1();
+            BG1();
         }
     }
 
@@ -51,23 +53,71 @@ public class StageTopLevelController : MonoBehaviour
                 {
                     Lights.GetComponent<ElementBeatController>().setBeat(tempoF);
                 }
+                if (Background != null)
+                {
+                    Background.GetComponent<ElementBeatController>().setBeat(tempoF);
+                }
             }
         }
     }
-
-    private void TopRing()
+    #region Lights
+    private void LITE1()
     {
-        Lights = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "TopRing"), transform.position, transform.rotation);
+        Lights = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE1"), transform.position, transform.rotation);
+        PV.RPC("delLight", RpcTarget.AllBuffered);
         PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
-        //anim = topRing.GetComponent<Animator>();
+    }
+    private void LITE2()
+    {
+        Lights = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE2"), transform.position, transform.rotation);
+        PV.RPC("delLight", RpcTarget.AllBuffered);
+        PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
     }
 
+    [PunRPC]
+    private void delLight()
+    {
+        Lights = GameObject.FindGameObjectWithTag("StageLights");
+        Destroy(Lights);
+    }
 
     [PunRPC]
     private void setLightParentAndPos()
     {
         Lights = GameObject.FindGameObjectWithTag("StageLights");
         Lights.transform.parent = LightsGO.transform;
-        //Lights.transform.localPosition = new Vector3(0f, 7.5f, 0f);
     }
+    #endregion
+
+    #region Backgrounds
+    private void BG1()
+    {
+        Background = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG1"), transform.position, transform.rotation);
+        PV.RPC("delBackground", RpcTarget.AllBuffered);
+        PV.RPC("setBackgroundParentAndPos", RpcTarget.AllBuffered);
+    }
+    private void BG2()
+    {
+        Background = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG2"), transform.position, transform.rotation);
+        PV.RPC("delBackground", RpcTarget.AllBuffered);
+        PV.RPC("setBackgroundParentAndPos", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void delBackground()
+    {
+        Background = GameObject.FindGameObjectWithTag("BackGround");
+        Destroy(Background);
+    }
+
+    [PunRPC]
+    private void setBackgroundParentAndPos()
+    {
+        Background = GameObject.FindGameObjectWithTag("BackGround");
+        Background.transform.parent = BackgroundGO.transform;
+    }
+
+    #endregion
+
+
 }

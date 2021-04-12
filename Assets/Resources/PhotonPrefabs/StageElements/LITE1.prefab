@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7385814580651199864}
   - component: {fileID: 2056889716188506536}
   m_Layer: 0
-  m_Name: TopRing
+  m_Name: LITE1
   m_TagString: StageLights
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

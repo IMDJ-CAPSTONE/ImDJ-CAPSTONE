@@ -8,6 +8,8 @@ TagManager:
   - UI
   - Voice
   - StageLights
+  - Webcam
+  - BackGround
   layers:
   - Default
   - TransparentFX
