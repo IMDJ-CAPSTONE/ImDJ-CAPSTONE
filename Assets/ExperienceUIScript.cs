@@ -18,8 +18,6 @@ public class ExperienceUIScript : MonoBehaviour
 
     void Start()
     {
-        //this line gets all possible resolutions supported by their machine and filters out all options where refresh != 60
-        //resolutions = (Resolution[])Screen.resolutions.Where(resolution => resolution.refreshRate == 60);
         resolutions = Screen.resolutions;
         dropdownMenu.onValueChanged.AddListener(delegate 
             { Screen.SetResolution(resolutions[dropdownMenu.value].width, 
@@ -28,11 +26,11 @@ public class ExperienceUIScript : MonoBehaviour
         
         for (int i = 0; i < resolutions.Length; i++)
         {
-            //there was an issue with this creating multiples of some resolutions but the bug dissapeared
-            //either way this should prevent it, if it crops up again
-            if (dropdownMenu.options.Contains(new Dropdown.OptionData(dropdownMenu.options[i].text)) == false)
+            string tmpres = resolutions[i].width + " x " + resolutions[i].height;
+
+            if (dropdownMenu.options.Contains(new Dropdown.OptionData(tmpres)) == false)
             {
-                dropdownMenu.options[i].text = resolutions[i].width + " x " + resolutions[i].height;
+                dropdownMenu.options[i].text = tmpres;
                 dropdownMenu.value = i;
                 dropdownMenu.options.Add(new Dropdown.OptionData(dropdownMenu.options[i].text));
             }
