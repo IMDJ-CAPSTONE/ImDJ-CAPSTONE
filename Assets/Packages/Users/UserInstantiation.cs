@@ -91,7 +91,12 @@ public class UserInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         {
             player = Instantiate(audienceLocal, audienceLocal.transform.position, Quaternion.identity);
             player.GetComponent<MeshRenderer>().material.color = playerTwoColor;
-        }
+			GameObject cameraGO = Camera.main.gameObject;
+			Vector3 eulers = cameraGO.transform.rotation.eulerAngles;
+			eulers.y = 0f;
+			cameraGO.transform.rotation = Quaternion.Euler(eulers);
+			cameraGO.GetComponent<CameraController>().SetTarget(player);
+		}
         //add else for VR for instantiation
         //else if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.VR)
         //{
