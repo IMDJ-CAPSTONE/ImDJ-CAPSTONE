@@ -38,11 +38,6 @@ public class ExperienceUIScript : MonoBehaviour
         mixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVol"));
     }
 
-    
-    void Update()
-    {
-        
-    }
 
     public void exit()
     {
