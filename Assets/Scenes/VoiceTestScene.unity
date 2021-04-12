@@ -419,6 +419,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.92
       objectReference: {fileID: 0}
+    - target: {fileID: 3763181031291029481, guid: a9147a1b705ea294eaa51e91efdb0838,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: ba6d1cc637c1bee4785e62bd157a07d4, type: 2}
+    - target: {fileID: 3763181031291029481, guid: a9147a1b705ea294eaa51e91efdb0838,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9147a1b705ea294eaa51e91efdb0838, type: 3}
 --- !u!1 &368307198
