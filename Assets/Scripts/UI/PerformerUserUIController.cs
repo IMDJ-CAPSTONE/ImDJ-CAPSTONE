@@ -1,9 +1,17 @@
-﻿using Lean.Gui;
+﻿/*  FILE          : 	PerformerUserUIController.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	Contains the logic for the UI of the Performer, the code for all the buttons they can press
+*/
+
+using Lean.Gui;
 using TMPro;
 using UnityEngine;
 
 public class PerformerUserUIController : MonoBehaviour
 {
+    #region publicGameObjects
     public GameObject[] OptionSets;
     public GameObject[] DisplayOptionSets;
     public GameObject PollQuestion;
@@ -15,9 +23,16 @@ public class PerformerUserUIController : MonoBehaviour
     public GameObject mainDashboard;
     public GameObject AddOptions;
     public GameObject stagecontrol;
+    #endregion
 
-    
-    // Start is called before the first frame update
+    /*  Function	:	Start()
+    *
+    *	Description	:	this function get called before anything else happens
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     void Start()
     {
         //setup twitchDashboard
@@ -55,6 +70,15 @@ public class PerformerUserUIController : MonoBehaviour
         DisplayOptionSets[3].SetActive(false);
     }
 
+    /*  Function	:	AddOption()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Add Option" button on Twitch Dashboard
+    *	                it shows another text box to add addional option for a Poll, up to a max of 4.
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void AddOption()
     {
         if(OptionSets[2].activeSelf == false)
@@ -68,6 +92,16 @@ public class PerformerUserUIController : MonoBehaviour
         }
     }
 
+    /*  Function	:	CreateNewPoll()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Create Poll" button on Twitch Dashboard
+    *	                it clears the info from the last poll, truncates the incoming data for the new poll and initalizes the new poll
+    *	                it then resets the textboxes, and updates the Main Dashboard to show the results
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void CreateNewPoll()
     {
         Debug.Log("CreateNewPoll()");
@@ -115,32 +149,16 @@ public class PerformerUserUIController : MonoBehaviour
         InvokeRepeating("updateMainDash", 0.1f, 3f);
     }
 
-    public static string Truncate(string value, int maxLength)
-    {
-        if (string.IsNullOrEmpty(value)) return value;
-        return value.Length <= maxLength ? value : value.Substring(0, maxLength);
-    }
-
-    public void lightSet1()
-    {
-        stagecontrol.GetComponent<StageTopLevelController>().LITE1();
-    }
-
-    public void lightSet2()
-    {
-        stagecontrol.GetComponent<StageTopLevelController>().LITE2();
-    }
-
-    public void backgroundSet1()
-    {
-        stagecontrol.GetComponent<StageTopLevelController>().BG1();
-    }
-
-    public void backgroundSet2()
-    {
-        stagecontrol.GetComponent<StageTopLevelController>().BG2();
-    }
-
+    /*  Function	:	finalizePoll()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Stop Voting" button on Main Dashboard
+    *	                It sets the voting system to: stop counting new votes, send a message to twitch chat that the poll has ended
+    *	                with the results from the poll and updates the Main Dashboard with the final tally
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void finalizePoll()
     {
         VotingSystem.GetComponent<VotingSystemController>().setActive(false);
@@ -151,6 +169,14 @@ public class PerformerUserUIController : MonoBehaviour
         updateMainDash();
     }
 
+    /*  Function	:	endPoll()
+    *
+    *	Description	:	This function updates the text on the Main Dahsboard indicating the most up-to-date data on the Poll
+    *	
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void updateMainDash()
     {
         for (int i = 0; i < DisplayOptionSets.Length; i++)
@@ -158,7 +184,7 @@ public class PerformerUserUIController : MonoBehaviour
             DisplayOptionSets[i].SetActive(true);
             string ques = VotingSystem.GetComponent<VotingSystemController>().GetOptionText(i + 1);
             int votes = VotingSystem.GetComponent<VotingSystemController>().GetVoteCount(i + 1);
-            if(ques != null)
+            if (ques != null)
             {
                 DisplayOptionSets[i].GetComponentInChildren<TMP_Text>().text =
                 "Option " + (i + 1).ToString() + ":  \"" + ques + "\" \tTotal votes: " + votes.ToString();
@@ -169,4 +195,76 @@ public class PerformerUserUIController : MonoBehaviour
             }
         }
     }
+
+    /*  Function	:	Truncate()
+    *
+    *	Description	:	this function takes in a string and an int and truncates the string to be of that length
+    *
+    *	Parameters	:	string value     : the string that needs to be checked/truncated
+    *	                int    maxLength : the length the string needs to be less than
+    *
+    *	Returns		:	string value : the resulting string after truncation
+    */
+    public static string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+        return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+    }
+
+    /*  Function	:	lightSet1()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Light Set 1" button on Visuals Dashboard
+    *	                It sets the lights that are being displayed to set 1, regardless of what is currently on
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+    public void lightSet1()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().LITE1();
+    }
+
+    /*  Function	:	lightSet2()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Light Set 2" button on Visuals Dashboard
+    *	                It sets the lights that are being displayed to set 2, regardless of what is currently on
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+    public void lightSet2()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().LITE2();
+    }
+
+    /*  Function	:	endPoll()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Background Set 1" button on Visuals Dashboard
+    *	                It sets the background object that are being displayed to set 1, regardless of what is currently on
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+    public void backgroundSet1()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().BG1();
+    }
+
+    /*  Function	:	endPoll()
+    *
+    *	Description	:	This function gets called when the performer clicks the "Background Set 1" button on Visuals Dashboard
+    *                   It sets the background object that are being displayed to set 2, regardless of what is currently on
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+    public void backgroundSet2()
+    {
+        stagecontrol.GetComponent<StageTopLevelController>().BG2();
+    }
+
 }

@@ -23,7 +23,6 @@ public class VotingSystemController : MonoBehaviour
 	public double hype;
 	#endregion
 
-
 	#region Private Members
 	private Client _client;
 	private string Username;
@@ -89,121 +88,14 @@ public class VotingSystemController : MonoBehaviour
 		InvokeRepeating("updateHype", 10f, 10f);
 	}
 
-	/*  Function	:	AddOptions()
-    *
-    *	Description	:	this function add a voting option to a dictionary
-    *					it gets called from PerformerUserUIController.cs
-    *					
-    *	Parameters	:	String OptionName : a string containing the text of the option to vote for
-    *
-    *	Returns		:	Void
-    */
-	public void AddOption(string optionName) 
-	{
-		//adding option to options list to keep track of voting count
-		Debug.Log("Adding Option \""+optionName + "\" ");
-		OptionData option = new OptionData(optionName);
-		options.Add(options.Count + 1, option);
-		totalOptions = options.Count;
-	}
-
-	/*  Function	:	NewQuestion()
-    *
-    *	Description	:	this function updates the question for the poll
-    *					it gets called from PerformerUserUIController.cs
-    *
-    *	Parameters	:	String question : a string containng the text for the new poll question
-    *
-    *	Returns		:	Void
-    */
-	public void NewQuestion(string question) 
-	{
-		this.Question = question;
-    }
-
-	/*  Function	:	Voting()
-    *
-    *	Description	:	this function actually casts the vote for the poll
-    *					this gets called from this file as well as UIManagement.cs when a desktop user casts a vote
-    *
-    *	Parameters	:	int optionNumber : an int that hold the option that was voted
-    *
-    *	Returns		:	Void
-    */
-	public void Voting(int optionNumber) 
-	{
-		if(active)
-        {
-			if (optionNumber > 0 && optionNumber <= 4 && options != null)
-			{
-				options[optionNumber].VoteCount += 1;
-			}
-		}
-    }
-
-	/*  Function	:	GetVoteCount()
-    *
-    *	Description	:	returns the number of votes counter for the specified option number
-    *
-    *	Parameters	:	int optionNumber : the index of the option asked for
-    *
-    *	Returns		:	integer holding the number of votes cast for specified option
-    */
-	public int GetVoteCount(int optionNumber) 
-	{ 
-		try
-		{
-			return options[optionNumber].VoteCount;
-		}
-		catch (Exception ex)
-		{
-			return 0;
-		}
-	}
-
-	/*  Function	:	GetOptionText()
-    *
-    *	Description	:	returns a string of the option for the specified option number
-    *
-    *	Parameters	:	int optionNumber : the index of the option asked for
-    *
-    *	Returns		:	string holding the text for the specified option
-    */
-	public string GetOptionText(int optionNumber)
-	{
-        try
-        {
-			return options[optionNumber].OptionName;
-		}
-		catch(Exception ex)
-        {
-			return null;
-        }
-	}
-
-	/*  Function	:	ClearVoting()
-    *
-    *	Description	:	resets the poll question and clears the option data
-    *					gets called from PerformerUserUIController.cs
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
-	public void ClearVoting() {
-		Debug.Log("Resetting the Poll");
-		options.Clear();
-		Question = "";
-    }
-
 	/*  Function	:	OnJoinedChannel
-    *
-    *	Description	:	event callback function that gets called when the bot joins a channel
-    *
-    *	Parameters	:	OnJoinedChannelArgs e : holds relevent information of the channel
-    *
-    *	Returns		:	Void
-    */
+	*
+	*	Description	:	event callback function that gets called when the bot joins a channel
+	*
+	*	Parameters	:	OnJoinedChannelArgs e : holds relevent information of the channel
+	*
+	*	Returns		:	Void
+	*/
 	private void OnJoinedChannel(object sender, TwitchLib.Client.Events.OnJoinedChannelArgs e)
 	{
 		Debug.Log($"The bot {e.BotUsername} just joined the channel: {e.Channel}");
@@ -227,17 +119,17 @@ public class VotingSystemController : MonoBehaviour
 		}
 
 		//check if message has desired emote if so add timestamp to list
-		if (e.ChatMessage.Message.Contains("PogChamp")	||
-			e.ChatMessage.Message.Contains("Mau5")		||
-			e.ChatMessage.Message.Contains("Hype")		||
-			e.ChatMessage.Message.Contains("Kreygasm")	||
-			e.ChatMessage.Message.Contains("Kappa")		||
+		if (e.ChatMessage.Message.Contains("PogChamp") ||
+			e.ChatMessage.Message.Contains("Mau5") ||
+			e.ChatMessage.Message.Contains("Hype") ||
+			e.ChatMessage.Message.Contains("Kreygasm") ||
+			e.ChatMessage.Message.Contains("Kappa") ||
 			e.ChatMessage.Message.Contains("CurseLit"))
 		{
 			chatHistory.Add(DateTime.Now);
 		}
 		hype = chatHistory.Count;
-    }
+	}
 
 	/*  Function	:	OnChatCommandReceived()
     *
@@ -250,9 +142,9 @@ public class VotingSystemController : MonoBehaviour
 	private void OnChatCommandReceived(object sender, TwitchLib.Client.Events.OnChatCommandReceivedArgs e)
 	{
 		Debug.Log($"Command received from {e.Command.ChatMessage.DisplayName}: {e.Command.ChatMessage.Message}");
-		
+
 		switch (e.Command.CommandText)
-        {
+		{
 			case "help":
 				_client.SendMessage(Username, "!about will tell you a little bit about myself.		" +
 					"!Vote# will cast a vote if there is a poll running (change # to the number of the option you wish to vote for.		" +
@@ -286,9 +178,114 @@ public class VotingSystemController : MonoBehaviour
 				_client.SendMessage(Username, "Sorry, I dont know that command, try !help for a list of commands");
 				break;
 		};
-		
-		
 	}
+
+	/*  Function	:	GetVoteCount()
+	*
+	*	Description	:	returns the number of votes counter for the specified option number
+	*
+	*	Parameters	:	int optionNumber : the index of the option asked for
+	*
+	*	Returns		:	integer holding the number of votes cast for specified option
+	*/
+	public int GetVoteCount(int optionNumber)
+	{
+		try
+		{
+			return options[optionNumber].VoteCount;
+		}
+		catch (Exception ex)
+		{
+			return 0;
+		}
+	}
+
+	/*  Function	:	GetOptionText()
+    *
+    *	Description	:	returns a string of the option for the specified option number
+    *
+    *	Parameters	:	int optionNumber : the index of the option asked for
+    *
+    *	Returns		:	string holding the text for the specified option
+    */
+	public string GetOptionText(int optionNumber)
+	{
+		try
+		{
+			return options[optionNumber].OptionName;
+		}
+		catch (Exception ex)
+		{
+			return null;
+		}
+	}
+
+	/*  Function	:	Voting()
+	*
+	*	Description	:	this function actually casts the vote for the poll
+	*					this gets called from this file as well as UIManagement.cs when a desktop user casts a vote
+	*
+	*	Parameters	:	int optionNumber : an int that hold the option that was voted
+	*
+	*	Returns		:	Void
+	*/
+	public void Voting(int optionNumber)
+	{
+		if (active)
+		{
+			if (optionNumber > 0 && optionNumber <= 4 && options != null)
+			{
+				options[optionNumber].VoteCount += 1;
+			}
+		}
+	}
+
+	/*  Function	:	AddOptions()
+    *
+    *	Description	:	this function add a voting option to a dictionary
+    *					it gets called from PerformerUserUIController.cs
+    *					
+    *	Parameters	:	String OptionName : a string containing the text of the option to vote for
+    *
+    *	Returns		:	Void
+    */
+	public void AddOption(string optionName) 
+	{
+		//adding option to options list to keep track of voting count
+		Debug.Log("Adding Option \""+optionName + "\" ");
+		OptionData option = new OptionData(optionName);
+		options.Add(options.Count + 1, option);
+		totalOptions = options.Count;
+	}
+
+	/*  Function	:	NewQuestion()
+    *
+    *	Description	:	this function updates the question for the poll
+    *					it gets called from PerformerUserUIController.cs
+    *
+    *	Parameters	:	String question : a string containng the text for the new poll question
+    *
+    *	Returns		:	Void
+    */
+	public void NewQuestion(string question) 
+	{
+		this.Question = question;
+    }
+
+	/*  Function	:	ClearVoting()
+    *
+    *	Description	:	resets the poll question and clears the option data
+    *					gets called from PerformerUserUIController.cs
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
+	public void ClearVoting() {
+		Debug.Log("Resetting the Poll");
+		options.Clear();
+		Question = "";
+    }
 
 	/*  Function	:	SendPollToChat()
     *
@@ -375,16 +372,40 @@ public class VotingSystemController : MonoBehaviour
 		hype = chatHistory.Count;
 	}
 
+	/*  Function	:	setActive()
+    *
+    *	Description	:	This function is used to set wether or not votes coming from twitch are counted
+    *
+    *	Parameters	:	Bool input : a boolean indecating if we want to start or stop vote counting
+    *
+    *	Returns		:	Void
+    */
 	public void setActive(bool input)
     {
 		active = input;
     }
 
+	/*  Function	:	cancelInvoke()
+    *
+    *	Description	:	This function allows us to stop the repeating function displaying voting results in chat from other C# files
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
 	public void cancelInvoke()
     {
 		CancelInvoke("SentResultToChat");
 	}
 
+	/*  Function	:	endPoll()
+    *
+    *	Description	:	this function sends a message to twtich chat that the poll has ended
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
 	public void endPoll()
     {
 		string message = "The Poll has ended!";
