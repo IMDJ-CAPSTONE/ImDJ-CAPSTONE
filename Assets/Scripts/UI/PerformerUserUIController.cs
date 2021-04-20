@@ -93,6 +93,7 @@ public class PerformerUserUIController : MonoBehaviour
                 {
                     optionText = Truncate(optionText, 70);
                 }
+                //add the option
                 VotingSystem.GetComponent<VotingSystemController>().AddOption(optionText);
             }
         }
@@ -108,6 +109,10 @@ public class PerformerUserUIController : MonoBehaviour
         OptionSets[3].SetActive(false);
         AddOptions.SetActive(true);
 
+
+        //setup main dashboard
+        updateMainDash();
+        InvokeRepeating("updateMainDash", 0.1f, 3f);
     }
 
     public static string Truncate(string value, int maxLength)
@@ -139,23 +144,29 @@ public class PerformerUserUIController : MonoBehaviour
     public void finalizePoll()
     {
         VotingSystem.GetComponent<VotingSystemController>().setActive(false);
+        VotingSystem.GetComponent<VotingSystemController>().endPoll();
         VotingSystem.GetComponent<VotingSystemController>().cancelInvoke();
         VotingSystem.GetComponent<VotingSystemController>().SentResultToChat();
+        CancelInvoke("updateMainDash");
+        updateMainDash();
+    }
 
-        for (int i=0;i<DisplayOptionSets.Length; i++)
+    public void updateMainDash()
+    {
+        for (int i = 0; i < DisplayOptionSets.Length; i++)
         {
             DisplayOptionSets[i].SetActive(true);
             string ques = VotingSystem.GetComponent<VotingSystemController>().GetOptionText(i + 1);
             int votes = VotingSystem.GetComponent<VotingSystemController>().GetVoteCount(i + 1);
-            DisplayOptionSets[i].GetComponentInChildren<TMP_Text>().text = 
-                "Option "+(i+1).ToString()+":  "+ ques + "\tTotal votes: " + votes.ToString();
+            if(ques != null)
+            {
+                DisplayOptionSets[i].GetComponentInChildren<TMP_Text>().text =
+                "Option " + (i + 1).ToString() + ":  \"" + ques + "\" \tTotal votes: " + votes.ToString();
+            }
+            else
+            {
+                DisplayOptionSets[i].SetActive(false);
+            }
         }
-
     }
-
-
-
-
-
-
 }

@@ -151,8 +151,15 @@ public class VotingSystemController : MonoBehaviour
     */
 	public int GetVoteCount(int optionNumber) 
 	{ 
-		return options[optionNumber].VoteCount;
-    }
+		try
+		{
+			return options[optionNumber].VoteCount;
+		}
+		catch (Exception ex)
+		{
+			return 0;
+		}
+	}
 
 	/*  Function	:	GetOptionText()
     *
@@ -164,12 +171,14 @@ public class VotingSystemController : MonoBehaviour
     */
 	public string GetOptionText(int optionNumber)
 	{
-		//OptionData od = null;
-		//if (options.ContainsKey(optionNumber))
-		//{
-		//	od = options[optionNumber];
-		//}
-		return options[optionNumber].OptionName;
+        try
+        {
+			return options[optionNumber].OptionName;
+		}
+		catch(Exception ex)
+        {
+			return null;
+        }
 	}
 
 	/*  Function	:	ClearVoting()
@@ -374,5 +383,11 @@ public class VotingSystemController : MonoBehaviour
 	public void cancelInvoke()
     {
 		CancelInvoke("SentResultToChat");
+	}
+
+	public void endPoll()
+    {
+		string message = "The Poll has ended!";
+		_client.SendMessage(Username, message);
 	}
 }
