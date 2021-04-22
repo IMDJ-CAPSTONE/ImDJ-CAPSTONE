@@ -26,20 +26,16 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 
 	private TcpClient client;			// the client which will connect to the server
 	private Thread readThread;          // the thread for reading from the server
-
-
 	private Texture2D camTexture;		// the texture to display images on
 	private RawImage image;				// the image of the in scene canvas
-	private byte[] data;		// the data from the server 
-	
+	private byte[] data;				// the data from the server 
 	private volatile bool loadImage;    // flag whether or not to apply data to the texture
 
 	#endregion
 
 	#region MonoBehaviour Callbacks
 
-	/*
-	 * METHOD     : Start()
+	/* METHOD     : Start()
 	 * DESCRIPTION: Called before the first frame. This will ensure it is not the performer
 	 *				user, instantiate the client, and set the load image flag to false.
 	 * PARAMETERS : 
@@ -47,7 +43,6 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	void Start()
     {
 		if ((UserInstantiation.UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserInstantiation.UserType.Performer)
@@ -60,15 +55,13 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 		loadImage = false;
 	}
 
-    /*
-	 * METHOD     : Update()
+    /* METHOD     : Update()
 	 * DESCRIPTION: Called once per frame. If there is data to load, then apply it to the texture.
 	 * PARAMETERS : 
 	 *      VOID
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
     private void Update()
     {
 		if (loadImage)
@@ -79,36 +72,31 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 		}
 	}
 
-	/*
-	 * METHOD     : OnEnable()
+	/* METHOD     : OnEnable()
 	 * DESCRIPTION: Used to hook this up to photon network callbacks.
 	 * PARAMETERS : 
 	 *      VOID
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	private void OnEnable()
 	{
 		PhotonNetwork.AddCallbackTarget(this);
 	}
 
-	/*
-	 * METHOD     : OnDisable()
+	/* METHOD     : OnDisable()
 	 * DESCRIPTION: Used to unhook this from photon network callbacks.
 	 * PARAMETERS : 
 	 *      VOID
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	private void OnDisable()
 	{
 		PhotonNetwork.RemoveCallbackTarget(this);
 	}
 
-	/*
-	 * METHOD     : OnDestroy()
+	/* METHOD     : OnDestroy()
 	 * DESCRIPTION: Called when this is destroyed. Will clean up connections
 	 *				and threads.
 	 * PARAMETERS : 
@@ -116,14 +104,12 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	private void OnDestroy()
 	{
 		CleanUp();
 	}
 
-	/*
-	 * METHOD     : OnApplicationQuit()
+	/* METHOD     : OnApplicationQuit()
 	 * DESCRIPTION: Called when this application closes. Will clean up connections
 	 *				and threads.
 	 * PARAMETERS : 
@@ -131,7 +117,6 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	void OnApplicationQuit()
 	{
 		CleanUp();
@@ -141,8 +126,7 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 
 	#region Private Methods
 
-	/*
-	 * METHOD     : ClientThread()
+	/* METHOD     : ClientThread()
 	 * DESCRIPTION: This will read the size of the frame in when data is available then
 	 *				use this to read the frame into the data, and if the read was successful
 	 *				it will set the load image flag signifying the data is ready.
@@ -151,7 +135,6 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	private void ClientThread()
 	{
 		NetworkStream stream = client.GetStream();
@@ -182,15 +165,13 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 		}
 	}
 
-	/*
-	 * METHOD     : CleanUp()
+	/* METHOD     : CleanUp()
 	 * DESCRIPTION: This will close the connection and abort the client thread.
 	 * PARAMETERS : 
 	 *      VOID
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	private void CleanUp()
 	{
 		if (client != null)
@@ -210,8 +191,7 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 
 	#region IOnEventCallback Implementation
 
-	/*
-	 * METHOD     : OnEvent()
+	/* METHOD     : OnEvent()
 	 * DESCRIPTION: This method is called when a photon event is fired. If it is the
 	 *				webcam event it will read the hostname and port and use them to
 	 *				connect to the server. It will also read the height and width of the images
@@ -221,7 +201,6 @@ public class WebcamClient : MonoBehaviour, IOnEventCallback
 	 * RETURNS    : 
 	 *      VOID
 	 */
-
 	public void OnEvent(EventData photonEvent)
 	{
 		// if this is the instantiation event

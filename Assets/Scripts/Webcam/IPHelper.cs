@@ -1,12 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*  FILE          : 	PerformerUserUIController.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	a class to help with various IP related requirments 
+*/
+
 using System.Net;
-using UnityEngine;
 
 // https://stickler.de/en/information/code-snippets/get-external-ip
 
 public static class IPHelper
 {
+	/*  Function	:	GetExternalIPAddress()
+    *
+    *	Description	:	this function looks for the public/external ip address of the host
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
 	public static IPAddress GetExternalIPAddress()
 	{
 		IPHostEntry myIPHostEntry = Dns.GetHostEntry(Dns.GetHostName());
@@ -27,7 +39,14 @@ public static class IPHelper
 		return null;
 	}
 
-
+	/*  Function	:	IsPrivateIP()
+    *
+    *	Description	:	this function get called before anything else happens
+    *
+    *	Parameters	:	IPAddress myIPAddress :  the address you want to check
+    *
+    *	Returns		:	bool telling if the passed in IP is private or not
+    */
 	private static bool IsPrivateIP(IPAddress myIPAddress)
 	{
 		if (myIPAddress.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
@@ -59,7 +78,15 @@ public static class IPHelper
 		return false;
 	}
 
-
+	/*  Function	:	CompareIpAddress()
+    *
+    *	Description	:	this function compares two IP addresses and returns a true if the are identical
+    *
+    *	Parameters	:	IPAddress IPAddress1 : the first address
+    *					IPAddress IPAddress2 : the other address
+    *
+    *	Returns		:	bool : true if they match otherwise false
+    */
 	private static bool CompareIpAddress(IPAddress IPAddress1, IPAddress IPAddress2)
 	{
 		byte[] b1 = IPAddress1.GetAddressBytes();
