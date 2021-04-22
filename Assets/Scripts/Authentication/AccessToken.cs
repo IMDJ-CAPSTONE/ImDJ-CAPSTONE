@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*  FILE          : 	AccessToken.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	Contains the class we use to hold authentication data receieved from twitch
+*/
+using System;
 using UnityEngine;
 
 [Serializable]
