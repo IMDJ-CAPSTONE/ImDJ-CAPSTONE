@@ -68,7 +68,6 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
      * RETURNS    : 
      *      VOID
      */
-
     void Awake()
     {
         players = new Dictionary<int, GameObject>();
@@ -83,7 +82,6 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
      * RETURNS    : 
      *      VOID
      */
-
     private void OnEnable()
     {
         PhotonNetwork.AddCallbackTarget(this);
@@ -99,7 +97,6 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
      * RETURNS    : 
      *      VOID
      */
-
     private void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
@@ -116,7 +113,6 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
      * RETURNS    : 
      *      VOID
      */
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject player;      // the local player that will be instantiated
@@ -183,7 +179,6 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
      * RETURNS    : 
      *      VOID
      */
-
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         GameObject player;
@@ -207,7 +202,6 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
      * RETURNS    : 
      *      VOID
      */
-
     public void OnEvent(EventData photonEvent)
     {
         // if this is the instantiation event

@@ -12,7 +12,6 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 #endregion
 
@@ -21,7 +20,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
     #region Fields
 
     public static PhotonController Instance = null;     // Instance of this class to allow access without refeence
-
     private UIController ui;                            // the ui
 
     #endregion
@@ -37,7 +35,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     void Awake()
     {
         if (Instance != null)
@@ -61,7 +58,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     private void OnApplicationQuit()
     {
         Disconnect();
@@ -79,7 +75,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public override void  OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
@@ -95,7 +90,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
@@ -111,7 +105,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -127,7 +120,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         base.OnJoinRandomFailed(returnCode, message);
@@ -143,7 +135,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
@@ -162,7 +153,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public void Connect()
     {
         if (PhotonNetwork.IsConnectedAndReady)
@@ -184,7 +174,6 @@ public class PhotonController : MonoBehaviourPunCallbacks
      * RETURNS    : 
      *      VOID
      */
-
     public void Disconnect()
     {
         if (PhotonNetwork.IsConnected)
