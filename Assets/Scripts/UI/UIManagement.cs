@@ -1,4 +1,11 @@
-﻿using Lean.Gui;
+﻿/*  FILE          : 	UIManagement.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	Contains the logic managing the UI for all users
+*/
+
+using Lean.Gui;
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +24,14 @@ public class UIManagement : MonoBehaviourPunCallbacks
     private GameObject PerformerPollingUIResourceButton;
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
-    //menu stuff here
-
-    
+    /*  Function	:	StartFromScenarioManager()
+    *
+    *	Description	:	this function sets up the UI for all users and some addional setup for performer
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void StartFromScenarioManager()
     {
         UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
@@ -38,12 +50,28 @@ public class UIManagement : MonoBehaviourPunCallbacks
         }
     }
 
+    /*  Function	:	SendActorNum()
+    *
+    *	Description	:	this function sets the perfActorNum to whatever was passed in
+    *
+    *	Parameters	:	int _perfActorNum : the number you wish to set as perfActorNum
+    *
+    *	Returns		:	Void
+    */
     [PunRPC]
     public void SendActorNum(int _perfActorNum)
     {
         perfActorNum = _perfActorNum;
     }
-    
+
+    /*  Function	:	VotingShownForDesktopRPC()
+    *
+    *	Description	:	this function sets up the data to be displayed for desktop users when a Poll is created
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void VotingShownForDesktopRPC()
     {
         List<string> theOptions = new List<string>();
@@ -58,6 +86,16 @@ public class UIManagement : MonoBehaviourPunCallbacks
             votingSystem.GetComponent<VotingSystemController>().totalOptions);
     }
 
+    /*  Function	:	DisplayVotingPanelRPC()
+    *
+    *	Description	:	this function gets data to be displayed in the voting UI for desktop users
+    *
+    *	Parameters	:	string[] theOptions : an array of strings holding the options user can vote for
+    *	                string   question   : the question that the users are voting on
+    *	                int totalOptions    : the number of options the user can pick from
+    *
+    *	Returns		:	Void
+    */
     [PunRPC]
     private void DisplayVotingPanelRPC(string[] theOptions, string question, int totalOptions)
     {
@@ -82,6 +120,14 @@ public class UIManagement : MonoBehaviourPunCallbacks
         }
     }
 
+    /*  Function	:	VoteRPC()
+    *
+    *	Description	:	this function handles the casting of votes by taking in a number and casting a vote to the specified option
+    *
+    *	Parameters	:	int voteOption : a number representing what option was votes for
+    *
+    *	Returns		:	Void
+    */
     [PunRPC]
     private void VoteRPC(int voteOption)
     {

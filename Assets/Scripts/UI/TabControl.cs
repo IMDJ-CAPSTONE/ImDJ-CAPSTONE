@@ -38,8 +38,7 @@ public class TabControl : MonoBehaviour
 
     #region MonoBehaviour Callbacks
 
-    /*
-     * METHOD     : Start()
+    /* METHOD     : Start()
      * DESCRIPTION: Called before the first frame update. This will instantiate the list
      *              of selectables, check this object for a selectable and then make the
      *              call to populate said list from all child gameobjects.
@@ -48,7 +47,6 @@ public class TabControl : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     void Start()
     {
         current = this;
@@ -62,22 +60,19 @@ public class TabControl : MonoBehaviour
         PopulateList(transform);
     }
 
-    /*
-     * METHOD     : Update()
+    /* METHOD     : Update()
      * DESCRIPTION: This method is called once per frame. It will check for user input.
      * PARAMETERS : 
      *      VOID
      * RETURNS    : 
      *      VOID
      */
-
     void Update()
     {
         GetInput();
     }
 
-    /*
-     * METHOD     : Update()
+    /* METHOD     : Update()
      * DESCRIPTION: This method is called when the object is enabled, and will set
      *              Current to this TabControl.
      * PARAMETERS : 
@@ -85,7 +80,6 @@ public class TabControl : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     private void OnEnable()
     {
         current = this;
@@ -95,8 +89,7 @@ public class TabControl : MonoBehaviour
 
     #region Private Methods
 
-    /*
-     * METHOD     : PopulateList()
+    /* METHOD     : PopulateList()
      * DESCRIPTION: This method will check each child of the transform passed in for a selectable
      *              component and if so it will add it to the list. If the child transform
      *              has children it will recursively call itself on each to find all selectables
@@ -106,7 +99,6 @@ public class TabControl : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     private void PopulateList(Transform trans)
     {
         // loop through each child of this transform
@@ -127,8 +119,7 @@ public class TabControl : MonoBehaviour
         }
     }
 
-    /*
-     * METHOD     : GetInput()
+    /* METHOD     : GetInput()
      * DESCRIPTION: This method will be called from update and will check if the user pressed the tab
      *              key. If so it will move the selection to the next selectable in the list.
      * PARAMETERS : 
@@ -136,7 +127,6 @@ public class TabControl : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     private void GetInput()
     {
         // if unselected in some other way set selected accordingly

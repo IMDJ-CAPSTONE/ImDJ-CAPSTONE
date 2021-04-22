@@ -13,8 +13,6 @@ using ExitGames.Client.Photon;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Valve.VR;
 
 #endregion
 
@@ -52,8 +50,7 @@ public class UIController : MonoBehaviour
 
     #region MonoBehaviour Callbacks
 
-    /*
-     * METHOD     : Start()
+    /* METHOD     : Start()
      * DESCRIPTION: Called before the first frame update. This will get a reference to the
      *              debug text.
      * PARAMETERS : 
@@ -61,7 +58,6 @@ public class UIController : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     private void Start()
     {
         clickAudio = GetComponent<AudioSource>();
@@ -69,7 +65,6 @@ public class UIController : MonoBehaviour
         //DesktopMenu.SetActive(!usingVR);
         //VRMenu.SetActive(usingVR);
         VRMenu.SetActive(false);
-
         debugText = GameObject.FindGameObjectWithTag("Debug").GetComponent<TextMeshProUGUI>();
     }
 
@@ -77,29 +72,25 @@ public class UIController : MonoBehaviour
 
     #region Public Methods
 
-    /*
-     * METHOD     : ClickAudioPlay()
+    /* METHOD     : ClickAudioPlay()
      * DESCRIPTION: Public method to allow other classes to play the audio. 
      * PARAMETERS : 
      *      VOID
      * RETURNS    : 
      *      VOID
      */
-
     public void PlayClickAudio()
     {
         clickAudio.Play();
     }
 
-    /*
-     * METHOD     : Quit()
+    /* METHOD     : Quit()
      * DESCRIPTION: Public method to allow other classes to exit the application.
      * PARAMETERS : 
      *      VOID
      * RETURNS    : 
      *      VOID
      */
-
     public void Quit()
     {
         #if UNITY_EDITOR
@@ -113,8 +104,7 @@ public class UIController : MonoBehaviour
 
     #region Button Click Handlers
 
-    /*
-     * METHOD     : PeformerUserStart()
+    /* METHOD     : PeformerUserStart()
      * DESCRIPTION: Called when the PeformerUserStart buttton is clicked. Will run the photon test
      *              to attempt to connect to the photon servers.
      * PARAMETERS : 
@@ -122,7 +112,6 @@ public class UIController : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     public void PeformerUserStart()
     {
         PlayClickAudio();
@@ -132,8 +121,7 @@ public class UIController : MonoBehaviour
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
-    /*
-     * METHOD     : PeformerUserStart()
+    /* METHOD     : PeformerUserStart()
      * DESCRIPTION: Called when the PeformerUserStart buttton is clicked. Will run the photon test
      *              to attempt to connect to the photon servers.
      * PARAMETERS : 
@@ -141,7 +129,6 @@ public class UIController : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     public void DesktopUserStart()
     {
         PlayClickAudio();
@@ -151,8 +138,7 @@ public class UIController : MonoBehaviour
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
-    /*
-     * METHOD     : VRTestClick()
+    /* METHOD     : VRTestClick()
      * DESCRIPTION: Called when the VR test button is clicked. Will take the user to the
      *              VR test scene.
      * PARAMETERS : 
@@ -160,7 +146,6 @@ public class UIController : MonoBehaviour
      * RETURNS    : 
      *      VOID
      */
-
     public void VRTestClick()
     {
         PlayClickAudio();
@@ -174,15 +159,13 @@ public class UIController : MonoBehaviour
         }
     }
 
-    /*
-     * METHOD     : ExitClick()
+    /* METHOD     : ExitClick()
      * DESCRIPTION: Called when the exit button is clicked. Will exit the application.
      * PARAMETERS : 
      *      VOID
      * RETURNS    : 
      *      VOID
      */
-
     public void ExitClick()
     {
         PlayClickAudio();

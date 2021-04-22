@@ -12,7 +12,6 @@
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 #endregion
 
@@ -27,8 +26,7 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     #region MonoBehaviour Callbacks
 
-    /*
-     * METHOD     : Start()
+    /* METHOD     : Start()
      * DESCRIPTION: Called before the first frame update. This will get reference to
      *              the attached AudioSource component. 
      * PARAMETERS : 
@@ -36,7 +34,6 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
      * RETURNS    : 
      *      VOID
      */
-
     private void Start()
     {
         hoverAudio = GetComponent<AudioSource>();
@@ -46,15 +43,13 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     #region Public Methods
 
-    /*
-     * METHOD     : PlayHoverAudio()
+    /* METHOD     : PlayHoverAudio()
      * DESCRIPTION: Public method to allow other classes to play the audio. 
      * PARAMETERS : 
      *      VOID
      * RETURNS    : 
      *      VOID
      */
-
     public void PlayHoverAudio()
     {
         hoverAudio.Play();
@@ -64,8 +59,7 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     #region Interface Implementations
 
-    /*
-     * METHOD     : OnPointerEnter()
+    /* METHOD     : OnPointerEnter()
      * DESCRIPTION: The implementation of IPointerEnterHandler. This will be called whenever
      *              the mouse enters this UI elements bounds. It will play the audio from
      *              the attached AudioSource.
@@ -74,7 +68,6 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
      * RETURNS    : 
      *      VOID
      */
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         PlayHoverAudio();
@@ -85,8 +78,7 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
-    /*
-     * METHOD     : OnPointerExit()
+    /* METHOD     : OnPointerExit()
      * DESCRIPTION: The implementation of IPointerExitHandler. This will be called whenever
      *              the mouse exits this UI elements bounds. It will deselect the button.
      * PARAMETERS : 
@@ -94,7 +86,6 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
      * RETURNS    : 
      *      VOID
      */
-
     public void OnPointerExit(PointerEventData eventData)
     {
         if (EventSystem.current.currentSelectedGameObject == gameObject)
