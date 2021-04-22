@@ -1,10 +1,17 @@
-﻿using Photon.Pun;
+﻿/*  FILE          : 	StageTopLevelController.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	Contains the logic for altering the visuals in Unity
+*/
+
+using Photon.Pun;
 using System.IO;
 using UnityEngine;
 
 public class StageTopLevelController : MonoBehaviour
 {
-
+    private AbletonLink link;
     private PhotonView PV;
     public GameObject LightsGO;
     public GameObject Lights;
@@ -14,9 +21,14 @@ public class StageTopLevelController : MonoBehaviour
     long lastbeatnum;
     long beatnum;
 
-    private AbletonLink link;
-
-    // Start is called before the first frame update
+    /*  Function	:	Start()
+    *
+    *	Description	:	this function get called before anything else happens
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -27,7 +39,14 @@ public class StageTopLevelController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    /*  Function	:	Update()
+    *
+    *	Description	:	this function is classed once per frame
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     void Update()
     {
         if (PV.IsMine)
@@ -57,6 +76,15 @@ public class StageTopLevelController : MonoBehaviour
     }
 
     #region Lights
+
+    /*  Function	:	LITE1()
+    *
+    *	Description	:	this function deletes the object StageLights and then reinstantiates a differnet set of lights
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void LITE1()
     {
         if(GameObject.FindGameObjectWithTag("StageLights"))
@@ -66,6 +94,15 @@ public class StageTopLevelController : MonoBehaviour
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "LITE1"), transform.position, transform.rotation);
         PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
     }
+
+    /*  Function	:	LITE2()
+    *
+    *	Description	:	this function deletes the object StageLights and then reinstantiates a differnet set of lights
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void LITE2()
     {
         if (GameObject.FindGameObjectWithTag("StageLights"))
@@ -76,6 +113,14 @@ public class StageTopLevelController : MonoBehaviour
         PV.RPC("setLightParentAndPos", RpcTarget.AllBuffered);
     }
 
+    /*  Function	:	setLightParentAndPos()
+    *
+    *	Description	:	this function gets a gameObject with the tag StageLights and sets it transform
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     [PunRPC]
     private void setLightParentAndPos()
     {
@@ -85,6 +130,15 @@ public class StageTopLevelController : MonoBehaviour
     #endregion
 
     #region Backgrounds
+
+    /*  Function	:	BG1()
+    *
+    *	Description	:	this function deletes the object BackGround and then reinstantiates a differnet background object
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void BG1()
     {
         if (GameObject.FindGameObjectWithTag("BackGround"))
@@ -94,6 +148,15 @@ public class StageTopLevelController : MonoBehaviour
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "StageElements", "BG1"), transform.position, transform.rotation);
         PV.RPC("setBackgroundParentAndPos", RpcTarget.AllBuffered);
     }
+
+    /*  Function	:	BG2()
+    *
+    *	Description	:	this function deletes the object BackGround and then reinstantiates a differnet background object
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     public void BG2()
     {
         if (GameObject.FindGameObjectWithTag("BackGround"))
@@ -104,6 +167,14 @@ public class StageTopLevelController : MonoBehaviour
         PV.RPC("setBackgroundParentAndPos", RpcTarget.AllBuffered);
     }
 
+    /*  Function	:	setBackgroundParentAndPos()
+    *
+    *	Description	:	this function gets a gameObject with the tag BackGround and sets it transform
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     [PunRPC]
     private void setBackgroundParentAndPos()
     {

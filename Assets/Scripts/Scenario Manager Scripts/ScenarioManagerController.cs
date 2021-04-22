@@ -1,4 +1,4 @@
-﻿/*  FILE          : 	PerformerUserUIController.cs
+﻿/*  FILE          : 	ScenarioManagerController.cs
 *   PROJECT       : 	PROG3221 - Capstone
 *   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
 *   FIRST VERSION : 	2021-04-05
