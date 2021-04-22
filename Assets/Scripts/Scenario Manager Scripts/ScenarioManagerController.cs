@@ -1,8 +1,14 @@
-﻿using Photon.Pun;
-using UnityEngine;
-using static UserInstantiation;
+﻿/*  FILE          : 	PerformerUserUIController.cs
+*   PROJECT       : 	PROG3221 - Capstone
+*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   FIRST VERSION : 	2021-04-05
+*   DESCRIPTION   : 	This class sets up the behind the scenes objects for the performer when they connect
+*/
+
 using Photon.Pun;
 using System.IO;
+using UnityEngine;
+using static UserInstantiation;
 
 public class ScenarioManagerController : MonoBehaviour
 {
@@ -11,7 +17,14 @@ public class ScenarioManagerController : MonoBehaviour
     public GameObject StageControllerResource;
     public GameObject VotingSystem;
 
-    // Start is called before the first frame update
+    /*  Function	:	Start()
+    *
+    *	Description	:	this function get called before anything else happens
+    *
+    *	Parameters	:	None
+    *
+    *	Returns		:	Void
+    */
     void Start()
     {
         if ((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Performer)
@@ -24,13 +37,5 @@ public class ScenarioManagerController : MonoBehaviour
             Debug.Log("");
         }
         UIManagement.GetComponent<UIManagement>().StartFromScenarioManager();
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
