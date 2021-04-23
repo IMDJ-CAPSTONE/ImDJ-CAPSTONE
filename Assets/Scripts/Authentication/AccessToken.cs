@@ -1,12 +1,15 @@
-﻿/*  FILE          : 	AccessToken.cs
-*   PROJECT       : 	PROG3221 - Capstone
-*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
-*   FIRST VERSION : 	2021-04-05
-*   DESCRIPTION   : 	Contains the class we use to hold authentication data receieved from twitch
+﻿/*! @file       : 	AccessToken.cs
+*   @author     : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   @date       : 	2021-03-01
+*   @brief      : 	Contains the class we use to hold authentication data receieved from twitch
 */
-using System;
-using UnityEngine;
 
+using System;
+
+/*! <summary>
+*  Contains all the data needed to be authorized using Twitch.tv oauth2 servers
+*  </summary>
+*/
 [Serializable]
 public class AccessToken
 {

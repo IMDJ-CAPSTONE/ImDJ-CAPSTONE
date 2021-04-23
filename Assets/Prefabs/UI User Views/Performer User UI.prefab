@@ -1455,6 +1455,7 @@ MonoBehaviour:
   - {fileID: 0}
   DisplayOptionSets: []
   PollQuestion: {fileID: 2162521005900905865}
+  DisplayQuestion: {fileID: 2327131658918574263}
   VotingSystem: {fileID: 352026973429864892, guid: daad12e88a73dc64c97909c0b40525a1,
     type: 3}
   NewPollButton: {fileID: 2077878363666970234}

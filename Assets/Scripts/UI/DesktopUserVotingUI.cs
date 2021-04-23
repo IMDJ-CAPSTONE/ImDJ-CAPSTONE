@@ -1,8 +1,7 @@
-﻿/*  FILE          : 	DesltopUserVotingUI.cs
-*   PROJECT       : 	PROG3221 - Capstone
-*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
-*   FIRST VERSION : 	2021-04-05
-*   DESCRIPTION   : 	Contains the logic for desktop user voting
+﻿/*! @file       : 	DesltopUserVotingUI.cs
+*   @author     : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   @date       : 	2021-03-12
+*   @brief      : 	Contains the logic for desktop user voting
 */
 
 using Lean.Gui;
@@ -11,6 +10,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*! <summary>
+*  Contains the logic for desktop user voting
+*  </summary>
+*/
 public class DesktopUserVotingUI : MonoBehaviour
 {
     private GameObject[] voteButtons;
@@ -19,29 +22,24 @@ public class DesktopUserVotingUI : MonoBehaviour
     public GameObject questionText;
     public Action<int> voteOption;
 
-    /*  Function	:	Start()
-    *
-    *	Description	:	this function get called before anything else happens
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
-    void Start()
+    /*! <summary>
+     *  this function get called before anything else happens
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
+    private void Start()
     {
-        
     }
 
-    /*  Function	:	setupIU()
-    *
-    *	Description	:	this function sets up the UI for desktop users when a Poll is available
-    *
-    *	Parameters	:	int optionCount  : the number of options there are in the Poll
-    *	                string[] options : an array of strings holding the text of what you are voting for
-    *	                string question  : the question asked in the Poll
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function sets up the UI for desktop users when a Poll is available
+     *  </summary>
+     *  <param name="optionCount">the number of options there are in the Poll</param>
+     *  <param name="options">an array of strings holding the text of what you are voting for</param>
+     *  <param name="question">the question asked in the Poll</param>
+     *  <returns>void</returns>
+     */
     public void setupUI(int optionCount, string[] options, string question)
     {
         voteButtons = new GameObject[optionCount];
@@ -58,32 +56,27 @@ public class DesktopUserVotingUI : MonoBehaviour
         }
     }
 
-    /*  Function	:	ExitVoteMenu()
-    *
-    *	Description	:	this function destroys the object containing the voting UI
-    *	                its called after a vote is cast
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function destroys the object containing the voting UI its called after a vote is cast
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
     public void ExitVoteMenu()
     {
         Destroy(gameObject);
     }
 
-    /*  Function	:	sendVote()
-    *
-    *	Description	:	this function get called when a user selects an option to vote for
-    *
-    *	Parameters	:	int i : the number representing what the user chose to vote for
-    *
-    *	Returns		:	Void
-    */
-    public void sendVote(int i)
+    /*! <summary>
+     *  this function get called when a user selects an option to vote for
+     *  </summary>
+     *  <param name="vote">the number representing what the user chose to vote for</param>
+     *  <returns>void</returns>
+     */
+    public void sendVote(int vote)
     {
-        this.voteOption?.Invoke(i);
-        Debug.Log(i.ToString());
+        this.voteOption?.Invoke(vote);
+        Debug.Log(vote.ToString());
         ExitVoteMenu();
     }
 }

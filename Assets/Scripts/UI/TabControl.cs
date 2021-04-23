@@ -1,14 +1,8 @@
-﻿/*
- *  FILE          :	TabControl.cs
- *  PROJECT       :	ImDJ Capstone Project 
- *  PROGRAMMER    :	Michael Hilts - 5377643
- *  FIRST VERSION :	Feb 6, 2021
- *  DESCRIPTION   : This file contains the TabControl script which can be placed on
- *                  a ui game object to allow the user to tab through any selectables
- *                  in either itself or any children in its directory structure.
- *                  NOTE: Only one TabControl should be active at a time as current will
- *                  only reference the most recently activated.
- */
+﻿/*! @file       : 	TabControl.cs
+*   @author     : 	Michael Hilts, Ivan Granic
+*   @date       : 	2021-02-06
+*   @brief      : 	This file contains the TabControl script to help maneuver through selectables
+*/
 
 #region Resources
 
@@ -17,37 +11,44 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-#endregion
+#endregion Resources
 
+/*! <summary>
+*  This file contains the TabControl script which can be placed on
+*  a ui game object to allow the user to tab through any selectables
+*  in either itself or any children in its directory structure.
+*  NOTE: Only one TabControl should be active at a time as current will
+*  only reference the most recently activated.
+*  </summary>
+*/
 public class TabControl : MonoBehaviour
 {
     #region Fields
 
     public static TabControl current;       // most recently activated TabControl
 
-    private List<Selectable> selectables;   // a list of all selectables under this game object   
+    private List<Selectable> selectables;   // a list of all selectables under this game object
     private int selected = -1;              // the currently selected ui element, -1 means none
 
-    #endregion
+    #endregion Fields
 
     #region Properties
 
     public bool UsingMouse { get; set; } = false;
 
-    #endregion
+    #endregion Properties
 
     #region MonoBehaviour Callbacks
 
-    /* METHOD     : Start()
-     * DESCRIPTION: Called before the first frame update. This will instantiate the list
-     *              of selectables, check this object for a selectable and then make the
-     *              call to populate said list from all child gameobjects.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called before the first frame update. This will instantiate the list
+     *  of selectables, check this object for a selectable and then make the
+     *  call to populate said list from all child gameobjects.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
-    void Start()
+    private void Start()
     {
         current = this;
 
@@ -60,44 +61,40 @@ public class TabControl : MonoBehaviour
         PopulateList(transform);
     }
 
-    /* METHOD     : Update()
-     * DESCRIPTION: This method is called once per frame. It will check for user input.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  This method is called once per frame. It will check for user input.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
-    void Update()
+    private void Update()
     {
         GetInput();
     }
 
-    /* METHOD     : Update()
-     * DESCRIPTION: This method is called when the object is enabled, and will set
-     *              Current to this TabControl.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  This method is called when the object is enabled, and will set Current to this TabControl.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void OnEnable()
     {
         current = this;
     }
 
-    #endregion
+    #endregion MonoBehaviour Callbacks
 
     #region Private Methods
 
-    /* METHOD     : PopulateList()
-     * DESCRIPTION: This method will check each child of the transform passed in for a selectable
-     *              component and if so it will add it to the list. If the child transform
-     *              has children it will recursively call itself on each to find all selectables
-     *              in the directory structure below the gameobject with this script attached.
-     * PARAMETERS : 
-     *      Transform trans: The transform whose children should be searched through for selectables.
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  This method will check each child of the transform passed in for a selectable
+     *  component and if so it will add it to the list. If the child transform
+     *  has children it will recursively call itself on each to find all selectables
+     *  in the directory structure below the gameobject with this script attached.
+     *  </summary>
+     *  <param name="trans">The transform whose children should be searched through for selectables.</param>
+     *  <returns>void</returns>
      */
     private void PopulateList(Transform trans)
     {
@@ -119,13 +116,12 @@ public class TabControl : MonoBehaviour
         }
     }
 
-    /* METHOD     : GetInput()
-     * DESCRIPTION: This method will be called from update and will check if the user pressed the tab
-     *              key. If so it will move the selection to the next selectable in the list.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  This method will be called from update and will check if the user pressed the tab
+     *  key. If so it will move the selection to the next selectable in the list.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void GetInput()
     {
@@ -174,5 +170,5 @@ public class TabControl : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Private Methods
 }

@@ -1,8 +1,7 @@
-﻿/*  FILE          : 	LoginScript.cs
-*   PROJECT       : 	PROG3221 - Capstone
-*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
-*   FIRST VERSION : 	2021-04-05
-*   DESCRIPTION   : 	This file handles the Login verification with Twitch oauth2
+﻿/*! @file       : 	LoginScript.cs
+*   @author     : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   @date       : 	2021-03-01
+*   @brief      : 	This file handles the Login verification with Twitch oauth2
 */
 
 using Proyecto26;
@@ -12,9 +11,14 @@ using System.Net;
 using System.Threading;
 using UnityEngine;
 
+/*! <summary>
+*  This file handles the Login verification with Twitch oauth2
+*  </summary>
+*/
 public class LoginScript : MonoBehaviour
 {
     public GameObject appMenu;
+
     private static AccessToken accessToken = null;
     private HttpListener listener;
     private Thread listenerThread;
@@ -28,16 +32,14 @@ public class LoginScript : MonoBehaviour
     private static bool runServer = true;
     private static bool calledAPI = true;
     private static bool authenticated = false;
-    
-    /*  Function	:	Start()
-    *
-    *	Description	:	This function get called before anything else happens
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
-    void Start()
+
+    /*! <summary>
+     *  This function get executed before anything else in this file
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
+    private void Start()
     {
         listener = new HttpListener();
         listener.Prefixes.Add(redirectUri);
@@ -51,15 +53,13 @@ public class LoginScript : MonoBehaviour
         Debug.Log("Server Started");
     }
 
-    /*  Function	:	Update()
-    *
-    *	Description	:	This function get called once every frame
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
-    void Update()
+    /*! <summary>
+     *  This function get called once every frame
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
+    private void Update()
     {
         if (!runServer && calledAPI)
         {
@@ -77,20 +77,18 @@ public class LoginScript : MonoBehaviour
         }
     }
 
-    /*  Function	:	GetToken()
-    *
-    *	Description	:	This function sends an HTTP Post to Twitch oauth2 server with client data and if it receives
-    *	                an HTTP 200 as response then the user has been succesfully authorized 
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
-    void GetToken()
+    /*! <summary>
+     *  This function sends an HTTP Post to Twitch oauth2 server with client data and if it receives
+     *  an HTTP 200 as response then the user has been succesfully authorized
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
+    private void GetToken()
     {
-        RestClient.Post(tokenUrl, "").Then(response => {
-            
-            if(response.StatusCode == 200)
+        RestClient.Post(tokenUrl, "").Then(response =>
+        {
+            if (response.StatusCode == 200)
             {
                 //EditorUtility.DisplayDialog("Authetication", "You have succsfully Logedin Using Twitch", "Ok");
                 Debug.Log("You have succsfully Logedin Using Twitch");
@@ -101,37 +99,33 @@ public class LoginScript : MonoBehaviour
                 //EditorUtility.DisplayDialog("Authetication", "There is an Error Please try again", "Error");
                 Debug.Log("There is an Error Please try again");
             }
-            accessToken = StringSerializationAPI.Deserialize(typeof(AccessToken),response.Text) as AccessToken;
+            accessToken = StringSerializationAPI.Deserialize(typeof(AccessToken), response.Text) as AccessToken;
             Debug.Log(accessToken.id_token);
         });
     }
 
-    /*  Function	:	startListener()
-    *
-    *	Description	:	This function get runs in its own thread, 
-    *	                it wait for a HTTP response and then passes the data to the ListenerCallback() function
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  This function get runs in its own thread, it wait for a HTTP response and then passes
+     *  the data to the ListenerCallback() function
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
     private void startListener()
     {
         while (runServer)
         {
             var result = listener.BeginGetContext(ListenerCallback, listener);
             result.AsyncWaitHandle.WaitOne();
-        }     
+        }
     }
 
-    /*  Function	:	ListenerCallback()
-    *
-    *	Description	:	This function takes the results of the HTTP and uses the data to build a URL to Twitch oauth2 server
-    *
-    *	Parameters	:	IAsyncResult result : data recieved from startListener() recieving data
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  This function takes the results of the HTTP and uses the data to build a URL to Twitch oauth2 server
+     *  </summary>
+     *  <param name="result">data recieved from startListener() recieving data</param>
+     *  <returns>void</returns>
+     */
     private void ListenerCallback(IAsyncResult result)
     {
         var context = listener.EndGetContext(result);
@@ -163,19 +157,15 @@ public class LoginScript : MonoBehaviour
         context.Response.Close();
     }
 
-    /*  Function	:	SignInWithTwitch()
-    *
-    *	Description	:	This function builds a url using client data and opens it, it pings Twitch's oauth2 server
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  This function builds a url using client data and opens it, it pings Twitch's oauth2 server
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
     public void SignInWithTwitch()
     {
         string openUrl = $"https://id.twitch.tv/oauth2/authorize?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&scope={scope}+openid&claims={claims}";
         Application.OpenURL(openUrl);
     }
 }
-
-

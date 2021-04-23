@@ -1,11 +1,9 @@
-﻿/*
- *  FILE          :	PhotonController.cs
- *  PROJECT       :	ImDJ Capstone Project 
- *  PROGRAMMER    :	Michael Hilts - 5377643
- *  FIRST VERSION :	Feb 6, 2021
- *  DESCRIPTION   : This file contains the PhotonController class which is responsible for all
- *                  interaction with the PhotonNetwork.
- */
+﻿/*! @file       : 	PhotonController.cs
+*   @author     : 	Michael Hilts, Ivan Granic
+*   @date       : 	2021-02-06
+*   @brief      : 	This file contains the PhotonController class which is responsible for all
+*                   interaction with the PhotonNetwork.
+*/
 
 #region Resources
 
@@ -13,8 +11,12 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-#endregion
+#endregion Resources
 
+/*! <summary>
+*  This file contains the PhotonController class which is responsible for all interaction with the PhotonNetwork.
+*  </summary>
+*/
 public class PhotonController : MonoBehaviourPunCallbacks
 {
     #region Fields
@@ -22,20 +24,17 @@ public class PhotonController : MonoBehaviourPunCallbacks
     public static PhotonController Instance = null;     // Instance of this class to allow access without refeence
     private UIController ui;                            // the ui
 
-    #endregion
+    #endregion Fields
 
     #region MonoBehaviour Callbacks
 
-    /*
-     * METHOD     : Awake()
-     * DESCRIPTION: Called when the scene is loaded. This will set the instance and
-     *              get reference to the UIController.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the scene is loaded. This will set the instance and get reference to the UIController.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
-    void Awake()
+    private void Awake()
     {
         if (Instance != null)
         {
@@ -50,45 +49,39 @@ public class PhotonController : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    /*
-     * METHOD     : OnApplicationQuit()
-     * DESCRIPTION: Called when the application is quit. Will disconnect from the servers.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the application is quit. Will disconnect from the servers.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void OnApplicationQuit()
     {
         Disconnect();
     }
 
-    #endregion
+    #endregion MonoBehaviour Callbacks
 
     #region PUN Callbacks
 
-    /*
-     * METHOD     : OnConnectedToMaster()
-     * DESCRIPTION: Called once the application has connected to the Photon Master Server.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called once the application has connected to the Photon Master Server.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
-    public override void  OnConnectedToMaster()
+    public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
         ui.DebugText = "Connected to Photon Server. Joining a random room.";
         PhotonNetwork.JoinRandomRoom();
     }
 
-    /*
-     * METHOD     : OnDisonnected()
-     * DESCRIPTION: Called once the application has disconnected from Photon.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called once the application has disconnected from Photon.
+     *  </summary>
+     *  <param name="cause">The cause of the disconect</param>
+     *  <returns>void</returns>
      */
     public override void OnDisconnected(DisconnectCause cause)
     {
@@ -97,13 +90,11 @@ public class PhotonController : MonoBehaviourPunCallbacks
         ui.Quit();
     }
 
-    /*
-     * METHOD     : OnJoinedRoom()
-     * DESCRIPTION: Called once user has joined a room on the Photon Server.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called once user has joined a room on the Photon Server.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public override void OnJoinedRoom()
     {
@@ -112,13 +103,12 @@ public class PhotonController : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("VoiceTestScene");
     }
 
-    /*
-     * METHOD     : OnJoinedRandomFailedRoom()
-     * DESCRIPTION: Called once user failed to join a random room.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called once user failed to join a random room.
+     *  </summary>
+     *  <param name="returnCode">return code from the server operation</param>
+     *  <param name="message">debug messages for the error</param>
+     *  <returns>void</returns>
      */
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -127,13 +117,11 @@ public class PhotonController : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom("VoiceTestRoom");
     }
 
-    /*
-     * METHOD     : OnCreatedRoom()
-     * DESCRIPTION: Called once user has created a room on the photon server.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called once user has created a room on the photon server.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public override void OnCreatedRoom()
     {
@@ -141,17 +129,15 @@ public class PhotonController : MonoBehaviourPunCallbacks
         ui.DebugText = "Created room " + PhotonNetwork.CurrentRoom.Name + ".";
     }
 
-    #endregion
+    #endregion PUN Callbacks
 
     #region Public Methods
 
-    /*
-     * METHOD     : Connect()
-     * DESCRIPTION: This method may be called to connect to the Photon Master Server.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  This method may be called to connect to the Photon Master Server.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void Connect()
     {
@@ -166,13 +152,11 @@ public class PhotonController : MonoBehaviourPunCallbacks
         }
     }
 
-    /*
-     * METHOD     : Connect()
-     * DESCRIPTION: This method may be called to disconnect from the Photon Master Server.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  This method may be called to disconnect from the Photon Master Server.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void Disconnect()
     {
@@ -183,5 +167,5 @@ public class PhotonController : MonoBehaviourPunCallbacks
         }
     }
 
-    #endregion
+    #endregion Public Methods
 }

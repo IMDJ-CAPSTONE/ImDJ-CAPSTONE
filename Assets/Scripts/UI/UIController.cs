@@ -1,11 +1,8 @@
-﻿/*
- *  FILE          :	UIController.cs
- *  PROJECT       :	ImDJ Capstone Project 
- *  PROGRAMMER    :	Michael Hilts - 5377643
- *  FIRST VERSION :	Feb 6, 2021
- *  DESCRIPTION   : This file contains the UIController class which contains all the on click
- *                  methods for the UI buttons.
- */
+﻿/*! @file       : 	UIController.cs
+*   @author     : 	Ivan Granic, Mike Hilts
+*   @date       : 	2021-02-06
+*   @brief      : 	This file contains the UIController class which contains all the on click methods for the UI buttons.
+*/
 
 #region Resources
 
@@ -14,8 +11,12 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 
-#endregion
+#endregion Resources
 
+/*! <summary>
+*  This file contains the UIController class which contains all the on click methods for the UI buttons.
+*  </summary>
+*/
 [RequireComponent(typeof(AudioSource))]
 public class UIController : MonoBehaviour
 {
@@ -33,30 +34,32 @@ public class UIController : MonoBehaviour
     private TextMeshProUGUI debugText;  // the debug text to print messages to the screen
     private bool usingVR = false;
 
-    #endregion
+    #endregion fields
 
     #region Properties
 
-    // allows printing of messages to the onscreen debug text
+    /*! <summary>
+    *  allows printing of messages to the onscreen debug text
+    *  </summary>
+    */
+
     public string DebugText
     {
         set
         {
-            debugText.text = value;    
+            debugText.text = value;
         }
     }
 
-    #endregion
+    #endregion Properties
 
     #region MonoBehaviour Callbacks
 
-    /* METHOD     : Start()
-     * DESCRIPTION: Called before the first frame update. This will get a reference to the
-     *              debug text.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called before the first frame update. This will get a reference to the debug text.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void Start()
     {
@@ -68,49 +71,46 @@ public class UIController : MonoBehaviour
         debugText = GameObject.FindGameObjectWithTag("Debug").GetComponent<TextMeshProUGUI>();
     }
 
-    #endregion
+    #endregion MonoBehaviour Callbacks
 
     #region Public Methods
 
-    /* METHOD     : ClickAudioPlay()
-     * DESCRIPTION: Public method to allow other classes to play the audio. 
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Public method to allow other classes to play the audio.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void PlayClickAudio()
     {
         clickAudio.Play();
     }
 
-    /* METHOD     : Quit()
-     * DESCRIPTION: Public method to allow other classes to exit the application.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Public method to allow other classes to exit the application.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void Quit()
     {
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
                     Application.Quit(0);
-        #endif
+#endif
     }
 
-    #endregion
+    #endregion Public Methods
 
     #region Button Click Handlers
 
-    /* METHOD     : PeformerUserStart()
-     * DESCRIPTION: Called when the PeformerUserStart buttton is clicked. Will run the photon test
-     *              to attempt to connect to the photon servers.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the PeformerUserStart buttton is clicked. Will run the photon test
+     *  to attempt to connect to the photon servers.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void PeformerUserStart()
     {
@@ -121,13 +121,12 @@ public class UIController : MonoBehaviour
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
-    /* METHOD     : PeformerUserStart()
-     * DESCRIPTION: Called when the PeformerUserStart buttton is clicked. Will run the photon test
-     *              to attempt to connect to the photon servers.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the PeformerUserStart buttton is clicked. Will run the photon test
+     *  to attempt to connect to the photon servers.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void DesktopUserStart()
     {
@@ -138,13 +137,11 @@ public class UIController : MonoBehaviour
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
-    /* METHOD     : VRTestClick()
-     * DESCRIPTION: Called when the VR test button is clicked. Will take the user to the
-     *              VR test scene.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the VR test button is clicked. Will take the user to the VR test scene.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void VRTestClick()
     {
@@ -159,12 +156,11 @@ public class UIController : MonoBehaviour
         }
     }
 
-    /* METHOD     : ExitClick()
-     * DESCRIPTION: Called when the exit button is clicked. Will exit the application.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the exit button is clicked. Will exit the application.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void ExitClick()
     {
@@ -172,5 +168,5 @@ public class UIController : MonoBehaviour
         PhotonController.Instance.Disconnect();
     }
 
-    #endregion
+    #endregion Button Click Handlers
 }

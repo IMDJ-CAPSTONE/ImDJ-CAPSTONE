@@ -1,12 +1,10 @@
-﻿/*
- *  FILE          :	TestInstantiation.cs
- *  PROJECT       :	ImDJ Capstone Project 
- *  PROGRAMMER    :	Michael Hilts - 5377643
- *  FIRST VERSION :	Feb 20, 2021
- *  DESCRIPTION   : This file contains the TestInstantiation class which is responsible for
+﻿/*! @file       : 	TestInstantiation.cs
+*   @author     : 	Michael Hilts - 5377643
+*   @date       : 	2021-02-20
+*   @brief      : 	This file contains the TestInstantiation class which is responsible for
  *                  instantiating both players and the ico sphere on the network and
  *                  ensuring photon view ID's are set appropriately across all clients.
- */
+*/
 
 #region Resources
 
@@ -17,15 +15,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-#endregion
+#endregion Resources
 
+/*! <summary>
+*  Contains the logic for the UI of the Performer, the code for all the buttons they can press
+*  </summary>
+*/
 public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     #region Constants
 
     private const int instantiationEventCode = 0;
 
-    #endregion
+    #endregion Constants
 
     #region Fields
 
@@ -55,32 +57,27 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
 
     private Dictionary<int, GameObject> players;    // to keep track player gameobjects associated with actor numbers
 
-    #endregion
+    #endregion Fields
 
     #region MonoBehaviour CallBacks
 
-    /*
-     * METHOD     : Awake()
-     * DESCRIPTION: Called when the scene is loaded. This will instantiate the players
-     *              dictionary.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when the scene is loaded. This will instantiate the players dictionary.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
-    void Awake()
+    private void Awake()
     {
         players = new Dictionary<int, GameObject>();
     }
 
-    /*
-     * METHOD     : OnEnable()
-     * DESCRIPTION: Called when this script is enabled. Will add this script to the photon
-     *              networks callback list and set the sceneLoaded event to OnSceneLoaded
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when this script is enabled. Will add this script to the photon
+     *  networks callback list and set the sceneLoaded event to OnSceneLoaded
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void OnEnable()
     {
@@ -88,14 +85,12 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    /*
-     * METHOD     : OnDisable()
-     * DESCRIPTION: Called when this script is disabled. Will remove this script from the photon
-     *              networks callback list and remove OnSceneLoaded from the sceneLoaded event.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when this script is disabled. Will remove this script from the photon
+     *  networks callback list and remove OnSceneLoaded from the sceneLoaded event.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void OnDisable()
     {
@@ -103,15 +98,13 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    /*
-     * METHOD     : OnSceneLoaded()
-     * DESCRIPTION: Called when this scene is laoded. It will instantiate the local player and
-     *              raise a network event to have remote clients instantiate the player as well.
-     * PARAMETERS : 
-     *      Scene scene: the scene that was loaded
-     *      LoadSceneMode mode: the mode the scene was loaded in
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when this scene is laoded. It will instantiate the local player and
+     *  raise a network event to have remote clients instantiate the player as well.
+     *  </summary>
+     *  <param name="scene">the scene that was loaded</param>
+     *  <param name="mode">the mode the scene was loaded in</param>
+     *  <returns>void</returns>
      */
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -166,18 +159,15 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
-    #endregion
+    #endregion MonoBehaviour CallBacks
 
     #region Pun Callbacks
 
-    /*
-     * METHOD     : OnPlayerLeftRoom()
-     * DESCRIPTION: Called when a player leaves the room. Will ensure their player gameobject is
-     *              removed on all other clients
-     * PARAMETERS : 
-     *      Player otherPlayer: the player who left.
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when a player leaves the room. Will ensure their player gameobject is removed on all other clients
+     *  </summary>
+     *  <param name="otherPlayer">the player who left.</param>
+     *  <returns>void</returns>
      */
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
@@ -189,18 +179,16 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         players.Remove(otherPlayer.ActorNumber);
     }
 
-    #endregion
+    #endregion Pun Callbacks
 
     #region IOnEventCallback Implementation
 
-    /*
-     * METHOD     : OnEvent()
-     * DESCRIPTION: Called when a photon network event is raised. If this is the instantiation event
-     *              it will instantiate the player who sent the request on this client.
-     * PARAMETERS : 
-     *      Player otherPlayer: the player who left.
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called when a photon network event is raised. If this is the instantiation event
+     *  it will instantiate the player who sent the request on this client.
+     *  </summary>
+     *  <param name="phontonEvent">this object is used to check if its an instantiation event</param>
+     *  <returns>void</returns>
      */
     public void OnEvent(EventData photonEvent)
     {
@@ -247,6 +235,5 @@ public class TestInstantiation : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
-    #endregion
+    #endregion IOnEventCallback Implementation
 }
-

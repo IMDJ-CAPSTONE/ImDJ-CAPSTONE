@@ -1,6 +1,10 @@
-﻿/* SceneHandler.cs*/
-using System.Collections;
-using System.Collections.Generic;
+﻿/*! @file       : 	UIPointer.cs
+*   @author     : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   @date       : 	2021-03-11
+*   @brief      : 	This file is unused as the functionality got cut, but it is included
+*                   so that it can be implemented at a later date
+*/
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;

@@ -1,20 +1,22 @@
-﻿/*
- *  FILE          :	ButtonHelper.cs
- *  PROJECT       :	ImDJ Capstone Project 
- *  PROGRAMMER    :	Michael Hilts - 5377643
- *  FIRST VERSION :	Feb 6, 2021
- *  DESCRIPTION   : This file contains the ButtonHelper class which implements both
- *                  IPointerEnterHandler and IPointerExitHandler to provide access to
- *                  the pointer enter event for this button as well as the pointer exit event.
- */
+﻿/*! @file       : 	ButtonHelper.cs
+*   @author     : 	Michael Hilts, Ivan Granic
+*   @date       : 	2021-02-06
+*   @brief      : 	This file contains the ButtonHelper class that will access pointer events
+*/
 
 #region Resources
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-#endregion
+#endregion Resources
 
+/*! <summary>
+*  This file contains the ButtonHelper class which implements both
+*  IPointerEnterHandler and IPointerExitHandler to provide access to
+*  the pointer enter event for this button as well as the pointer exit event.
+*  </summary>
+*/
 [RequireComponent(typeof(AudioSource))]
 public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -22,51 +24,46 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private AudioSource hoverAudio;  // this gameobject attached AudioSource
 
-    #endregion
+    #endregion Fields
 
     #region MonoBehaviour Callbacks
 
-    /* METHOD     : Start()
-     * DESCRIPTION: Called before the first frame update. This will get reference to
-     *              the attached AudioSource component. 
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Called before the first frame update. This will get reference to the attached AudioSource component.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     private void Start()
     {
         hoverAudio = GetComponent<AudioSource>();
     }
 
-    #endregion
+    #endregion MonoBehaviour Callbacks
 
     #region Public Methods
 
-    /* METHOD     : PlayHoverAudio()
-     * DESCRIPTION: Public method to allow other classes to play the audio. 
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  Public method to allow other classes to play the audio.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void PlayHoverAudio()
     {
         hoverAudio.Play();
     }
 
-    #endregion
+    #endregion Public Methods
 
     #region Interface Implementations
 
-    /* METHOD     : OnPointerEnter()
-     * DESCRIPTION: The implementation of IPointerEnterHandler. This will be called whenever
-     *              the mouse enters this UI elements bounds. It will play the audio from
-     *              the attached AudioSource.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  The implementation of IPointerEnterHandler. This will be called whenever the mouse enters
+     *  this UI elements bounds. It will play the audio from the attached AudioSource.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -78,13 +75,12 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
-    /* METHOD     : OnPointerExit()
-     * DESCRIPTION: The implementation of IPointerExitHandler. This will be called whenever
-     *              the mouse exits this UI elements bounds. It will deselect the button.
-     * PARAMETERS : 
-     *      VOID
-     * RETURNS    : 
-     *      VOID
+    /*! <summary>
+     *  The implementation of IPointerExitHandler. This will be called whenever
+     *  the mouse exits this UI elements bounds. It will deselect the button.
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
      */
     public void OnPointerExit(PointerEventData eventData)
     {
@@ -99,5 +95,5 @@ public class ButtonHelper : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
-    #endregion
+    #endregion Interface Implementations
 }

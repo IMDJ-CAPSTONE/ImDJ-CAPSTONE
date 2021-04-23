@@ -1,8 +1,7 @@
-﻿/*  FILE          : 	UIManagement.cs
-*   PROJECT       : 	PROG3221 - Capstone
-*   PROGRAMMER    : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
-*   FIRST VERSION : 	2021-04-05
-*   DESCRIPTION   : 	Contains the logic managing the UI for all users
+﻿/*! @file       : 	UIManagement.cs
+*   @author     : 	Ivan Granic, Jason Kassies, Div Dankahara, Mike Hilts
+*   @date       : 	2021-03-12
+*   @brief      : 	Contains the logic managing the UI for all users
 */
 
 using Lean.Gui;
@@ -11,6 +10,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UserInstantiation;
 
+/*! <summary>
+*  Contains the logic managing the UI for all users
+*  </summary>
+*/
 public class UIManagement : MonoBehaviourPunCallbacks
 {
     public UserInstantiation userInst;
@@ -24,14 +27,12 @@ public class UIManagement : MonoBehaviourPunCallbacks
     private GameObject PerformerPollingUIResourceButton;
     private Dictionary<string, GameObject> UIContainers = new Dictionary<string, GameObject>();
 
-    /*  Function	:	StartFromScenarioManager()
-    *
-    *	Description	:	this function sets up the UI for all users and some addional setup for performer
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function sets up the UI for all users and some addional setup for performer
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
     public void StartFromScenarioManager()
     {
         UIContainers.Add("UserMenu", Instantiate(AllUsersMenuResource));
@@ -50,52 +51,46 @@ public class UIManagement : MonoBehaviourPunCallbacks
         }
     }
 
-    /*  Function	:	SendActorNum()
-    *
-    *	Description	:	this function sets the perfActorNum to whatever was passed in
-    *
-    *	Parameters	:	int _perfActorNum : the number you wish to set as perfActorNum
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function sets the perfActorNum to whatever was passed in
+     *  </summary>
+     *  <param name="_perfActorNum">the number you wish to set as perfActorNum</param>
+     *  <returns>void</returns>
+     */
     [PunRPC]
     public void SendActorNum(int _perfActorNum)
     {
         perfActorNum = _perfActorNum;
     }
 
-    /*  Function	:	VotingShownForDesktopRPC()
-    *
-    *	Description	:	this function sets up the data to be displayed for desktop users when a Poll is created
-    *
-    *	Parameters	:	None
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function sets up the data to be displayed for desktop users when a Poll is created
+     *  </summary>
+     *  <param name="none"></param>
+     *  <returns>void</returns>
+     */
     public void VotingShownForDesktopRPC()
     {
         List<string> theOptions = new List<string>();
-        for(int i =0; i<votingSystem.GetComponent<VotingSystemController>().options.Count; i++)
+        for (int i = 0; i < votingSystem.GetComponent<VotingSystemController>().options.Count; i++)
         {
             theOptions.Add(votingSystem.GetComponent<VotingSystemController>().options[i + 1].OptionName);
         }
         string[] arrTheOption = theOptions.ToArray();
         view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered,
-            arrTheOption, 
-            votingSystem.GetComponent<VotingSystemController>().Question, 
+            arrTheOption,
+            votingSystem.GetComponent<VotingSystemController>().Question,
             votingSystem.GetComponent<VotingSystemController>().totalOptions);
     }
 
-    /*  Function	:	DisplayVotingPanelRPC()
-    *
-    *	Description	:	this function gets data to be displayed in the voting UI for desktop users
-    *
-    *	Parameters	:	string[] theOptions : an array of strings holding the options user can vote for
-    *	                string   question   : the question that the users are voting on
-    *	                int totalOptions    : the number of options the user can pick from
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function gets data to be displayed in the voting UI for desktop users
+     *  </summary>
+     *  <param name="theOptions">an array of strings holding the options user can vote for</param>
+     *  <param name="question">the question that the users are voting on</param>
+     *  <param name="totalOptions">the number of options the user can pick from</param>
+     *  <returns>void</returns>
+     */
     [PunRPC]
     private void DisplayVotingPanelRPC(string[] theOptions, string question, int totalOptions)
     {
@@ -115,19 +110,17 @@ public class UIManagement : MonoBehaviourPunCallbacks
             UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().setupUI(totalOptions, theOptions, question);
 
             UIContainers["DesktopUI"].transform.SetParent(gameObject.transform);
-            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) => 
+            UIContainers["DesktopUI"].GetComponent<DesktopUserVotingUI>().voteOption += (voteOption) =>
                 { view.RPC("VoteRPC", PhotonNetwork.CurrentRoom.GetPlayer(perfActorNum), voteOption); };
         }
     }
 
-    /*  Function	:	VoteRPC()
-    *
-    *	Description	:	this function handles the casting of votes by taking in a number and casting a vote to the specified option
-    *
-    *	Parameters	:	int voteOption : a number representing what option was votes for
-    *
-    *	Returns		:	Void
-    */
+    /*! <summary>
+     *  this function handles the casting of votes by taking in a number and casting a vote to the specified option
+     *  </summary>
+     *  <param name="voteOption">a number representing what option was voted for</param>
+     *  <returns>void</returns>
+     */
     [PunRPC]
     private void VoteRPC(int voteOption)
     {
