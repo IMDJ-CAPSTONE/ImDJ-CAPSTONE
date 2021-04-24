@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using System.Linq;
+using Lean.Gui;
+using Photon.Pun;
+using static UserInstantiation;
 
 public class ExperienceUIScript : MonoBehaviour
 {
-    public GameObject GameMenu;
+    public GameObject openMenu;
+
+    public LeanWindow window;
 
     Resolution[] resolutions;
     public Dropdown dropdownMenu;
@@ -18,6 +23,10 @@ public class ExperienceUIScript : MonoBehaviour
 
     void Start()
     {
+        if((UserType)PhotonNetwork.LocalPlayer.CustomProperties["Type"] == UserType.Desktop)
+        {
+            openMenu.SetActive(false);
+        }
         resolutions = Screen.resolutions;
         dropdownMenu.onValueChanged.AddListener(delegate 
             { Screen.SetResolution(resolutions[dropdownMenu.value].width, 
@@ -40,6 +49,21 @@ public class ExperienceUIScript : MonoBehaviour
         mixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVol"));
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab) && window.On == false)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            window.TurnOn();
+        }
+        else if (Input.GetKeyDown(KeyCode.Tab) && window.On == true)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            window.TurnOff();
+        }
+    }
 
     public void exit()
     {
