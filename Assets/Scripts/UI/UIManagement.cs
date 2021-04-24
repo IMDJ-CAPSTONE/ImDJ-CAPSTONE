@@ -77,7 +77,7 @@ public class UIManagement : MonoBehaviourPunCallbacks
             theOptions.Add(votingSystem.GetComponent<VotingSystemController>().options[i + 1].OptionName);
         }
         string[] arrTheOption = theOptions.ToArray();
-        view.RPC("DisplayVotingPanelRPC", RpcTarget.OthersBuffered,
+        view.RPC("DisplayVotingPanelRPC", RpcTarget.Others,
             arrTheOption,
             votingSystem.GetComponent<VotingSystemController>().Question,
             votingSystem.GetComponent<VotingSystemController>().totalOptions);

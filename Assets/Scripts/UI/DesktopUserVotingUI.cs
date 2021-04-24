@@ -30,6 +30,8 @@ public class DesktopUserVotingUI : MonoBehaviour
      */
     private void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     /*! <summary>
@@ -64,6 +66,8 @@ public class DesktopUserVotingUI : MonoBehaviour
      */
     public void ExitVoteMenu()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         Destroy(gameObject);
     }
 
